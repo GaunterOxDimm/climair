@@ -1,3 +1,23 @@
 body {
-    background-color: lightgray;
+  background-image: linear-gradient(rgba(154, 245, 159), rgba(0, 0, 255, 0.5)),
+    url("https://thumbs.gfycat.com/NextSourHapuka-size_restricted.gif");
+  background-color: #9af59f;
+  background-size: cover;
+}
+/* nav {
+  background-image: url("https://i.goopics.net/7ercel.gif");
+  background-color: #020402;
+  background-size: contain;
+  background-repeat: no-repeat;
+} */
+.santa {
+  width: 50px;
+  height: 50px;
+  transform: translate(70em, 0);
+  transition: 8s ease-in-out;
+}
+.santa:hover {
+  display: inline-block;
+  transform: translate(70em, 0);
+  transition: 7s ease-in-out;
 }

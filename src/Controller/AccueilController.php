@@ -9,7 +9,7 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class AccueilController extends AbstractController
 {
-    #[Route('/accueil', name: 'app_accueil', methods: ['GET'])]
+    #[Route('/clim/accueil', name: 'app_accueil', methods: ['GET'])]
     public function index(ImagesDiversRepository $repository): Response
     {
         $telecommande = $repository->findOneBy(['id' => 1]);
