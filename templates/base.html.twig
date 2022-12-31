@@ -1,15 +1,4 @@
 <!DOCTYPE html>
-<html>
-    <head>
-        <meta charset="UTF-8">
-        <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text></svg>">
-        {# Run `composer require symfony/webpack-encore-bundle` to start using Symfony UX #}
-    </head>
-    <body>
-       
-    </body>
-</html>
-<!doctype html>
 <html lang="en">
   <head>
     <meta charset="utf-8">
@@ -22,10 +11,77 @@
         {% block javascripts %}
             {# {{ encore_entry_script_tags('app') }} #}
         {% endblock %}
+        <style> 
+    body {
+        background-image: linear-gradient(rgba(154, 245, 159), rgba(0, 0, 255, 0.5)),url({{ snow.getAdresseImage }});
+        background-color: #9af59f;
+        background-size: cover;
+    }
+</style>
   </head>
   <body>
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary fixed-top">
+  <div class="container-fluid">
+    <a class="navbar-brand text-warning ms-3" href="#">Clim Air</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarColor01" aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarColor01">
+      <ul class="navbar-nav me-auto">
+        <li class="nav-item ms-4">
+          <a class="nav-link active" href="#">Menu
+            <span class="visually-hidden">(current)</span>
+          </a>
+        </li>
+        <li class="nav-item ms-4">
+          <a class="nav-link" href="#">Catalogue</a>
+        </li>
+        <li class="nav-item ms-4">
+          <a class="nav-link" href="#">Boutique</a>
+        </li>
+        <li class="nav-item ms-4">
+          <a class="nav-link" href="#">Contact</a>
+        </li>
+        <li class="nav-item ms-4">
+          <a class="nav-link" href="#">À propos</a>
+        </li>
+      </ul>
+      <div class="me-2"><button type="button" class="btn btn-primary"><i class="fa-solid fa-user"></i> Connexion</button></div>
+      <div class="me-2"><button type="button" class="btn btn-primary">S'inscrire</button></div>
+    </div>
+  </div>
+</nav>
      {% block body %}{% endblock %}
+     <!-- FOOOTER -->
+    <footer class="mt-5">
+      <div class="d-flex col-12 bg-primary-subtle text-body-emphasis justify-content-between" style="height: 160px">
+          <div class="col-3 text-body-emphasis mt-4 ms-5">
+            <a href="#" class="text-body-emphasis fw-bold"><h6>À propos</h6></a>
+            
+            <a href="#" class="text-body-emphasis fs-6 fw-normal">Fonctionnement du site</a>
+            <br>
+            <a href="#" class="text-body-emphasis fs-6 fw-normal">Conditions générales de vente</a>
+            <br>
+            <a href="#" class="text-body-emphasis fs-6 fw-normal">Données et confidentialité</a>
+            <br>
+          </div>
+          <div class="col-3 text-dark mt-4 ms-5">
+            <a href="#" class="text-body fw-bold"><h6>Boutique</h6></a>
+            <a href="#" class="text-body-emphasis fs-6 fw-normal">Nos produits</a>
+            <br>
+            <a href="#" class="text-body-emphasis fs-6 fw-normal">Devis</a>
+            <br>
+          </div>
+          <div class="col-3 text-dark mt-4 ms-5">
+            <a href="#" class="text-body-emphasis fw-bold"><h6>Assistance</h6></a>
+            <a href="#" class="text-body-emphasis fs-6 fw-normal">Centre d'aide</a>
+            <br>
+            <a href="#" class="text-body-emphasis fs-6 fw-normal">Nous contacter</a>
+          </div>
+      </div>
+    </footer>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script>
     <script src="https://kit.fontawesome.com/9848dee952.js" crossorigin="anonymous"></script>
   </body>
+  
 </html>
