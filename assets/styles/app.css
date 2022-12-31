@@ -16,8 +16,3 @@ body {
   transform: translate(70em, 0);
   transition: 8s ease-in-out;
 }
-.santa:hover {
-  display: inline-block;
-  transform: translate(70em, 0);
-  transition: 7s ease-in-out;
-}
