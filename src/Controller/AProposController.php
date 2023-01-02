@@ -10,7 +10,7 @@ use App\Controller\AccueilController;
 
 class AProposController extends AbstractController
 {
-    #[Route('/clim/a-propos', name: 'app_a_propos', methods: ['GET'])]
+    #[Route('/a-propos', name: 'app_a_propos', methods: ['GET'])]
     public function index(ImagesDiversRepository $flambard): Response
     {
         $a_propos = $flambard->findOneBy(['id' => 6]);

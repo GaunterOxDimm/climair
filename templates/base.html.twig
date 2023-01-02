@@ -8,10 +8,12 @@
         {% block stylesheets %}
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">     
         <link rel="stylesheet" href="assets/styles/app.css">
+        <link href='https://api.mapbox.com/mapbox-gl-js/v2.11.0/mapbox-gl.css' rel='stylesheet' />
             {{ encore_entry_link_tags('app') }}
         {% endblock %}
         {% block javascripts %}
-            {# {{ encore_entry_script_tags('app') }} #}
+        <script src='https://api.mapbox.com/mapbox-gl-js/v2.11.0/mapbox-gl.js'></script>
+            {{ encore_entry_script_tags('app') }}
         {% endblock %}
   </head>
   <body>
@@ -19,20 +21,21 @@
     <nav class="navbar navbar-expand-lg navbar-dark bg-primary fixed-top">
     <img src="https://i.goopics.net/7ercel.gif" class="santa" alt="">
     <div class="container-fluid">
-        <a class="navbar-brand text-warning ms-3" href="/clim/accueil">Clim Air</a>
+        <a class="navbar-brand text-warning ms-3" href="/accueil">Clim Air</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarColor01" aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarColor01">
         <ul class="navbar-nav me-auto">
            <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-            Dropdown
+          <a class="nav-link dropdown-toggle active" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            Menu
           </a>
-          <ul class="dropdown-menu active">
-            <li><a class="dropdown-item" href="#">Devis</a></li>
-            <li><a class="dropdown-item" href="#">Boutique</a></li>
-            <li><a class="dropdown-item" href="#">À propos</a></li>
+          <ul class="dropdown-menu">
+            <li><a class="dropdown-item" href="#">Action</a></li>
+            <li><a class="dropdown-item" href="#">Another action</a></li>
+            <li><hr class="dropdown-divider"></li>
+            <li><a class="dropdown-item" href="#">Something else here</a></li>
           </ul>
         </li>
             <li class="nav-item ms-4">
@@ -42,10 +45,10 @@
             <a class="nav-link active" href="#">Boutique</a>
             </li>
             <li class="nav-item ms-4">
-            <a class="nav-link active" href="/clim/contact">Contact</a>
+            <a class="nav-link active" href="/contact">Contact</a>
             </li>
             <li class="nav-item ms-4">
-            <a class="nav-link active" href="/clim/a-propos">À propos</a>
+            <a class="nav-link active" href="/a-propos">À propos</a>
             </li>
         </ul>
         <div class="me-2"><button type="button" class="btn btn-primary"><i class="fa-solid fa-user"></i> Connexion</button></div>
@@ -78,7 +81,7 @@
             <a href="#" class="text-body-emphasis fw-bold"><h6>Assistance</h6></a>
             <a href="#" class="text-body-emphasis fs-6 fw-normal">Centre d'aide</a>
             <br>
-            <a href="#" class="text-body-emphasis fs-6 fw-normal">Nous contacter</a>
+            <a href="/clim/contact" class="text-body-emphasis fs-6 fw-normal">Nous contacter</a>
           </div>
       </div>
     </footer>

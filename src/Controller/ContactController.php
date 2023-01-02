@@ -9,7 +9,7 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class ContactController extends AbstractController
 {
-    #[Route('/clim/contact', name: 'app_contact')]
+    #[Route('/contact', name: 'app_contact')]
     public function index(ImagesDiversRepository $contact): Response
     {
         $contact_images = $contact->find(['id' => 5]);

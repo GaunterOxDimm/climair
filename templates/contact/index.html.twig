@@ -3,12 +3,41 @@
 {% block title %}Contact{% endblock %}
 
 {% block body %}
-    <div class="card col-9 p-3" style="margin-top: 100px; margin-left: 150px">
-        <img src={{ contact_images.getAdresseImage }} class="card-img-top" alt="climair_noël">
-            <div class="card-body">
-                <h5 class="card-title">Contact</h5>
-                <p class="card-text">Pour tous devis, veuillez créer un compte <a href="">ici</a> </p>
-                <a href="#" class="btn btn-primary">Nous contacter</a>
+    <div class="d-flex">
+        <div class="card col-5 p-3" style="margin-top: 100px; margin-left: 50px">
+            <img src={{ contact_images.getAdresseImage }} class="card-img-top" alt="climair_noël">
+                <div class="card-body">
+                    <h5 class="card-title">Contact</h5>
+                    <p class="card-text">Pour tous devis, veuillez créer un compte <a href="">ici</a> </p>
+                    <a href="#" class="btn btn-primary">Nous contacter au 0644954017</a>
+                </div>
+            </div>
+        
+        <div style="margin-left: 150px; margin-top: 150px;">
+            <div class="alert alert-warning" role="alert">
+                    <h4>Où nous trouver</h4>
+                </div>
+            <div id='map' class="col-5" style='width: 400px; height: 300px; border: 2px solid orange; border-radius: 10px;'>
+                
             </div>
         </div>
+    </div>
+    <script>
+        mapboxgl.accessToken = 'pk.eyJ1Ijoia2hhbGRvbnV0czY5IiwiYSI6ImNsY2JvNXFjZjE2bjMzb3FycjNnNmZsbXIifQ.HG0N6wONlxBIO_wFAzVmhA';
+        const map = new mapboxgl.Map({
+            attributionControl: false,
+            container: 'map', // container ID
+            style: 'mapbox://styles/mapbox/streets-v12', // style URL
+            center: [4.972987905124746, 45.766210694016095], // starting position [lng, lat]
+            zoom: 16, // starting zoom
+        });
+
+        // Set marker options.
+        const marker = new mapboxgl.Marker({
+            color: "#fc0303",
+            draggable: true
+        }).setLngLat([ 4.972987905124746, 45.766210694016095])
+            .addTo(map);
+        
+    </script>
 {% endblock %}
