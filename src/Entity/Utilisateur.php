@@ -27,13 +27,9 @@ class Utilisateur
     #[ORM\OneToMany(mappedBy: 'passer_commande', targetEntity: Commande::class)]
     private Collection $commandes;
 
-    #[ORM\OneToMany(mappedBy: 'prendre_rdv', targetEntity: Rdvprestation::class)]
-    private Collection $rdvprestations;
-
     public function __construct()
     {
         $this->commandes = new ArrayCollection();
-        $this->rdvprestations = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -101,36 +97,6 @@ class Utilisateur
             // set the owning side to null (unless already changed)
             if ($commande->getPasserCommande() === $this) {
                 $commande->setPasserCommande(null);
-            }
-        }
-
-        return $this;
-    }
-
-    /**
-     * @return Collection<int, Rdvprestation>
-     */
-    public function getRdvprestations(): Collection
-    {
-        return $this->rdvprestations;
-    }
-
-    public function addRdvprestation(Rdvprestation $rdvprestation): self
-    {
-        if (!$this->rdvprestations->contains($rdvprestation)) {
-            $this->rdvprestations->add($rdvprestation);
-            $rdvprestation->setPrendreRdv($this);
-        }
-
-        return $this;
-    }
-
-    public function removeRdvprestation(Rdvprestation $rdvprestation): self
-    {
-        if ($this->rdvprestations->removeElement($rdvprestation)) {
-            // set the owning side to null (unless already changed)
-            if ($rdvprestation->getPrendreRdv() === $this) {
-                $rdvprestation->setPrendreRdv(null);
             }
         }
 

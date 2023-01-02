@@ -25,19 +25,11 @@ class Prestation
     #[ORM\Column]
     private ?float $prix_prestation = null;
 
-    #[ORM\Column(type: Types::DATE_MUTABLE)]
-    private ?\DateTimeInterface $date_de_prestation = null;
-
     #[ORM\OneToOne(mappedBy: 'correspond', cascade: ['persist', 'remove'])]
     private ?LigneDeCommande $ligneDeCommande = null;
 
-    #[ORM\ManyToMany(targetEntity: rdvprestation::class, inversedBy: 'prestations')]
-    private Collection $programmer;
-
-    public function __construct()
-    {
-        $this->programmer = new ArrayCollection();
-    }
+    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
+    private ?\DateTimeInterface $date_rdv = null;
 
     public function getId(): ?int
     {
@@ -80,18 +72,6 @@ class Prestation
         return $this;
     }
 
-    public function getDateDePrestation(): ?\DateTimeInterface
-    {
-        return $this->date_de_prestation;
-    }
-
-    public function setDateDePrestation(\DateTimeInterface $date_de_prestation): self
-    {
-        $this->date_de_prestation = $date_de_prestation;
-
-        return $this;
-    }
-
     public function getLigneDeCommande(): ?LigneDeCommande
     {
         return $this->ligneDeCommande;
@@ -109,26 +89,14 @@ class Prestation
         return $this;
     }
 
-    /**
-     * @return Collection<int, rdvprestation>
-     */
-    public function getProgrammer(): Collection
+    public function getDateRdv(): ?\DateTimeInterface
     {
-        return $this->programmer;
+        return $this->date_rdv;
     }
 
-    public function addProgrammer(rdvprestation $programmer): self
+    public function setDateRdv(\DateTimeInterface $date_rdv): self
     {
-        if (!$this->programmer->contains($programmer)) {
-            $this->programmer->add($programmer);
-        }
-
-        return $this;
-    }
-
-    public function removeProgrammer(rdvprestation $programmer): self
-    {
-        $this->programmer->removeElement($programmer);
+        $this->date_rdv = $date_rdv;
 
         return $this;
     }

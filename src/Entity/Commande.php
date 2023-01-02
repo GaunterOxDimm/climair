@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Repository\CommandeRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: CommandeRepository::class)]
@@ -22,7 +23,10 @@ class Commande
     private Collection $ligneDeCommandes;
 
     #[ORM\ManyToOne(inversedBy: 'commandes')]
-    private ?utilisateur $passer_commande = null;
+    private ?Utilisateur $passer_commande = null;
+
+    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
+    private ?\DateTimeInterface $date_commande = null;
 
     public function __construct()
     {
@@ -76,14 +80,26 @@ class Commande
         return $this;
     }
 
-    public function getPasserCommande(): ?utilisateur
+    public function getPasserCommande(): ?Utilisateur
     {
         return $this->passer_commande;
     }
 
-    public function setPasserCommande(?utilisateur $passer_commande): self
+    public function setPasserCommande(?Utilisateur $passer_commande): self
     {
         $this->passer_commande = $passer_commande;
+
+        return $this;
+    }
+
+    public function getDateCommande(): ?\DateTimeInterface
+    {
+        return $this->date_commande;
+    }
+
+    public function setDateCommande(\DateTimeInterface $date_commande): self
+    {
+        $this->date_commande = $date_commande;
 
         return $this;
     }

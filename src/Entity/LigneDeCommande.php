@@ -18,11 +18,11 @@ class LigneDeCommande
 
     #[ORM\ManyToOne(inversedBy: 'ligneDeCommandes')]
     #[ORM\JoinColumn(nullable: false)]
-    private ?commande $integre = null;
+    private ?Commande $integre = null;
 
     #[ORM\OneToOne(inversedBy: 'ligneDeCommande', cascade: ['persist', 'remove'])]
     #[ORM\JoinColumn(nullable: false)]
-    private ?prestation $correspond = null;
+    private ?Prestation $correspond = null;
 
     #[ORM\OneToOne(mappedBy: 'correspondance', cascade: ['persist', 'remove'])]
     private ?Article $article = null;
@@ -44,24 +44,24 @@ class LigneDeCommande
         return $this;
     }
 
-    public function getIntegre(): ?commande
+    public function getIntegre(): ?Commande
     {
         return $this->integre;
     }
 
-    public function setIntegre(?commande $integre): self
+    public function setIntegre(?Commande $integre): self
     {
         $this->integre = $integre;
 
         return $this;
     }
 
-    public function getCorrespond(): ?prestation
+    public function getCorrespond(): ?Prestation
     {
         return $this->correspond;
     }
 
-    public function setCorrespond(prestation $correspond): self
+    public function setCorrespond(Prestation $correspond): self
     {
         $this->correspond = $correspond;
 
