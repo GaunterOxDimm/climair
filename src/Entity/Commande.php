@@ -22,11 +22,11 @@ class Commande
     #[ORM\OneToMany(mappedBy: 'integre', targetEntity: LigneDeCommande::class)]
     private Collection $ligneDeCommandes;
 
-    #[ORM\ManyToOne(inversedBy: 'commandes')]
-    private ?Utilisateur $passer_commande = null;
-
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private ?\DateTimeInterface $date_commande = null;
+
+    #[ORM\ManyToOne(inversedBy: 'passer_commande')]
+    private ?Utilisateur $utilisateur = null;
 
     public function __construct()
     {
@@ -80,18 +80,6 @@ class Commande
         return $this;
     }
 
-    public function getPasserCommande(): ?Utilisateur
-    {
-        return $this->passer_commande;
-    }
-
-    public function setPasserCommande(?Utilisateur $passer_commande): self
-    {
-        $this->passer_commande = $passer_commande;
-
-        return $this;
-    }
-
     public function getDateCommande(): ?\DateTimeInterface
     {
         return $this->date_commande;
@@ -100,6 +88,18 @@ class Commande
     public function setDateCommande(\DateTimeInterface $date_commande): self
     {
         $this->date_commande = $date_commande;
+
+        return $this;
+    }
+
+    public function getUtilisateur(): ?Utilisateur
+    {
+        return $this->utilisateur;
+    }
+
+    public function setUtilisateur(?Utilisateur $utilisateur): self
+    {
+        $this->utilisateur = $utilisateur;
 
         return $this;
     }
