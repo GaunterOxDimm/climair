@@ -3,6 +3,8 @@
 {% block title %}Hello CommandeController!{% endblock %}
 
 {% block body %}
-     <div class="container alert alert-danger" style="height: 250px; margin-top: 100px;">{{ commander.getDateCommande|date("H:i d-m-Y", "Europe/Paris") }}</div>
+     <div class="container alert alert-danger" style="height: 250px; margin-top: 100px;">
+        {{ commander.getDateCommande|date("H:i d-m-Y", "Europe/Paris") }}
+     </div>
 
 {% endblock %}
