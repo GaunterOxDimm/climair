@@ -3,9 +3,12 @@
 namespace App\Entity;
 
 use App\Repository\UtilisateurRepository;
+use DateTimeImmutable;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use phpDocumentor\Reflection\Types\This;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -31,18 +34,22 @@ class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column]
     private ?string $password = null;
 
-    #[ORM\OneToMany(mappedBy: 'utilisateur', targetEntity: Commande::class)]
-    private Collection $passer_commande;
-
     #[ORM\Column(length: 255)]
     private ?string $Nom_utilisateur = null;
 
     #[ORM\Column(type: 'boolean')]
     private $isVerified = false;
 
+    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
+    private ?\DateTimeInterface $createdAt = null;
+
+    #[ORM\OneToMany(mappedBy: 'id_utilisateur', targetEntity: Commande::class)]
+    private Collection $commandes;
+
     public function __construct()
     {
-        $this->passer_commande = new ArrayCollection();
+        $this->createdAt = new \DateTimeImmutable();
+        $this->commandes = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -115,36 +122,6 @@ class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
         // $this->plainPassword = null;
     }
 
-    /**
-     * @return Collection<int, Commande>
-     */
-    public function getPasserCommande(): Collection
-    {
-        return $this->passer_commande;
-    }
-
-    public function addPasserCommande(Commande $passerCommande): self
-    {
-        if (!$this->passer_commande->contains($passerCommande)) {
-            $this->passer_commande->add($passerCommande);
-            $passerCommande->setUtilisateur($this);
-        }
-
-        return $this;
-    }
-
-    public function removePasserCommande(Commande $passerCommande): self
-    {
-        if ($this->passer_commande->removeElement($passerCommande)) {
-            // set the owning side to null (unless already changed)
-            if ($passerCommande->getUtilisateur() === $this) {
-                $passerCommande->setUtilisateur(null);
-            }
-        }
-
-        return $this;
-    }
-
     public function getNomUtilisateur(): ?string
     {
         return $this->Nom_utilisateur;
@@ -165,6 +142,48 @@ class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
     public function setIsVerified(bool $isVerified): self
     {
         $this->isVerified = $isVerified;
+
+        return $this;
+    }
+
+    public function getCreatedAt(): ?\DateTimeInterface
+    {
+        return $this->createdAt;
+    }
+
+    public function setCreatedAt(\DateTimeInterface $createdAt): self
+    {
+        $this->createdAt = $createdAt;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Commande>
+     */
+    public function getCommandes(): Collection
+    {
+        return $this->commandes;
+    }
+
+    public function addCommande(Commande $commande): self
+    {
+        if (!$this->commandes->contains($commande)) {
+            $this->commandes->add($commande);
+            $commande->setIdUtilisateur($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCommande(Commande $commande): self
+    {
+        if ($this->commandes->removeElement($commande)) {
+            // set the owning side to null (unless already changed)
+            if ($commande->getIdUtilisateur() === $this) {
+                $commande->setIdUtilisateur(null);
+            }
+        }
 
         return $this;
     }

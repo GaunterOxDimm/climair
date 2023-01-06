@@ -25,8 +25,8 @@ class Commande
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private ?\DateTimeInterface $date_commande = null;
 
-    #[ORM\ManyToOne(inversedBy: 'passer_commande')]
-    private ?Utilisateur $utilisateur = null;
+    #[ORM\ManyToOne(inversedBy: 'commandes')]
+    private ?Utilisateur $id_utilisateur = null;
 
     public function __construct()
     {
@@ -92,14 +92,14 @@ class Commande
         return $this;
     }
 
-    public function getUtilisateur(): ?Utilisateur
+    public function getIdUtilisateur(): ?Utilisateur
     {
-        return $this->utilisateur;
+        return $this->id_utilisateur;
     }
 
-    public function setUtilisateur(?Utilisateur $utilisateur): self
+    public function setIdUtilisateur(?Utilisateur $id_utilisateur): self
     {
-        $this->utilisateur = $utilisateur;
+        $this->id_utilisateur = $id_utilisateur;
 
         return $this;
     }

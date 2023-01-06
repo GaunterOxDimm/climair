@@ -30,14 +30,14 @@ class CommandeCrudController extends AbstractCrudController
         ;
     }
 
-    public function configureFields(string $pageName): iterable
-    {
-        return [
-            IdField::new('id'),
-            TextField::new('commande'),
-            TextEditorField::new('ligneDeCommandes'),
-            TextEditorField::new('total_commande'),
-            DateTimeField::new('date_commande'),
-        ];
-    }
+    // public function configureFields(string $pageName): iterable
+    // {
+    //     return [
+    //         IdField::new('id'),
+    //         TextField::new('commande'),
+    //         TextEditorField::new('ligneDeCommandes'),
+    //         TextEditorField::new('total_commande'),
+    //         DateTimeField::new('date_commande'),
+    //     ];
+    // }
 }

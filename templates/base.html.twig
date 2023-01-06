@@ -18,8 +18,7 @@
   </head>
   <body>
   
-    <nav class="navbar navbar-expand-lg navbar-dark bg-primary fixed-top">
-    <img src="https://i.goopics.net/7ercel.gif" class="santa" alt="">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
     <div class="container-fluid">
         <a class="navbar-brand text-warning ms-3" href="/accueil">Clim Air</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarColor01" aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
@@ -52,9 +51,17 @@
             </li>
         </ul>
         
-        <div class="me-2"><button type="button" class="btn btn-primary"><i class="fa-solid fa-user"></i> Connexion</button></div>
-        <div class="me-2"><button type="button" class="btn btn-primary">S'inscrire</button></div>
-        </div>
+            <a class="nav-icon position-relative text-decoration-none" href="/login" style="margin-right: 30px;">
+
+                  <i class="fa fa-fw fa-user text-dark mr-3"></i>
+                  
+            </a>
+
+            <a class="nav-icon position-relative text-decoration-none active" href="/register" style="margin-right: 20px;">
+ 
+                  <i class="fa fa-fw fa-right-to-bracket text-dark mr-3"></i>
+            </a>
+    
     </div>
     </nav>
      {% block body %}
