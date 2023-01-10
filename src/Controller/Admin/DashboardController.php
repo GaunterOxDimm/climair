@@ -28,7 +28,7 @@ class DashboardController extends AbstractDashboardController
             // the name visible to end users
             ->setTitle('CLIMAIR Corp.')
             // you can include HTML contents too (e.g. to link to an image)
-            ->setTitle('<img src="https://i.goopics.net/9np32a.jpg"> CLIMAIR <span class="text-small">Corp.</span>')
+            ->setTitle('<img src="./assets/img/clim_telecommande.jpeg"> CLIMAIR <span class="text-small">Corp.</span>')
             // set this option if you prefer the page content to span the entire
             // browser width, instead of the default design which sets a max width
             ->renderContentMaximized()
