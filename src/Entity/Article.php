@@ -28,7 +28,7 @@ class Article
 
     #[ORM\ManyToOne(inversedBy: 'articles')]
     #[ORM\JoinColumn(nullable: false)]
-    private ?categoriearticle $appartenir = null;
+    private ?CategorieArticle $appartenir = null;
 
     #[ORM\OneToOne(inversedBy: 'article', cascade: ['persist', 'remove'])]
     private ?lignedecommande $correspondance = null;
@@ -86,12 +86,12 @@ class Article
         return $this;
     }
 
-    public function getAppartenir(): ?categoriearticle
+    public function getAppartenir(): ?CategorieArticle
     {
         return $this->appartenir;
     }
 
-    public function setAppartenir(?categoriearticle $appartenir): self
+    public function setAppartenir(?CategorieArticle $appartenir): self
     {
         $this->appartenir = $appartenir;
 

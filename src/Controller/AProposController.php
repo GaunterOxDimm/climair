@@ -13,9 +13,8 @@ class AProposController extends AbstractController
     #[Route('/a-propos', name: 'app_a_propos', methods: ['GET'])]
     public function index(ImagesDiversRepository $flambard): Response
     {
-        $a_propos = $flambard->findOneBy(['id' => 6]);
         return $this->render('a_propos/index.html.twig', [
-            'a-propos' => $a_propos,
+            '' => '',
         ]);
     }
 }

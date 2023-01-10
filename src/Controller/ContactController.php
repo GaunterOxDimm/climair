@@ -12,9 +12,9 @@ class ContactController extends AbstractController
     #[Route('/contact', name: 'app_contact')]
     public function index(ImagesDiversRepository $contact): Response
     {
-        $contact_images = $contact->find(['id' => 5]);
+
         return $this->render('contact/index.html.twig', [
-            'contact_images' => $contact_images,
+            '' => '',
         ]);
     }
 }
