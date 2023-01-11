@@ -11,9 +11,9 @@ class AccueilController extends AbstractController
     #[Route('/accueil', name: 'app_accueil', methods: ['GET'])]
     public function index(): Response
     {
-
+        $title = 'Climair - Accueil';
         return $this->render('accueil/index.html.twig', [
-            '' => '',
+            'title' => $title,
         ]);
     }
 }

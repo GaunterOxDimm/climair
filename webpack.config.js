@@ -26,6 +26,7 @@ Encore
   .addEntry("bootstrap-js", "./public/assets/js/bootstrap.bundle.min.js")
   .addEntry("jquery-migrate", "./public/assets/js/jquery-migrate-1.2.1.min.js")
   .addEntry("jquery", "./public/assets/js/jquery-1.11.0.min.js")
+  .addEntry("slide", "./public/assets/js/slide.js")
 
   //    Style Entry
   .addStyleEntry("bootstrap", "./public/assets/css/bootstrap.min.css")

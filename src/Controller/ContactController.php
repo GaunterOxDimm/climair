@@ -12,9 +12,9 @@ class ContactController extends AbstractController
     #[Route('/contact', name: 'app_contact')]
     public function index(ImagesDiversRepository $contact): Response
     {
-
+        $title = 'Climair - Contact';
         return $this->render('contact/index.html.twig', [
-            '' => '',
+            'title' => $title,
         ]);
     }
 }

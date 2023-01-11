@@ -12,8 +12,9 @@ class CommandeController extends AbstractController
     #[Route('/commande', name: 'app_commande')]
     public function index(CommandeRepository $passer): Response
     {
+        $title = 'Climair - Commande';
         return $this->render('commande/index.html.twig', [
-            '' => '',
+            'title' => $title,
         ]);
     }
 }
