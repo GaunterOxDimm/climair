@@ -31,7 +31,7 @@ class Article
     private ?CategorieArticle $appartenir = null;
 
     #[ORM\OneToOne(inversedBy: 'article', cascade: ['persist', 'remove'])]
-    private ?lignedecommande $correspondance = null;
+    private ?LigneDeCommande $correspondance = null;
 
     public function getId(): ?int
     {
@@ -98,12 +98,12 @@ class Article
         return $this;
     }
 
-    public function getCorrespondance(): ?lignedecommande
+    public function getCorrespondance(): ?LigneDeCommande
     {
         return $this->correspondance;
     }
 
-    public function setCorrespondance(?lignedecommande $correspondance): self
+    public function setCorrespondance(?LigneDeCommande $correspondance): self
     {
         $this->correspondance = $correspondance;
 

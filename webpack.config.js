@@ -21,7 +21,11 @@ Encore
    * and one CSS file (e.g. app.css) if your JavaScript imports CSS.
    */
   .addEntry("app", "./assets/app.js")
-  .addEntry("custom", "./public/assets/js/custom.js")
+  .addEntry("map", "./public/assets/js/map.js")
+  .addEntry("templatemo-js", "./public/assets/js/templatemo.js")
+  .addEntry("bootstrap-js", "./public/assets/js/bootstrap.bundle.min.js")
+  .addEntry("jquery-migrate", "./public/assets/js/jquery-migrate-1.2.1.min.js")
+  .addEntry("jquery", "./public/assets/js/jquery-1.11.0.min.js")
 
   //    Style Entry
   .addStyleEntry("bootstrap", "./public/assets/css/bootstrap.min.css")
@@ -30,6 +34,8 @@ Encore
   .addStyleEntry("custom", "./public/assets/css/custom.css")
   .addStyleEntry("fa1", "./public/assets/css/fontawesome.css")
   .addStyleEntry("fa2", "./public/assets/css/fontawesome.min.css")
+  .addStyleEntry("slick1", "./public/assets/css/slick.min.css")
+  .addStyleEntry("slick2", "./public/assets/css/slick-theme.css")
 
   // enables the Symfony UX Stimulus bridge (used in assets/bootstrap.js)
   .enableStimulusBridge("./assets/controllers.json")

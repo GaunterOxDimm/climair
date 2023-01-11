@@ -9,6 +9,7 @@
 
     <!-- Load fonts style after rendering the layout styles -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;200;300;400;500;700;900&display=swap">
+    <link rel="stylesheet" href="./public/assets/css/slick-theme.min.css">
 
     {{ encore_entry_link_tags('app') }}
     {{ encore_entry_link_tags('bootstrap') }}
@@ -27,14 +28,10 @@ https://templatemo.com/tm-559-zay-shop
 -->
         {# Run `composer require symfony/webpack-encore-bundle` to start using Symfony UX #}
         {% block stylesheets %}
-
             
         {% endblock %}
 
-        {% block javascripts %}
-            {{ encore_entry_script_tags('app') }}
-            
-        {% endblock %}
+        
     </head>
     <body>
      <!-- Start Top Nav -->
@@ -209,11 +206,18 @@ https://templatemo.com/tm-559-zay-shop
     <!-- End Footer -->
 
     <!-- Start Script -->
-    <script src="assets/js/jquery-1.11.0.min.js"></script>
-    <script src="assets/js/jquery-migrate-1.2.1.min.js"></script>
-    <script src="assets/js/bootstrap.bundle.min.js"></script>
-    <script src="assets/js/templatemo.js"></script>
-    <script src="assets/js/custom.js"></script>
-    <!-- End Script -->
+    {% block javascripts %}
+
+    {% endblock %}
+
+    {{ encore_entry_script_tags('app') }} 
+    {{ encore_entry_script_tags('map') }} 
+    {{ encore_entry_script_tags('templatemo-js') }} 
+    {{ encore_entry_script_tags('bootstrap-js') }} 
+    {{ encore_entry_script_tags('jquery-migrate') }} 
+    {{ encore_entry_script_tags('jquery') }} 
+
+        <!-- End Script -->
+
     </body>
 </html>
