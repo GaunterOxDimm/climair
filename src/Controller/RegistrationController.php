@@ -40,15 +40,6 @@ class RegistrationController extends AbstractController
     #[Route('/register', name: 'app_register')]
     public function register(Request $request, UserPasswordHasherInterface $userPasswordHasher, UserAuthenticatorInterface $userAuthenticator, LoginFormAuthenticator $authenticator, EntityManagerInterface $entityManager, AuthenticationUtils $authenticationUtils): Response
     {
-        if ($this->getUser()) {
-            return $this->redirectToRoute('app_accueil');
-        }
-
-        // get the login error if there is one
-        $error = $authenticationUtils->getLastAuthenticationError();
-        // last username entered by the user
-        $lastUsername = $authenticationUtils->getLastUsername();
-        $title = 'Climair - Login';
         $user = new Utilisateur();
         $form = $this->createForm(RegistrationFormType::class, $user);
         $form->handleRequest($request);
@@ -78,14 +69,6 @@ class RegistrationController extends AbstractController
         return $this->render('registration/register.html.twig', [
             'registrationForm' => $form->createView(),
             'title' => $title,
-            'last_username' => $lastUsername,
-            'error' => $error,
-            'title' => $title,
         ]);
-    }
-    #[Route(path: '/register', name: 'app_logout')]
-    public function logout(): void
-    {
-        throw new \LogicException('This method can be blank - it will be intercepted by the logout key on your firewall.');
     }
 }
