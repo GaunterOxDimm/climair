@@ -9,6 +9,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextEditorField;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
+use EasyCorp\Bundle\EasyAdminBundle\Field\ArrayField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\DateTimeField;
 
 class CommandeCrudController extends AbstractCrudController
@@ -22,6 +23,8 @@ class CommandeCrudController extends AbstractCrudController
     {
         return $crud
             ->setEntityLabelInSingular('Commande')
+            ->setEntityLabelInSingular('Utilisateur')
+            ->setEntityLabelInPlural('Utilisateurs')
             ->setEntityLabelInPlural('Commandes')
             ->setDateFormat('d/m/Y')
             ->setPageTitle('index', 'Commandes')
@@ -34,9 +37,8 @@ class CommandeCrudController extends AbstractCrudController
     // {
     //     return [
     //         IdField::new('id'),
-    //         TextField::new('commande'),
-    //         TextEditorField::new('ligneDeCommandes'),
-    //         TextEditorField::new('total_commande'),
+    //         TextField::new('total_commande'),
+    //         ArrayField::new('ligneDeCommandes'),
     //         DateTimeField::new('date_commande'),
     //     ];
     // }

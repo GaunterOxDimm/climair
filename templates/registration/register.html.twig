@@ -12,10 +12,10 @@
 
 {% endfor %}
 
-    <div class="center-element p-5">
-        <section class="container col-6">
-            <div class="row mt-2">
-                <div class="col mt-3">
+    <div class="card center-element m-5 mx-auto" style="width: 30rem;">
+        <section class="container col-12">
+            <div class="row mt-2 card-body">
+                <div class="col mt-3 card-text">
     
             <h4>Inscription</h4>
             
@@ -29,14 +29,14 @@
                         label: 'Mot de passe'
                     }) }}
                      <div class="mt-3"></div>
-                    <span>
-                        {{ form_row(registrationForm.conditions, {
-                            label: 'En cochant cette case, j\'accepte les conditions d\'utilisation du site'
+                    <span class="fs-6 d-inline-block col-12">
+                        J'accepte les conditions d'utilisation du site {{ form_row(registrationForm.conditions, {
+                            label: ' '
                         }) }}
                     </span>
                 </fieldset>
             <div class="text-center col-12 mt-3 p-1" role="alert">
-                    <button type="submit" class="btn alert alert-danger col-3 center-element">S'inscrire</button>
+                    <button type="submit" class="btn alert alert-danger col-sm-6 col-lg-3 center-element">S'inscrire</button>
                     {{ form_end(registrationForm) }}
             </div>
                 </div>

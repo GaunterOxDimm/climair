@@ -3,22 +3,22 @@
 {% block title %} {{ title }} {% endblock %}
 
 {% block body %}
-<form method="post" class="container col-7 center-element mt-1 p-5">
+<form method="post" class="container col-5 p-3 card center-element m-5 mx-auto">
     {% if error %}
         <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
     {% endif %}
 
     {% if app.user %}
-        <div class="mb-1">
+        <div class="mb-1 card-text">
             You are logged in as {{ app.user.userIdentifier }}, <a href="{{ path('app_logout') }}">Logout</a>
         </div>
     {% endif %}
 
-    <h1 class="h3 mb-1 font-weight-normal">Veuillez vous authentifier</h1>
+    <h1 class="h3 mb-1 font-weight-normal card-title">Veuillez vous authentifier</h1>
     <label for="inputEmail" class="mt-2">Email</label>
-    <input type="email" value="{{ last_username }}" name="email" id="inputEmail" class="form-control mt-2 w-75" autocomplete="email" required autofocus>
+    <input type="email" value="{{ last_username }}" name="email" id="inputEmail" class="form-control mt-2 w-100" autocomplete="email" required autofocus>
     <label for="inputPassword" class="mt-4">Password</label>
-    <input type="password" name="password" id="inputPassword" class="form-control mt-2 w-75" autocomplete="current-password" required>
+    <input type="password" name="password" id="inputPassword" class="form-control mt-2 w-100" autocomplete="current-password" required>
 
     <input type="hidden" name="_csrf_token"
            value="{{ csrf_token('authenticate') }}"
@@ -35,9 +35,9 @@
         </div>
    
 
-    <button class="btn btn-lg btn-primary" type="submit">
-        Se connecter 
-    </button><span class="ms-3 fs-6" id="register">Pas de compte? <a href="/register" class="fs-6 text-decoration-none"> Inscrivez-vous.</a></span>
+   <span class="col-12 fs-6" id="register"><button class="btn btn-lg btn-primary col-sm-5 col-lg-5 fs-6" type="submit">
+         Se connecter 
+    </button> Pas de compte? <a href="/register" class="fs-6 text-decoration-none"> Inscrivez-vous. </a></span>
 </form>
 
 {% endblock %}
