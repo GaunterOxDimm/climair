@@ -1,3 +1,16 @@
 /*
 Custom Css
 */
+/* .vertical-line {
+  height: 100vh;
+  width: 0.5vw;
+  border-width: 0;
+  color: #000;
+  background-color: #000;
+} */
+#box-1 {
+  border: 2px solid black;
+}
+#box-2 {
+  border: 2px solid black;
+}
