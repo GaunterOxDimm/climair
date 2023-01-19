@@ -16,17 +16,17 @@ class Commande
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column]
-    private ?int $total_commande = null;
-
-    #[ORM\OneToMany(mappedBy: 'integre', targetEntity: LigneDeCommande::class)]
-    private Collection $ligneDeCommandes;
+    #[ORM\Column(nullable: true)]
+    private ?float $total_commande = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private ?\DateTimeInterface $date_commande = null;
 
-    #[ORM\ManyToOne(inversedBy: 'commandes')]
-    private ?Utilisateur $id_utilisateur = null;
+    #[ORM\OneToMany(mappedBy: 'commande', targetEntity: LigneDeCommande::class)]
+    private Collection $ligneDeCommandes;
+
+    #[ORM\ManyToOne(inversedBy: 'commande')]
+    private ?Utilisateur $utilisateur = null;
 
     public function __construct()
     {
@@ -38,44 +38,17 @@ class Commande
         return $this->id;
     }
 
-    public function getTotalCommande(): ?int
+    public function getTotalCommande(): ?float
     {
         return $this->total_commande;
     }
-
-    public function setTotalCommande(int $total_commande): self
+    public function __toString(): string
+    {
+        return $this->id;
+    }
+    public function setTotalCommande(?float $total_commande): self
     {
         $this->total_commande = $total_commande;
-
-        return $this;
-    }
-
-    /**
-     * @return Collection<int, LigneDeCommande>
-     */
-    public function getLigneDeCommandes(): Collection
-    {
-        return $this->ligneDeCommandes;
-    }
-
-    public function addLigneDeCommande(LigneDeCommande $ligneDeCommande): self
-    {
-        if (!$this->ligneDeCommandes->contains($ligneDeCommande)) {
-            $this->ligneDeCommandes->add($ligneDeCommande);
-            $ligneDeCommande->setIntegre($this);
-        }
-
-        return $this;
-    }
-
-    public function removeLigneDeCommande(LigneDeCommande $ligneDeCommande): self
-    {
-        if ($this->ligneDeCommandes->removeElement($ligneDeCommande)) {
-            // set the owning side to null (unless already changed)
-            if ($ligneDeCommande->getIntegre() === $this) {
-                $ligneDeCommande->setIntegre(null);
-            }
-        }
 
         return $this;
     }
@@ -92,14 +65,44 @@ class Commande
         return $this;
     }
 
-    public function getIdUtilisateur(): ?Utilisateur
+    /**
+     * @return Collection<int, LigneDeCommande>
+     */
+    public function getLigneDeCommandes(): Collection
     {
-        return $this->id_utilisateur;
+        return $this->ligneDeCommandes;
     }
 
-    public function setIdUtilisateur(?Utilisateur $id_utilisateur): self
+    public function addLigneDeCommande(LigneDeCommande $ligneDeCommande): self
     {
-        $this->id_utilisateur = $id_utilisateur;
+        if (!$this->ligneDeCommandes->contains($ligneDeCommande)) {
+            $this->ligneDeCommandes->add($ligneDeCommande);
+            $ligneDeCommande->setCommande($this);
+        }
+
+        return $this;
+    }
+
+    public function removeLigneDeCommande(LigneDeCommande $ligneDeCommande): self
+    {
+        if ($this->ligneDeCommandes->removeElement($ligneDeCommande)) {
+            // set the owning side to null (unless already changed)
+            if ($ligneDeCommande->getCommande() === $this) {
+                $ligneDeCommande->setCommande(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getUtilisateur(): ?Utilisateur
+    {
+        return $this->utilisateur;
+    }
+
+    public function setUtilisateur(?Utilisateur $utilisateur): self
+    {
+        $this->utilisateur = $utilisateur;
 
         return $this;
     }

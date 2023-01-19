@@ -2,41 +2,42 @@
 
 namespace App\Controller\Admin;
 
-use App\Entity\ImagesDivers;
+use App\Entity\LigneDeCommande;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
-use EasyCorp\Bundle\EasyAdminBundle\Field\ImageField;
-use EasyCorp\Bundle\EasyAdminBundle\Field\DateTimeField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\IntegerField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextEditorField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 
-class ImagesDiversCrudController extends AbstractCrudController
+class LigneDeCommandeCrudController extends AbstractCrudController
 {
     public static function getEntityFqcn(): string
     {
-        return ImagesDivers::class;
+        return LigneDeCommande::class;
     }
+
     public function configureCrud(Crud $crud): Crud
     {
         return $crud
-            ->setEntityLabelInSingular('Image')
-            ->setEntityLabelInPlural('Images')
+            ->setEntityLabelInSingular('Ligne de Commande')
+            ->setEntityLabelInPlural('Lignes de Commande')
             ->setDateFormat('d/m/Y')
-            ->setPageTitle('index', 'Images Divers')
+            ->setPageTitle('index', 'Lignes de Commandes')
             ->setPaginatorPageSize(10)
             // ...
         ;
     }
-
     public function configureFields(string $pageName): iterable
     {
         return [
             IdField::new('id')
                 ->hideOnForm(),
-            TextField::new('nom_image'),
-            ImageField::new('adresse_image')
-                ->setUploadDir('public/assets/img'),
+            IntegerField::new('quantite'),
+            AssociationField::new('commande'),
+            AssociationField::new('article'),
+            AssociationField::new('prestation')
         ];
     }
 }

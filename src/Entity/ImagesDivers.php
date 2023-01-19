@@ -24,6 +24,16 @@ class ImagesDivers
         return $this->id;
     }
 
+    public function setId(?int $id): self
+    {
+        $this->id = $id;
+
+        return $this;
+    }
+    public function __toString(): string
+    {
+        return $this->nom_image;
+    }
     public function getNomImage(): ?string
     {
         return $this->nom_image;

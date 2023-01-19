@@ -2,28 +2,28 @@
 
 namespace App\Controller\Admin;
 
-use App\Entity\ImagesDivers;
+use App\Entity\CategorieArticle;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
-use EasyCorp\Bundle\EasyAdminBundle\Field\ImageField;
-use EasyCorp\Bundle\EasyAdminBundle\Field\DateTimeField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextEditorField;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
+use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
 
-class ImagesDiversCrudController extends AbstractCrudController
+class CategorieArticleCrudController extends AbstractCrudController
 {
     public static function getEntityFqcn(): string
     {
-        return ImagesDivers::class;
+        return CategorieArticle::class;
     }
+
     public function configureCrud(Crud $crud): Crud
     {
         return $crud
-            ->setEntityLabelInSingular('Image')
-            ->setEntityLabelInPlural('Images')
-            ->setDateFormat('d/m/Y')
-            ->setPageTitle('index', 'Images Divers')
+            ->setEntityLabelInSingular('Categorie Article')
+            ->setEntityLabelInPlural('Categories Articles')
+            // ->setDateFormat('d/m/Y')
+            ->setPageTitle('index', 'Categorie Article')
             ->setPaginatorPageSize(10)
             // ...
         ;
@@ -34,9 +34,8 @@ class ImagesDiversCrudController extends AbstractCrudController
         return [
             IdField::new('id')
                 ->hideOnForm(),
-            TextField::new('nom_image'),
-            ImageField::new('adresse_image')
-                ->setUploadDir('public/assets/img'),
+            TextField::new('nom_categorie'),
+            AssociationField::new('article')
         ];
     }
 }

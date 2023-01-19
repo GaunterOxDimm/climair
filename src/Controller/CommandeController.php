@@ -10,7 +10,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class CommandeController extends AbstractController
 {
     #[Route('/commande', name: 'app_commande')]
-    public function index(CommandeRepository $passer): Response
+    public function index(): Response
     {
         $title = 'Climair - Commande';
         return $this->render('commande/index.html.twig', [

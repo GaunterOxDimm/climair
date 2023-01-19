@@ -10,6 +10,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextEditorField;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ArrayField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\BooleanField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\DateTimeField;
 use phpDocumentor\Reflection\Types\Boolean;
@@ -37,14 +38,15 @@ class UtilisateurCrudController extends AbstractCrudController
         return [
             IdField::new('id')
                 ->hideOnForm(),
-            TextField::new('email')
-                ->setFormTypeOption('disabled', 'disabled')
-                ->hideOnForm(),
             TextField::new('nom_utilisateur'),
+            TextField::new('email'),
+            TextField::new('password'),
             ArrayField::new('roles'),
             BooleanField::new('is_verified'),
             DateTimeField::new('createdAt')
                 ->hideOnForm(),
+            AssociationField::new('commande')
+                ->hideOnForm()
         ];
     }
 }

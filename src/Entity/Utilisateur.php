@@ -43,20 +43,33 @@ class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private ?\DateTimeInterface $createdAt = null;
 
-    #[ORM\OneToMany(mappedBy: 'id_utilisateur', targetEntity: Commande::class)]
-    private Collection $commandes;
+    #[ORM\OneToMany(mappedBy: 'utilisateur', targetEntity: Commande::class)]
+    private Collection $commande;
 
     public function __construct()
     {
         $this->createdAt = new \DateTimeImmutable();
-        $this->commandes = new ArrayCollection();
+        $this->commande = new ArrayCollection();
     }
-
+    /**
+     * Set the value of id
+     */
     public function getId(): ?int
     {
         return $this->id;
     }
 
+    public function setId(?int $id): self
+    {
+        $this->id = $id;
+
+        return $this;
+    }
+    public function __toString(): string
+    {
+        return $this->email . ' ' .
+            $this->Nom_utilisateur;
+    }
     public function getEmail(): ?string
     {
         return $this->email;
@@ -161,16 +174,16 @@ class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
     /**
      * @return Collection<int, Commande>
      */
-    public function getCommandes(): Collection
+    public function getCommande(): Collection
     {
-        return $this->commandes;
+        return $this->commande;
     }
 
     public function addCommande(Commande $commande): self
     {
-        if (!$this->commandes->contains($commande)) {
-            $this->commandes->add($commande);
-            $commande->setIdUtilisateur($this);
+        if (!$this->commande->contains($commande)) {
+            $this->commande->add($commande);
+            $commande->setUtilisateur($this);
         }
 
         return $this;
@@ -178,10 +191,10 @@ class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
 
     public function removeCommande(Commande $commande): self
     {
-        if ($this->commandes->removeElement($commande)) {
+        if ($this->commande->removeElement($commande)) {
             // set the owning side to null (unless already changed)
-            if ($commande->getIdUtilisateur() === $this) {
-                $commande->setIdUtilisateur(null);
+            if ($commande->getUtilisateur() === $this) {
+                $commande->setUtilisateur(null);
             }
         }
 

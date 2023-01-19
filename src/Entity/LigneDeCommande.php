@@ -17,21 +17,29 @@ class LigneDeCommande
     private ?int $quantite = null;
 
     #[ORM\ManyToOne(inversedBy: 'ligneDeCommandes')]
-    #[ORM\JoinColumn(nullable: false)]
-    private ?Commande $integre = null;
+    private ?Commande $commande = null;
 
-    #[ORM\OneToOne(inversedBy: 'ligneDeCommande', cascade: ['persist', 'remove'])]
-    #[ORM\JoinColumn(nullable: false)]
-    private ?Prestation $correspond = null;
-
-    #[ORM\OneToOne(mappedBy: 'correspondance', cascade: ['persist', 'remove'])]
+    #[ORM\ManyToOne(inversedBy: 'ligneDeCommande')]
     private ?Article $article = null;
+
+    #[ORM\ManyToOne(inversedBy: 'lignedecommande')]
+    private ?Prestation $prestation = null;
 
     public function getId(): ?int
     {
         return $this->id;
     }
 
+    public function setId(?int $id): self
+    {
+        $this->id = $id;
+
+        return $this;
+    }
+    public function __toString(): string
+    {
+        return $this->id . ' ' . $this->quantite;
+    }
     public function getQuantite(): ?int
     {
         return $this->quantite;
@@ -44,26 +52,14 @@ class LigneDeCommande
         return $this;
     }
 
-    public function getIntegre(): ?Commande
+    public function getCommande(): ?Commande
     {
-        return $this->integre;
+        return $this->commande;
     }
 
-    public function setIntegre(?Commande $integre): self
+    public function setCommande(?Commande $commande): self
     {
-        $this->integre = $integre;
-
-        return $this;
-    }
-
-    public function getCorrespond(): ?Prestation
-    {
-        return $this->correspond;
-    }
-
-    public function setCorrespond(Prestation $correspond): self
-    {
-        $this->correspond = $correspond;
+        $this->commande = $commande;
 
         return $this;
     }
@@ -75,17 +71,19 @@ class LigneDeCommande
 
     public function setArticle(?Article $article): self
     {
-        // unset the owning side of the relation if necessary
-        if ($article === null && $this->article !== null) {
-            $this->article->setCorrespondance(null);
-        }
-
-        // set the owning side of the relation if necessary
-        if ($article !== null && $article->getCorrespondance() !== $this) {
-            $article->setCorrespondance($this);
-        }
-
         $this->article = $article;
+
+        return $this;
+    }
+
+    public function getPrestation(): ?Prestation
+    {
+        return $this->prestation;
+    }
+
+    public function setPrestation(?Prestation $prestation): self
+    {
+        $this->prestation = $prestation;
 
         return $this;
     }

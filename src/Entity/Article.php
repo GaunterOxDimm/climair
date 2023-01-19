@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\ArticleRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -26,18 +28,34 @@ class Article
     #[ORM\Column(type: Types::TEXT)]
     private ?string $description_article = null;
 
-    #[ORM\ManyToOne(inversedBy: 'articles')]
-    #[ORM\JoinColumn(nullable: false)]
-    private ?CategorieArticle $appartenir = null;
+    #[ORM\OneToMany(mappedBy: 'article', targetEntity: LigneDeCommande::class)]
+    private Collection $ligneDeCommande;
 
-    #[ORM\OneToOne(inversedBy: 'article', cascade: ['persist', 'remove'])]
-    private ?LigneDeCommande $correspondance = null;
+    #[ORM\ManyToOne(inversedBy: 'article')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?CategorieArticle $categorieArticle = null;
+
+    public function __construct()
+    {
+        $this->ligneDeCommande = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
         return $this->id;
     }
 
+    public function setId(?int $id): self
+    {
+        $this->id = $id;
+
+        return $this;
+    }
+    public function __toString(): string
+    {
+        return $this->nom_article . ' ' . $this->prix_article . ' ' .
+            $this->img_article . ' ' . $this->description_article;
+    }
     public function getNomArticle(): ?string
     {
         return $this->nom_article;
@@ -86,26 +104,44 @@ class Article
         return $this;
     }
 
-    public function getAppartenir(): ?CategorieArticle
+    /**
+     * @return Collection<int, LigneDeCommande>
+     */
+    public function getLigneDeCommande(): Collection
     {
-        return $this->appartenir;
+        return $this->ligneDeCommande;
     }
 
-    public function setAppartenir(?CategorieArticle $appartenir): self
+    public function addLigneDeCommande(LigneDeCommande $ligneDeCommande): self
     {
-        $this->appartenir = $appartenir;
+        if (!$this->ligneDeCommande->contains($ligneDeCommande)) {
+            $this->ligneDeCommande->add($ligneDeCommande);
+            $ligneDeCommande->setArticle($this);
+        }
 
         return $this;
     }
 
-    public function getCorrespondance(): ?LigneDeCommande
+    public function removeLigneDeCommande(LigneDeCommande $ligneDeCommande): self
     {
-        return $this->correspondance;
+        if ($this->ligneDeCommande->removeElement($ligneDeCommande)) {
+            // set the owning side to null (unless already changed)
+            if ($ligneDeCommande->getArticle() === $this) {
+                $ligneDeCommande->setArticle(null);
+            }
+        }
+
+        return $this;
     }
 
-    public function setCorrespondance(?LigneDeCommande $correspondance): self
+    public function getCategorieArticle(): ?CategorieArticle
     {
-        $this->correspondance = $correspondance;
+        return $this->categorieArticle;
+    }
+
+    public function setCategorieArticle(?CategorieArticle $categorieArticle): self
+    {
+        $this->categorieArticle = $categorieArticle;
 
         return $this;
     }

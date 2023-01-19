@@ -2,15 +2,20 @@
 
 namespace App\Controller\Admin;
 
-use App\Entity\Commande;
 use DateTime;
+use App\Entity\Commande;
+use App\Entity\Utilisateur;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\ArrayField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\MoneyField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\IntegerField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\DateTimeField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextEditorField;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
-use EasyCorp\Bundle\EasyAdminBundle\Field\ArrayField;
-use EasyCorp\Bundle\EasyAdminBundle\Field\DateTimeField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\Field;
 
 class CommandeCrudController extends AbstractCrudController
 {
@@ -23,8 +28,6 @@ class CommandeCrudController extends AbstractCrudController
     {
         return $crud
             ->setEntityLabelInSingular('Commande')
-            ->setEntityLabelInSingular('Utilisateur')
-            ->setEntityLabelInPlural('Utilisateurs')
             ->setEntityLabelInPlural('Commandes')
             ->setDateFormat('d/m/Y')
             ->setPageTitle('index', 'Commandes')
@@ -33,13 +36,15 @@ class CommandeCrudController extends AbstractCrudController
         ;
     }
 
-    // public function configureFields(string $pageName): iterable
-    // {
-    //     return [
-    //         IdField::new('id'),
-    //         TextField::new('total_commande'),
-    //         ArrayField::new('ligneDeCommandes'),
-    //         DateTimeField::new('date_commande'),
-    //     ];
-    // }
+    public function configureFields(string $pageName): iterable
+    {
+        return [
+            IdField::new('id')
+                ->hideOnForm(),
+            MoneyField::new('total_commande')->setCurrency('EUR'),
+            DateTimeField::new('date_commande'),
+            AssociationField::new('ligneDeCommandes'),
+            AssociationField::new('utilisateur')
+        ];
+    }
 }

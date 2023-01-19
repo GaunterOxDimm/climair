@@ -2,14 +2,20 @@
 
 namespace App\Controller\Admin;
 
+use App\Entity\Article;
 use App\Entity\Commande;
-use App\Entity\ImagesDivers;
 use App\Entity\Utilisateur;
+use App\Entity\ImagesDivers;
+use App\Entity\CategorieArticle;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use App\Controller\Admin\CommandeCrudController;
+use App\Entity\LigneDeCommande;
+use App\Entity\Prestation;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Locale;
 use EasyCorp\Bundle\EasyAdminBundle\Config\MenuItem;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Dashboard;
+use EasyCorp\Bundle\EasyAdminBundle\Router\AdminUrlGenerator;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractDashboardController;
 
@@ -18,6 +24,13 @@ class DashboardController extends AbstractDashboardController
     #[Route('/admin', name: 'admin')]
     public function index(): Response
     {
+        $routeBuilder = $this->container->get(AdminUrlGenerator::class);
+        $url = $routeBuilder->setController(CommandeCrudController::class)->generateUrl();
+        return $this->redirect($url);
+    }
+    public function title(): Response
+    {
+
         $title = 'Climair - Administation';
         return $this->render('admin/dashboard.html.twig', [
             'title' => $title,
@@ -58,5 +71,9 @@ class DashboardController extends AbstractDashboardController
         yield MenuItem::linkToCrud('Images Divers', 'fa fa-camera', ImagesDivers::class);
         yield MenuItem::linkToCrud('Utilisateurs', 'fa fa-user', Utilisateur::class);
         yield MenuItem::linkToCrud('Commande', 'fa fa-truck-fast', Commande::class);
+        yield MenuItem::linkToCrud('Article', 'fa fa-truck-fast', Article::class);
+        yield MenuItem::linkToCrud('Categorie Article', 'fa fa-truck-fast', CategorieArticle::class);
+        yield MenuItem::linkToCrud('Ligne de commande', 'fa fa-truck-fast', LigneDeCommande::class);
+        yield MenuItem::linkToCrud('Prestation', 'fa fa-truck-fast', Prestation::class);
     }
 }
