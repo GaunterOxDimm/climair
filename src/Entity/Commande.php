@@ -22,11 +22,23 @@ class Commande
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private ?\DateTimeInterface $date_commande = null;
 
-    #[ORM\OneToMany(mappedBy: 'commande', targetEntity: LigneDeCommande::class)]
+    /**
+     * @ORM\OneToMany(targetEntity=LigneDeCommande::class, mappedBy="commande", cascade={"persist", "remove"}, orphanRemoval=true)
+     */
     private Collection $ligneDeCommandes;
 
     #[ORM\ManyToOne(inversedBy: 'commande')]
     private ?Utilisateur $utilisateur = null;
+
+    #[ORM\Column(type: "string", length: 255)]
+    private $status = self::STATUS_CART;
+
+    /**
+     * An order that is in progress, not placed yet.
+     *
+     * @var string
+     */
+    const STATUS_CART = 'cart';
 
     public function __construct()
     {
@@ -103,6 +115,18 @@ class Commande
     public function setUtilisateur(?Utilisateur $utilisateur): self
     {
         $this->utilisateur = $utilisateur;
+
+        return $this;
+    }
+
+    public function getStatus(): ?string
+    {
+        return $this->status;
+    }
+
+    public function setStatus(string $status): self
+    {
+        $this->status = $status;
 
         return $this;
     }

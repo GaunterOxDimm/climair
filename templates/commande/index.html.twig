@@ -3,8 +3,39 @@
 {% block title %} {{ title }} {% endblock %}
 
 {% block body %}
-     <div class="container alert alert-danger" style="height: 250px; margin-top: 100px;">
-        {{ commander.getDateCommande|date("H:i d-m-Y", "Europe/Paris") }}
-     </div>
-
+{% for commande in commande %}
+   
+     {# <div class="container alert alert-danger" style="height: 250px; margin-top: 100px;">
+        {{ commande.getDateCommande|date("H:i d-m-Y", "Europe/Paris") }}
+     </div> #}
+   <form action="/commande" method="post">
+  <table>
+    <thead>
+      <tr>
+        <th>Article</th>
+        <th>Quantité</th>
+        <th>Prix</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for item in commande.items %}
+      <tr>
+        <td>{{ item.name }}</td>
+        <td>
+          <input type="number" name="{{ item.id }}_quantity" value="{{ item.quantity }}">
+        </td>
+        <td>{{ item.price }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+    <tfoot>
+      <tr>
+        <td colspan="2">Total</td>
+        <td>{{ order.total }}</td>
+      </tr>
+    </tfoot>
+  </table>
+  <input type="submit" value="Commander">
+</form>
+{% endfor %}
 {% endblock %}

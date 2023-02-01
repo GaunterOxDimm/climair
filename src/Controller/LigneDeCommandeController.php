@@ -6,14 +6,14 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-class AccueilController extends AbstractController
+class LigneDeCommandeController extends AbstractController
 {
-    #[Route('/', name: 'app_accueil', methods: ['GET'])]
+    #[Route('/ligne/de/commande', name: 'app_ligne_de_commande')]
     public function index(): Response
     {
-        $title = 'Climair - Accueil';
-        return $this->render('accueil/index.html.twig', [
-            'title' => $title,
+
+        return $this->render('ligne_de_commande/index.html.twig', [
+            'controller_name' => 'LigneDeCommandeController',
         ]);
     }
 }
