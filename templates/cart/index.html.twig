@@ -1,26 +1,15 @@
 {% extends 'base.html.twig' %}
 
-{% block title %} {{ title }} {% endblock %}
+{% block title %}Votre panier{% endblock %}
 
 {% block body %}
 
-{{ email_utilisateur }}
-{{ nom_utilisateur }}
-{# {% for element in articles %}
-     <tr>
-                        <td class="col-3"><img class="col-2" src="/assets/img_article_directory/{{ element.article.getImgArticle }}" alt="{{ element.article.getNomArticle }}"></img></td>
-                        <td>{{ element.article.getNomArticle }}</td>
-                        <td>{{ element.article.getPrixArticle }}</td>
-                        {# <td>{{ element.quantite }}</td>
-                        <td>{{ element.article.getPrixArticle * element.quantite }} €</td> #}
-                    </tr>
-{# {{ element.article.getNomArticle }} #}
-{# {{ element.article.getPrixArticle }} #}
-{# {% else %} #}
-    
-{# {% endfor %} #}
+<div class="container">
 
- <table class="table">
+    <h1>Votre panier</h1>
+
+    <form action="CommandeController" method="POST">
+        <table class="table">
             <thead>
                 <tr>
                     <th>Image</th>
@@ -33,24 +22,33 @@
             </thead>
         
             <tbody>
-                {% for element in articles %}
+                {% for element in dataPanier %}
                     <tr>
                         <td class="col-3"><img class="col-2" src="/assets/img_article_directory/{{ element.article.getImgArticle }}" alt="{{ element.article.getNomArticle }}"></img></td>
                         <td>{{ element.article.getNomArticle }}</td>
                         <td>{{ element.article.getPrixArticle }}</td>
                         <td>{{ element.quantite }}</td>
                         <td>{{ element.article.getPrixArticle * element.quantite }} €</td>
+                        <td><a href="{{path("cart_add", {id: element.article.id})}}" class="btn btn-success"><i class="bi bi-plus-circle"></i></a>
+                        <a href="{{path("cart_remove", {id: element.article.id})}}" class="btn btn-warning"><i class="bi bi-dash-circle"></i></a></a>
+                        <a href="{{path("cart_delete_one", {id: element.article.id})}}" class="btn btn-danger"><i class="bi bi-trash3"></i></a></td>
                     </tr>
-                {% endfor %}
+                {% else %}
+                    <tr>
+                        <td colspan="6" class="text-center">Votre panier est vide</td>
+                    </tr>
             </tbody>
+                {% endfor %}
             <tfoot>
                 <tr>
-
                     <td colspan="4" class="text-end">Total</td>
                     <td colspan="1">{{ total }} €</td>
-                    
+                    <td colspan="1"><a href="{{path("cart_commande")}}" class="btn btn-primary" name="commander">Commander</a>
+                    <a href="{{path("cart_delete_all")}}" class="btn btn-danger"><i class="bi bi-trash"></i></a></td>
                 </tr>
             </tfoot>
         </table>
-<a href="{{ path('app_pdf') }}">Télécharger en PDF</a>
+    </form>
+</div>
+
 {% endblock %}

@@ -4,6 +4,8 @@ namespace App\Entity;
 
 use App\Repository\LigneDeCommandeRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+
 
 #[ORM\Entity(repositoryClass: LigneDeCommandeRepository::class)]
 class LigneDeCommande
@@ -13,17 +15,22 @@ class LigneDeCommande
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column]
+    /**
+     * @ORM\Column(type="integer")
+     * @Assert\NotBlank()
+     * @Assert\GreaterThanOrEqual(1)
+     */
     private ?int $quantite = null;
-
-    #[ORM\ManyToOne(inversedBy: 'ligneDeCommandes')]
-    private ?Commande $commande = null;
 
     #[ORM\ManyToOne(inversedBy: 'ligneDeCommande')]
     private ?Article $article = null;
 
     #[ORM\ManyToOne(inversedBy: 'lignedecommande')]
     private ?Prestation $prestation = null;
+
+    #[ORM\ManyToOne(inversedBy: 'ligneDeCommandes')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Commande $commande = null;
 
     public function getId(): ?int
     {
@@ -52,18 +59,6 @@ class LigneDeCommande
         return $this;
     }
 
-    public function getCommande(): ?Commande
-    {
-        return $this->commande;
-    }
-
-    public function setCommande(?Commande $commande): self
-    {
-        $this->commande = $commande;
-
-        return $this;
-    }
-
     public function getArticle(): ?Article
     {
         return $this->article;
@@ -84,6 +79,18 @@ class LigneDeCommande
     public function setPrestation(?Prestation $prestation): self
     {
         $this->prestation = $prestation;
+
+        return $this;
+    }
+
+    public function getCommande(): ?Commande
+    {
+        return $this->commande;
+    }
+
+    public function setCommande(?Commande $commande): self
+    {
+        $this->commande = $commande;
 
         return $this;
     }

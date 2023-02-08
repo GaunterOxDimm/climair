@@ -35,6 +35,9 @@ class Article
     #[ORM\JoinColumn(nullable: false)]
     private ?CategorieArticle $categorieArticle = null;
 
+    #[ORM\Column(nullable: true)]
+    private ?int $stock = null;
+
     public function __construct()
     {
         $this->ligneDeCommande = new ArrayCollection();
@@ -142,6 +145,18 @@ class Article
     public function setCategorieArticle(?CategorieArticle $categorieArticle): self
     {
         $this->categorieArticle = $categorieArticle;
+
+        return $this;
+    }
+
+    public function getStock(): ?int
+    {
+        return $this->stock;
+    }
+
+    public function setStock(?int $stock): self
+    {
+        $this->stock = $stock;
 
         return $this;
     }

@@ -1,7 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %} {{ title }} {% endblock %}
-
+{% block title %} Article {% endblock %}
 
 {% block stylesheets %}
 
@@ -38,11 +37,12 @@
 
     <!-- Open Content -->
     <section class="bg-light">
+        {% for article in articles %}
         <div class="container pb-5">
             <div class="row">
                 <div class="col-lg-5 mt-5">
                     <div class="card mb-3">
-                        <img class="card-img img-fluid" src="assets/img/product_single_10.jpg" alt="Card image cap" id="product-detail">
+                        <img class="card-img img-fluid" src="/assets/img_article_directory/{{ article.getImgArticle }}" alt="Card image cap" id="product-detail">
                     </div>
                     <div class="row">
                         <!--Start Controls-->
@@ -63,7 +63,7 @@
                                     <div class="row">
                                         <div class="col-4">
                                             <a href="/article">
-                                                <img class="card-img img-fluid" src="assets/img/product_single_01.jpg" alt="Product Image 1">
+                                                <img class="card-img img-fluid" src="/assets/img_article_directory/{{ article.getImgArticle }}" alt="Product Image 1">
                                             </a>
                                         </div>
                                         <div class="col-4">
@@ -85,7 +85,7 @@
                                     <div class="row">
                                         <div class="col-4">
                                             <a href="/article">
-                                                <img class="card-img img-fluid" src="assets/img/product_single_04.jpg" alt="Product Image 4">
+                                                <img class="card-img img-fluid" src="assets/img_article_directory/{{ article.getImgArticle }}" alt="Product Image 4">
                                             </a>
                                         </div>
                                         <div class="col-4">
@@ -107,7 +107,7 @@
                                     <div class="row">
                                         <div class="col-4">
                                             <a href="/article">
-                                                <img class="card-img img-fluid" src="assets/img/product_single_07.jpg" alt="Product Image 7">
+                                                <img class="card-img img-fluid" src="assets/img_article_directory/{{ article.getImgArticle }}" alt="Product Image 7">
                                             </a>
                                         </div>
                                         <div class="col-4">
@@ -223,6 +223,9 @@
                 </div>
             </div>
         </div>
+
+            
+        {% endfor %}
     </section>
     <!-- Close Content -->
 

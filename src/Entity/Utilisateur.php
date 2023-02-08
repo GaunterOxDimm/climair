@@ -35,7 +35,7 @@ class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
     private ?string $password = null;
 
     #[ORM\Column(length: 255)]
-    private ?string $Nom_utilisateur = null;
+    private ?string $nom_utilisateur = null;
 
     #[ORM\Column(type: 'boolean')]
     private $isVerified = false;
@@ -44,12 +44,12 @@ class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
     private ?\DateTimeInterface $createdAt = null;
 
     #[ORM\OneToMany(mappedBy: 'utilisateur', targetEntity: Commande::class)]
-    private Collection $commande;
+    private Collection $commandes;
 
     public function __construct()
     {
         $this->createdAt = new \DateTimeImmutable();
-        $this->commande = new ArrayCollection();
+        $this->commandes = new ArrayCollection();
     }
     /**
      * Set the value of id
@@ -68,7 +68,7 @@ class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
     public function __toString(): string
     {
         return $this->email . ' ' .
-            $this->Nom_utilisateur;
+            $this->nom_utilisateur;
     }
     public function getEmail(): ?string
     {
@@ -137,12 +137,12 @@ class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
 
     public function getNomUtilisateur(): ?string
     {
-        return $this->Nom_utilisateur;
+        return $this->nom_utilisateur;
     }
 
-    public function setNomUtilisateur(string $Nom_utilisateur): self
+    public function setNomUtilisateur(string $nom_utilisateur): self
     {
-        $this->Nom_utilisateur = $Nom_utilisateur;
+        $this->nom_utilisateur = $nom_utilisateur;
 
         return $this;
     }
@@ -174,15 +174,15 @@ class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
     /**
      * @return Collection<int, Commande>
      */
-    public function getCommande(): Collection
+    public function getCommandes(): Collection
     {
-        return $this->commande;
+        return $this->commandes;
     }
 
     public function addCommande(Commande $commande): self
     {
-        if (!$this->commande->contains($commande)) {
-            $this->commande->add($commande);
+        if (!$this->commandes->contains($commande)) {
+            $this->commandes->add($commande);
             $commande->setUtilisateur($this);
         }
 
@@ -191,7 +191,7 @@ class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
 
     public function removeCommande(Commande $commande): self
     {
-        if ($this->commande->removeElement($commande)) {
+        if ($this->commandes->removeElement($commande)) {
             // set the owning side to null (unless already changed)
             if ($commande->getUtilisateur() === $this) {
                 $commande->setUtilisateur(null);

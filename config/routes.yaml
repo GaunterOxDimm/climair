@@ -3,3 +3,6 @@ controllers:
     path: ../src/Controller/
     namespace: App\Controller
   type: attribute
+pdf:
+  path: /pdf
+  controller: App\Controller\PDFController::generatePdf
