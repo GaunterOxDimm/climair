@@ -70,20 +70,21 @@ class CartController extends AbstractController
     private function getDataPanierPrestation($panier, $prestationRepository)
     {
         $dataPanierPrestation = [];
-
-        foreach ($panier as $id) {
-
-            $prestation = $prestationRepository->find($id);
-
-            if ($prestation) {
-                $dataPanierPrestation[] = [
-                    'prestation' => $prestation,
-                ];
+        foreach ($panier as $id => $presta) {
+            if ($id < 100) {
+                $prestation = $prestationRepository->find($id);
+                if ($prestation) {
+                    $dataPanierPrestation[] = [
+                        'prestation' => $prestation,
+                        'date_rdv' => $presta[0]['date_rdv'],
+                        'statut' => $presta[0]['statut']
+                    ];
+                }
             }
         }
-
         return $dataPanierPrestation;
     }
+
 
     public function getDataPanierRendezVous($panier)
     {
@@ -242,24 +243,24 @@ class CartController extends AbstractController
 
         return $this->redirectToRoute('cart_index');
     }
-    /**
-     * @Route("/commander", name="commande")
-     */
-    public function commander(SessionInterface $session, ArticleRepository $articleRepository, EntityManagerInterface $em)
-    {
-        $panier = $session->get('panier', []);
-        // dd($panier);
+    // /**
+    //  * @Route("/commander", name="commande")
+    //  */
+    // public function commander(SessionInterface $session, ArticleRepository $articleRepository, EntityManagerInterface $em)
+    // {
+    //     $panier = $session->get('panier', []);
+    //     // dd($panier);
 
-        foreach ($panier as $id) {
-            if ($id >= 100) {
-                $article = $articleRepository->find($id);
-                // dd($article);
-                if (!$article) {
-                    continue;
-                }
-                $em->flush();
-            }
-        }
-        return $this->redirectToRoute('commander_index');
-    }
+    //     foreach ($panier as $id) {
+    //         if ($id >= 100) {
+    //             $article = $articleRepository->find($id);
+    //             // dd($article);
+    //             if (!$article) {
+    //                 continue;
+    //             }
+    //             $em->flush();
+    //         }
+    //     }
+    //     return $this->redirectToRoute('commander_index');
+    // }
 }

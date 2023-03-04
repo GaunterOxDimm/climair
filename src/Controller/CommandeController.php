@@ -54,27 +54,28 @@ class CommandeController extends AbstractController
                         'quantite' => $quantite
                     ];
                 }
-                $total += $article->getPrixArticle() * $quantite['quantite']; // calcul du prix total de la commande
+                $total += $article->getPrixArticle() * $quantite; // calcul du prix total de la commande
             }
         }
 
 
         // Récupérer les prestations associés à chaque élément du panier
         $prestations = [];
-        foreach ($panier as $id => $quantite) {
+        foreach ($panier as $id => $presta) {
             if ($id < 100) {
                 $prestation = $prestationRepository->find($id); // on va chercher dans le tableau $panier 
                 if ($prestation) { // si le panier n'est pas vide
                     $prestations[] = [ // on push dans le tableau $prestations
                         'prestation' => $prestation,
-                        'quantite' => $quantite
+                        'date_rdv' => $presta[0]['date_rdv'],
+                        'statut' => $presta[0]['statut']
                     ];
                 }
 
-                $total += $prestation->getPrixPrestation() * $quantite['quantite']; // calcul du prix total de la prestation
+                $total += $prestation->getPrixPrestation() * 1; // calcul du prix total de la prestation
             }
         }
-
+        // dd($prestations);
 
         $entityManager = $doctrine->getManager(); // on se connecte à la BDD
 

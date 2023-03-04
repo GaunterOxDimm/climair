@@ -1,20 +1,12 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Search Results{% endblock %}
-
 {% block body %}
-    <div>
-        {% if results is empty %}
-            <p>No results found.</p>
-        {% else %}
-            {% for result in results %}
-            
-                {# {{ dump(result) }} #}
-                {{ result.getNom }}
-                {{ result.nom_article }}
-                {{ result.nom }}
+    <h1>Résultats de recherche</h1>
 
-            {% endfor %}
-        {% endif %}
-    </div>
+    <ul>
+        {% for result in results %}
+<li>{{ (result.nom_article is defined and result.nom_article is not null and result.nom_article is same as('string')) ? result.nom_article : (is_string(result.nom) ? result.nom : '') }}</li>
+        {% endfor %}
+    </ul>
 {% endblock %}
+

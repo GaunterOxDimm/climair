@@ -3,6 +3,14 @@
 {% block title %} {{ title }} {% endblock %}
 
 {% block body %}
+    <div class="bg-success py-2">
+        <div class="col-md-6 m-auto text-center">
+            <h1>Félicitations! Votre commande a été acceptée!<span style="font-size: 24px">&#x2705;</span>
+            </h1> 
+        </div>
+    </div>
+<br>
+<div class="col-md-6 m-auto text-center bg-primary py-2"><h4> Récapitulatif de votre commande </h4></div>
 <br>
 <div class="container">
     <p><b>Email:</b> {{ email_utilisateur }}</p>
@@ -11,46 +19,97 @@
 </div>
 
 <br>
- <table class="table">
+ <div class="container-fluid">
+    
+    <form action="CommandeController" method="POST">
+          <br><br>
+               <div class="col-md-6 m-auto text-center"><h3 class="w-50 mx-auto border-bottom text-primary">Articles</h3></div> 
+<br>
+                   {% if not articles is empty %} 
+            <table class="table">
             <thead>
-                <tr>
-                    <th>Image</th>
-                    <th>Article</th>
+                <tr class="align-middle text-center">
+                    <th class="col-3">Image</th>
+                    <th class="col-3">Article</th>
                     <th>Prix</th>
-                    <th>Quantité</th>
+                    <th class="col-1">Quantité</th>
                     <th>Total</th>
+                    <th class="col-3">Action</th>
                 </tr>
             </thead>
         
             <tbody>
-                {% for element in articles %}
-                    <tr>
-                        <td class="col-3"><img class="col-2" src="/assets/img_article_directory/{{ element.article.getImgArticle }}" alt="{{ element.article.getNomArticle }}"></img></td>
+             {% for element in articles %}
+                    <tr class="align-middle text-center">
+                        <td class="col-2"><img class="col-4" src="/assets/img_article_directory/{{ element.article.getImgArticle }}" alt="{{ element.article.getNomArticle }}"></img></td>
                         <td>{{ element.article.getNomArticle }}</td>
-                        <td>{{ element.article.getPrixArticle / 100 }} €</td>
+                        <td>{{ (element.article.getPrixArticle / 100)|number_format(2, '.', ' ')}}</td>
                         <td>{{ element.quantite }}</td>
                         <td>{{ (element.article.getPrixArticle / 100) * element.quantite }} €</td>
+                        <td><a href="{{path("cart_add_article", {id: element.article.id})}}" class="btn btn-success"><i class="bi bi-plus-circle"></i></a>
+                        <a href="{{path("cart_remove_article", {id: element.article.id})}}" class="btn btn-warning"><i class="bi bi-dash-circle"></i></a></a>
+                        <a href="{{path("cart_delete_one_article", {id: element.article.id})}}" class="btn btn-danger"><i class="bi bi-trash3"></i></a></td>
                     </tr>
-                {% endfor %}
-                {% for element in prestations %}
-                    <tr>
-                        <td class="col-3"><img class="col-2" src="/assets/img_prestation_directory/{{ element.prestation.getImgPrestation }}" alt="{{ element.prestation.getDescriptionPrestation }}"></img></td>
-                        <td>{{ element.prestation.getDescriptionPrestation}}</td>
-                        <td>{{ element.prestation.getPrixPrestation / 100 }} €</td>
-                        <td>{{ element.quantite.quantite }}</td>
-                        <td>{{ element.quantite.date_rdv }}</td>
-                        <td>{{ (element.prestation.getPrixPrestation / 100) * element.quantite.quantite }} €</td>
-                    </tr>
-                {% endfor %}
             </tbody>
-            <tfoot>
-                <tr>
+      
+            {% endfor %} 
+            </table>
+            {% endif %}
+            <br>
+        <div class="bg-info shadow p-1 mb-2 w-50 mx-auto border-bottom">
 
-                    <td colspan="4" class="text-end">Total</td>
-                    <td colspan="1">{{ total / 100 }} €</td>
+</div>
+            <br>
+            {# ****************************      TABLE PRESTATION        ***************************** #}
+               <div class="col-md-6 m-auto text-center"><h3 class="w-50 mx-auto border-bottom text-primary">Prestations</h3></div> 
+               <br>
+            {% if not prestations is empty %}
+            <table class="table">
+            <thead>
+                <tr class="text-center">
                     
+                    <th class="col-3">Article</th>
+                    <th>Prix</th>
+                    <th class="col-1">Quantité</th>
+                    <th class="col-3">Rendez-vous</th>
+                    <th class="col-3">Statut</th>
+                    <th class="col-3">Action</th>
                 </tr>
-            </tfoot>
-        </table>
-<div class="container text-center"><a href="{{ path('app_pdf', {'id': commande.id}) }}" target="_blank">Télécharger en PDF</a></div>
+            </thead>
+            <tbody>
+                {# ********************      BOUCLE PRESTATION #}
+               <!-- Affichage de la liste des prestations -->
+                {% for element in prestations %}
+                    {% if element.date_rdv is defined %}
+                        {% if element.statut is defined %}
+                            <tbody>
+                                <tr class="text-center">
+                                    <td class="col-3"><img class="col-3" src="/assets/img_prestation_directory/{{ element.prestation.getImgPrestation }}" alt="{{ element.prestation.getImgPrestation }}"></img>{{ element.prestation.getDescriptionPrestation }}</td>
+                                    <td>{{ (element.prestation.getPrixPrestation / 100)|number_format(2, '.', ' ')}}</td>
+                                    <td>1</td>
+                                    <td>Rdv le : {{ element.date_rdv|date('d/m/Y H:i') }}</td>
+                                    <td>Statut : {{ element.statut }}</td>
+                                    <td><a href="{{path("cart_delete_one_prestation", {id: element.prestation.id})}}" class="btn btn-danger"><i class="bi bi-trash3"></i></a></td>
+                                </tr>
+                            </tbody>
+                        {% endif %}
+                    {% endif %}
+                {% endfor %}
+
+
+                {% endif %}
+                
+            <tbody>
+           </table>
+
+
+            <table class="table">
+                <tr class="text-end">
+                    <td class="text-end">Total Commande: {{ total / 100 }} €</td>
+                </tr>
+            </table>
+    </form>
+</div>
+<div class="container col-md-3 text-center bg-light"><a href="{{ path('app_pdf', {'id': commande.id}) }}" target="_blank" class="text-danger">Télécharger en PDF</a></div>
+<br>
 {% endblock %}

@@ -43,12 +43,23 @@ class RdvController extends AbstractController
             // on récupere le panier
             $panier = $session->get('panier', []);
 
-            // On ajoute le rendez-vous au panier
-            $panier[] = [
-                'date_rdv' => $rdv->getDateRdv()->format('Y-m-d H:i'),
-                'statut' => $rdv->getStatut(),
-                'prestation' => $prestation,
-            ];
+            // On vérifie si la prestation est déjà dans le panier
+            $prestationId = $prestation->getId();
+            if (array_key_exists($prestationId, $panier)) {
+                // Si oui, on ajoute le rendez-vous au tableau des rendez-vous existant
+                $panier[$prestationId][] = [
+                    'date_rdv' => $rdv->getDateRdv()->format('Y-m-d H:i'),
+                    'statut' => $rdv->getStatut(),
+                ];
+            } else {
+                // Sinon, on ajoute la prestation et le rendez-vous dans le panier
+                $panier[$prestationId] = [
+                    [
+                        'date_rdv' => $rdv->getDateRdv()->format('Y-m-d H:i'),
+                        'statut' => $rdv->getStatut(),
+                    ]
+                ];
+            }
             $session->set('panier', $panier);
             // dd($panier);
             // // Enregistrer la prestation en base de données

@@ -1,18 +1,27 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}Votre panier{% endblock %}
+{% block stylesheets %}
+    <link rel="stylesheet" href="public/assets/css/panier.css">
+{% endblock %}
 
 {% block body %}
 
-<div class="container">
-
-    <h1>Votre panier</h1>
+<div class="container-fluid">
+    <div class="bg-success py-5">
+        <div class="col-md-6 m-auto text-center">
+            <h1>Votre panier</h1> 
+        </div>
+    </div>
     <form action="CommandeController" method="POST">
-      
+          <br><br>
+            {% if not dataPanierArticle is empty %}            
+               <div class="col-md-6 m-auto text-center"><h3 class="w-50 mx-auto border-bottom text-primary">Articles</h3></div> 
+<br>
             <table class="table">
             <thead>
-                <tr>
-                    <th class="col-1">Image</th>
+                <tr class="align-middle text-center">
+                    <th class="col-3">Image</th>
                     <th class="col-3">Article</th>
                     <th>Prix</th>
                     <th class="col-1">Quantité</th>
@@ -22,10 +31,9 @@
             </thead>
         
             <tbody>
-            {% if not dataPanierArticle is empty or not dataPanierPrestation is empty %}            
              {% for element in dataPanierArticle %}
-                    <tr>
-                        <td class="col-3" colspan="1"><img class="col-2" src="/assets/img_article_directory/{{ element.article.getImgArticle }}" alt="{{ element.article.getNomArticle }}"></img></td>
+                    <tr class="align-middle text-center">
+                        <td class="col-2"><img class="col-4" src="/assets/img_article_directory/{{ element.article.getImgArticle }}" alt="{{ element.article.getNomArticle }}"></img></td>
                         <td>{{ element.article.getNomArticle }}</td>
                         <td>{{ (element.article.getPrixArticle / 100)|number_format(2, '.', ' ')}}</td>
                         <td>{{ element.quantite }}</td>
@@ -35,17 +43,29 @@
                         <a href="{{path("cart_delete_one_article", {id: element.article.id})}}" class="btn btn-danger"><i class="bi bi-trash3"></i></a></td>
                     </tr>
             </tbody>
-                {% endfor %} 
+      
+            {% endfor %} 
             </table>
+            {% endif %}
+
+            <br>
+            {% if not dataPanierArticle is empty and not dataPanierPrestation is empty %}
+                    
+                <div class="bg-info shadow p-1 mb-2 w-50 mx-auto border-bottom"></div>
+            {% endif %}
+
+            <br>
             {# ****************************      TABLE PRESTATION        ***************************** #}
+            {% if not dataPanierPrestation is empty %}
+               <div class="col-md-6 m-auto text-center"><h3 class="w-50 mx-auto border-bottom text-primary">Prestations</h3></div> 
+               <br>
             <table class="table">
             <thead>
-                <tr>
-                    <th class="col-1">Image</th>
+                <tr class="text-center">
+                    
                     <th class="col-3">Article</th>
                     <th>Prix</th>
                     <th class="col-1">Quantité</th>
-                    <th>Total</th>
                     <th class="col-3">Rendez-vous</th>
                     <th class="col-3">Statut</th>
                     <th class="col-3">Action</th>
@@ -58,12 +78,10 @@
                     {% if element.date_rdv is defined %}
                         {% if element.statut is defined %}
                             <tbody>
-                                <tr>
-                                    <td class="col-2"><img class="col-2" src="/assets/img_prestation_directory/{{ element.prestation.getImgPrestation }}" alt="{{ element.prestation.getImgPrestation }}"></img></td>
-                                    <td>{{ element.prestation.getDescriptionPrestation }}</td>
+                                <tr class="text-center">
+                                    <td class="col-3"><img class="col-3" src="/assets/img_prestation_directory/{{ element.prestation.getImgPrestation }}" alt="{{ element.prestation.getImgPrestation }}"></img>{{ element.prestation.getDescriptionPrestation }}</td>
                                     <td>{{ (element.prestation.getPrixPrestation / 100)|number_format(2, '.', ' ')}}</td>
                                     <td>1</td>
-                                    <td>{{ (element.prestation.getPrixPrestation / 100) * 1 }} €</td>
                                     <td>Rdv le : {{ element.date_rdv|date('d/m/Y H:i') }}</td>
                                     <td>Statut : {{ element.statut }}</td>
                                     <td><a href="{{path("cart_delete_one_prestation", {id: element.prestation.id})}}" class="btn btn-danger"><i class="bi bi-trash3"></i></a></td>
@@ -74,19 +92,22 @@
                 {% endfor %}
 
 
-                {% else %}
-                   
+                {% endif %}
+                {% if dataPanierArticle is empty and dataPanierPrestation is empty %}
+                    
+		            <h3 class="empty-cart text-center align-middle">Votre panier est vide. <span style="font-size: 24px">&#x1F972;</span>
+</h3>
                 {% endif %}
             <tbody>
            </table>
 
 
             <table class="table">
-                <tr>
-                    <td colspan="4" class="text-end">Total</td>
-                    <td colspan="1">{{ total / 100 }} €</td>
-                    
-                    <td colspan="1">{% if total %}<a href="{{path("cart_commande")}}" class="btn btn-primary col-9" name="commander">Commander</a>
+                <tr class="text-end">
+            {% if total != 0 %}
+                    <td class="text-end">Total Commande: {{ total / 100 }} €</td>
+            {% endif %}
+                    <td class="col-4">{% if total %}<a href="{{path("commander_index")}}" class="btn btn-primary col-5" name="commander">Commander</a>
                     <a href="{{path("cart_delete_all")}}" class="btn btn-danger"><i class="bi bi-trash"></i></a>{% endif %}</td>
                 </tr>
             </table>

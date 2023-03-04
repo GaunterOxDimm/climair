@@ -29,23 +29,21 @@ class SearchResultsController extends AbstractController
     public function searchResults(Request $request, Connection $connection)
     {
         $search = $request->request->get('search');
-        // votre code pour exécuter la requête SQL
+
         $query = "
-            SELECT DISTINCT *
-            FROM ligne_de_commande lc
-            INNER JOIN article a ON lc.article_id = a.id
-            INNER JOIN prestation p ON lc.prestation_id = p.id
-            WHERE LOWER(a.nom_article) LIKE :search OR LOWER(p.nom) LIKE :search
-        ";
-
-
-        dump($query); // Affiche la requête SQL générée
+        SELECT nom_article FROM article
+        WHERE nom_article LIKE :search
+        UNION
+        SELECT nom FROM prestation
+        WHERE nom LIKE :search
+    ";
 
         $results = $connection->executeQuery($query, ['search' => '%' . strtolower($search) . '%']);
 
-        $resultsArray = $results->fetchAllAssociative();
-
-        dump($resultsArray); // Affiche le tableau de résultats
+        $resultsArray = [];
+        while ($row = $results->fetchAssociative()) {
+            $resultsArray[] = $row['nom_article'] ?? $row['nom'];
+        }
 
         return $this->render('search_results/index.html.twig', [
             'results' => $resultsArray,
