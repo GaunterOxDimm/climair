@@ -14,7 +14,7 @@ class SecurityController extends AbstractController
     {
 
         if ($this->getUser()) {
-            $this->getUser()->eraseCredentials(); // on efface les infos sensibles tels MDpasse après connexion
+            $this->getUser()->eraseCredentials(); // on efface les infos sensibles après connexion
             return $this->redirectToRoute('app_accueil');
         }
 

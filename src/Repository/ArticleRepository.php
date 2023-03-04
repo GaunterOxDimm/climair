@@ -38,21 +38,28 @@ class ArticleRepository extends ServiceEntityRepository
             $this->getEntityManager()->flush();
         }
     }
-
-    //    /**
-    //     * @return Article[] Returns an array of Article objects
-    //     */
-    //    public function findByExampleField($value): array
-    //    {
-    //        return $this->createQueryBuilder('a')
-    //            ->andWhere('a.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->orderBy('a.id', 'ASC')
-    //            ->setMaxResults(10)
-    //            ->getQuery()
-    //            ->getResult()
-    //        ;
-    //    }
+    public function findAllExcept(Article $article): array
+    {
+        return $this->createQueryBuilder('a')
+            ->andWhere('a.id != :article_id')
+            ->setParameter('article_id', $article->getId())
+            ->getQuery()
+            ->getResult();
+    }
+    // /**
+    //  * @return Article[] Returns an array of Article objects
+    //  */
+    // public function findByCategory($categorie): array
+    // {
+    //     return $this->createQueryBuilder('a')
+    //         ->innerJoin('a.categorie_article', 'c')
+    //         ->andWhere('c.nom_article = :categorie_article')
+    //         ->setParameter('categorie_article', $categorie)
+    //         ->orderBy('a.id', 'ASC')
+    //         ->setMaxResults(10)
+    //         ->getQuery()
+    //         ->getResult();
+    // }
 
     //    public function findOneBySomeField($value): ?Article
     //    {

@@ -37,10 +37,16 @@ class PrestationCrudController extends AbstractCrudController
         return [
             IdField::new('id')
                 ->hideOnForm(),
-            MoneyField::new('prix_prestation')->setCurrency('EUR'),
+            TextField::new('nom'),
+            MoneyField::new('prix_prestation')->setCurrency('EUR')
+                ->setStoredAsCents(),
+            ImageField::new('img_prestation')
+                ->setBasePath('assets/img_prestation_directory/') // chemin dossier local images
+                ->setUploadDir('public/assets/img_prestation_directory/')
+                ->setRequired(false),
             TextField::new('description_prestation'),
-            DateTimeField::new('date_rdv'),
-            AssociationField::new('lignedecommande')
+            AssociationField::new('lignedecommande'),
+            AssociationField::new('rdvs')
 
         ];
     }

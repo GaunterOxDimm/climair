@@ -1,0 +1,65 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Prestations{% endblock %}
+
+{% block body %}
+    <!-- Start Content -->
+    <div class="container py-5">
+        <div class="row d-flex justify-content-center">
+            <div class="col-lg-9">
+                <div><h1>Nos prestations</h1></div>
+                <br><br>
+                <div class="row d-flex justify-content-center">
+            {% for prestation in prestations %}
+                {% set estDansPanier = false %}
+                
+                    {% for item in panier %}
+                        {% if item.prestation is defined %}
+                            {% if item.prestation.getId == prestation.getId %}
+                                {% set estDansPanier = true %}
+                            {% endif %}
+                        {% endif %}
+                    {% endfor %}
+                    <div class="col-md-4">
+                        <div class="card mb-4 product-wap rounded-0">
+                            <div class="card rounded-0">
+                                <img class="card-img rounded-0 img-fluid" src="/assets/img_prestation_directory/{{ prestation.getImgPrestation }}">
+                                <div class="card-img-overlay rounded-0 product-overlay d-flex align-items-center justify-content-center">
+                                    <ul class="list-unstyled">
+                                        <li><a class="btn btn-success text-white" href="#"><i class="far fa-heart"></i></a></li>
+                                        <li><a class="btn btn-success text-white mt-2" href="{{path('prestation_page', {id: prestation.id})}}"><i class="far fa-eye"></i></a></li>
+                                       <br>
+                                        {% if not estDansPanier %}
+                                            <li><a class="btn btn-success text-white mt-2" href="{{path('prendre_rendez_vous', {id: prestation.id})}}"><i class="fas fa-cart-plus"></i></a></li>
+                                        {% else %}
+                                            <li><a href="{{path("cart_delete_one_prestation", {id: prestation.id})}}" class="btn btn-danger"><i class="bi bi-trash3"></i></a></li>
+                                        {% endif %}
+
+                                    </ul>
+                                </div>
+                            </div>
+                        
+                            <div class="card-body text-center">
+                                <a href="shop-single.html" class="h3 text-decoration-none"> {{ prestation.getNom }} </a>
+                                <ul class="w-100 list-unstyled d-flex justify-content-between mb-0">
+                                    <li class="pt-2">
+                                        <span class="product-color-dot color-dot-red float-left rounded-circle ml-1"></span>
+                                        <span class="product-color-dot color-dot-blue float-left rounded-circle ml-1"></span>
+                                        <span class="product-color-dot color-dot-black float-left rounded-circle ml-1"></span>
+                                        <span class="product-color-dot color-dot-light float-left rounded-circle ml-1"></span>
+                                        <span class="product-color-dot color-dot-green float-left rounded-circle ml-1"></span>
+                                    </li>
+                                </ul>
+                                <p class="text-center mb-0"> {{ prestation.getPrixPrestation / 100 }} €</p>
+                             </div>
+                        </div>                   
+                    </div>
+            {% endfor %}
+            </div>
+            </div>
+        </div>
+    </div>
+    <!-- End Content -->
+              
+
+{% endblock %}

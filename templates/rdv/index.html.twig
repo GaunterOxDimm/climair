@@ -1,0 +1,15 @@
+{% block title %}RDV{% endblock %}
+
+{% block body %}
+    {# <h1>Prendre rendez-vous pour la prestation "{{ prestation.nom }}"</h1> #}
+
+    <div class="row">
+        <div class="col-12 col-lg-6 col-md-8 col-sm-12 mx-auto">
+            {{ form_start(form) }}
+            {{ form_widget(form.date_rdv) }}
+            <button type="submit">commander</button>
+            {{ form_end(form) }}
+        </div>
+    </div>
+
+{% endblock %}

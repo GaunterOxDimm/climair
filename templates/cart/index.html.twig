@@ -7,48 +7,91 @@
 <div class="container">
 
     <h1>Votre panier</h1>
-
     <form action="CommandeController" method="POST">
-        <table class="table">
+      
+            <table class="table">
             <thead>
                 <tr>
-                    <th>Image</th>
-                    <th>Article</th>
+                    <th class="col-1">Image</th>
+                    <th class="col-3">Article</th>
                     <th>Prix</th>
-                    <th>Quantité</th>
+                    <th class="col-1">Quantité</th>
                     <th>Total</th>
-                    <th>Action</th>
+                    <th class="col-3">Action</th>
                 </tr>
             </thead>
         
             <tbody>
-                {% for element in dataPanier %}
+            {% if not dataPanierArticle is empty or not dataPanierPrestation is empty %}            
+             {% for element in dataPanierArticle %}
                     <tr>
-                        <td class="col-3"><img class="col-2" src="/assets/img_article_directory/{{ element.article.getImgArticle }}" alt="{{ element.article.getNomArticle }}"></img></td>
+                        <td class="col-3" colspan="1"><img class="col-2" src="/assets/img_article_directory/{{ element.article.getImgArticle }}" alt="{{ element.article.getNomArticle }}"></img></td>
                         <td>{{ element.article.getNomArticle }}</td>
-                        <td>{{ element.article.getPrixArticle }}</td>
+                        <td>{{ (element.article.getPrixArticle / 100)|number_format(2, '.', ' ')}}</td>
                         <td>{{ element.quantite }}</td>
-                        <td>{{ element.article.getPrixArticle * element.quantite }} €</td>
-                        <td><a href="{{path("cart_add", {id: element.article.id})}}" class="btn btn-success"><i class="bi bi-plus-circle"></i></a>
-                        <a href="{{path("cart_remove", {id: element.article.id})}}" class="btn btn-warning"><i class="bi bi-dash-circle"></i></a></a>
-                        <a href="{{path("cart_delete_one", {id: element.article.id})}}" class="btn btn-danger"><i class="bi bi-trash3"></i></a></td>
-                    </tr>
-                {% else %}
-                    <tr>
-                        <td colspan="6" class="text-center">Votre panier est vide</td>
+                        <td>{{ (element.article.getPrixArticle / 100) * element.quantite }} €</td>
+                        <td><a href="{{path("cart_add_article", {id: element.article.id})}}" class="btn btn-success"><i class="bi bi-plus-circle"></i></a>
+                        <a href="{{path("cart_remove_article", {id: element.article.id})}}" class="btn btn-warning"><i class="bi bi-dash-circle"></i></a></a>
+                        <a href="{{path("cart_delete_one_article", {id: element.article.id})}}" class="btn btn-danger"><i class="bi bi-trash3"></i></a></td>
                     </tr>
             </tbody>
+                {% endfor %} 
+            </table>
+            {# ****************************      TABLE PRESTATION        ***************************** #}
+            <table class="table">
+            <thead>
+                <tr>
+                    <th class="col-1">Image</th>
+                    <th class="col-3">Article</th>
+                    <th>Prix</th>
+                    <th class="col-1">Quantité</th>
+                    <th>Total</th>
+                    <th class="col-3">Rendez-vous</th>
+                    <th class="col-3">Statut</th>
+                    <th class="col-3">Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {# ********************      BOUCLE PRESTATION #}
+               <!-- Affichage de la liste des prestations -->
+                {% for element in dataPanierPrestation|merge(dataPanierRendezVous) %}
+                    {% if element.date_rdv is defined %}
+                        {% if element.statut is defined %}
+                            <tbody>
+                                <tr>
+                                    <td class="col-2"><img class="col-2" src="/assets/img_prestation_directory/{{ element.prestation.getImgPrestation }}" alt="{{ element.prestation.getImgPrestation }}"></img></td>
+                                    <td>{{ element.prestation.getDescriptionPrestation }}</td>
+                                    <td>{{ (element.prestation.getPrixPrestation / 100)|number_format(2, '.', ' ')}}</td>
+                                    <td>1</td>
+                                    <td>{{ (element.prestation.getPrixPrestation / 100) * 1 }} €</td>
+                                    <td>Rdv le : {{ element.date_rdv|date('d/m/Y H:i') }}</td>
+                                    <td>Statut : {{ element.statut }}</td>
+                                    <td><a href="{{path("cart_delete_one_prestation", {id: element.prestation.id})}}" class="btn btn-danger"><i class="bi bi-trash3"></i></a></td>
+                                </tr>
+                            </tbody>
+                        {% endif %}
+                    {% endif %}
                 {% endfor %}
-            <tfoot>
+
+
+                {% else %}
+                   
+                {% endif %}
+            <tbody>
+           </table>
+
+
+            <table class="table">
                 <tr>
                     <td colspan="4" class="text-end">Total</td>
-                    <td colspan="1">{{ total }} €</td>
-                    <td colspan="1"><a href="{{path("cart_commande")}}" class="btn btn-primary" name="commander">Commander</a>
-                    <a href="{{path("cart_delete_all")}}" class="btn btn-danger"><i class="bi bi-trash"></i></a></td>
+                    <td colspan="1">{{ total / 100 }} €</td>
+                    
+                    <td colspan="1">{% if total %}<a href="{{path("cart_commande")}}" class="btn btn-primary col-9" name="commander">Commander</a>
+                    <a href="{{path("cart_delete_all")}}" class="btn btn-danger"><i class="bi bi-trash"></i></a>{% endif %}</td>
                 </tr>
-            </tfoot>
-        </table>
+            </table>
     </form>
 </div>
 
+                {% set item_count = itemCount %} 
 {% endblock %}

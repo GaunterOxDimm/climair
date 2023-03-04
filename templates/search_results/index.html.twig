@@ -1,0 +1,20 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Search Results{% endblock %}
+
+{% block body %}
+    <div>
+        {% if results is empty %}
+            <p>No results found.</p>
+        {% else %}
+            {% for result in results %}
+            
+                {# {{ dump(result) }} #}
+                {{ result.getNom }}
+                {{ result.nom_article }}
+                {{ result.nom }}
+
+            {% endfor %}
+        {% endif %}
+    </div>
+{% endblock %}

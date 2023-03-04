@@ -2,16 +2,17 @@
 
 namespace App\Controller\Admin;
 
+use App\Entity\Rdv;
 use App\Entity\Article;
 use App\Entity\Commande;
+use App\Entity\Prestation;
 use App\Entity\Utilisateur;
 use App\Entity\ImagesDivers;
+use App\Entity\LigneDeCommande;
 use App\Entity\CategorieArticle;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Controller\Admin\CommandeCrudController;
-use App\Entity\LigneDeCommande;
-use App\Entity\Prestation;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Locale;
 use EasyCorp\Bundle\EasyAdminBundle\Config\MenuItem;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Dashboard;
@@ -68,12 +69,12 @@ class DashboardController extends AbstractDashboardController
     public function configureMenuItems(): iterable
     {
         yield MenuItem::linkToDashboard('Dashboard', 'fa fa-home');
-        yield MenuItem::linkToCrud('Images Divers', 'fa fa-camera', ImagesDivers::class);
         yield MenuItem::linkToCrud('Utilisateurs', 'fa fa-user', Utilisateur::class);
         yield MenuItem::linkToCrud('Commande', 'fa fa-truck-fast', Commande::class);
         yield MenuItem::linkToCrud('Article', 'fa fa-truck-fast', Article::class);
         yield MenuItem::linkToCrud('Categorie Article', 'fa fa-truck-fast', CategorieArticle::class);
         yield MenuItem::linkToCrud('Ligne de commande', 'fa fa-truck-fast', LigneDeCommande::class);
         yield MenuItem::linkToCrud('Prestation', 'fa fa-truck-fast', Prestation::class);
+        yield MenuItem::linkToCrud('Rdv', 'fa fa-truck-fast', Rdv::class);
     }
 }

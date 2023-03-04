@@ -35,7 +35,7 @@ class CategorieArticleCrudController extends AbstractCrudController
             IdField::new('id')
                 ->hideOnForm(),
             TextField::new('nom_categorie'),
-            AssociationField::new('article')
+            // AssociationField::new('article')
         ];
     }
 }

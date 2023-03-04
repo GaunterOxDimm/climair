@@ -28,9 +28,13 @@ class Commande
     #[ORM\ManyToOne(inversedBy: 'commandes')]
     private ?Utilisateur $utilisateur = null;
 
+    #[ORM\OneToMany(mappedBy: 'commande', targetEntity: Rdv::class)]
+    private Collection $rdvs;
+
     public function __construct()
     {
         $this->ligneDeCommandes = new ArrayCollection();
+        $this->rdvs = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -103,6 +107,36 @@ class Commande
     public function setUtilisateur(?Utilisateur $utilisateur): self
     {
         $this->utilisateur = $utilisateur;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Rdv>
+     */
+    public function getRdvs(): Collection
+    {
+        return $this->rdvs;
+    }
+
+    public function addRdv(Rdv $rdv): self
+    {
+        if (!$this->rdvs->contains($rdv)) {
+            $this->rdvs->add($rdv);
+            $rdv->setCommande($this);
+        }
+
+        return $this;
+    }
+
+    public function removeRdv(Rdv $rdv): self
+    {
+        if ($this->rdvs->removeElement($rdv)) {
+            // set the owning side to null (unless already changed)
+            if ($rdv->getCommande() === $this) {
+                $rdv->setCommande(null);
+            }
+        }
 
         return $this;
     }

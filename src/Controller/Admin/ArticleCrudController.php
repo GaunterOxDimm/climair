@@ -5,11 +5,12 @@ namespace App\Controller\Admin;
 use App\Entity\Article;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\ImageField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\MoneyField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\IntegerField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\TextareaField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
-use EasyCorp\Bundle\EasyAdminBundle\Field\ImageField;
-use EasyCorp\Bundle\EasyAdminBundle\Field\IntegerField;
-use EasyCorp\Bundle\EasyAdminBundle\Field\MoneyField;
 
 class ArticleCrudController extends AbstractCrudController
 {
@@ -33,12 +34,14 @@ class ArticleCrudController extends AbstractCrudController
     {
         return [
             TextField::new('nom_article'),
-            MoneyField::new('prix_article')->setCurrency('EUR'),
+            MoneyField::new('prix_article')
+                ->setCurrency('EUR')
+                ->setHelp('Entrez le prix de l\'article en centimes.'),
             ImageField::new('img_article')
                 ->setBasePath('assets/img_article_directory/') // chemin dossier local images
                 ->setUploadDir('public/assets/img_article_directory/')
                 ->setRequired(false),
-            TextField::new('description_article'),
+            TextareaField::new('description_article'),
             AssociationField::new('categorieArticle'),
             AssociationField::new('ligneDeCommande'),
             IntegerField::new('stock')

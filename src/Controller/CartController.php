@@ -2,10 +2,13 @@
 
 namespace App\Controller;
 
+use Money\Money;
 use App\Entity\Article;
-use App\Entity\LigneDeCommande;
+use App\Entity\Prestation;
+use App\Entity\Rdv;
 use App\Repository\ArticleRepository;
-use App\Repository\LigneDeCommandeRepository;
+use App\Repository\PrestationRepository;
+use App\Repository\RdvRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -18,66 +21,165 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
  */
 class CartController extends AbstractController
 {
-    private $em;
-
-    public function __construct(EntityManagerInterface $em)
-    {
-        $this->em = $em;
-    }
 
     /**
      * @Route("/", name="index")]
      */
-    public function index(SessionInterface $session, ArticleRepository $articleRepository): Response
+    public function index(SessionInterface $session, ArticleRepository $articleRepository, PrestationRepository $prestationRepository, RdvRepository $rdvRepository): Response
     {
-        $panier = $session->get('panier', []);
-
-        // On fabrique les données du panier
-
-        $dataPanier = [];
+        $dataPanierArticle = [];
+        $dataPanierPrestation = [];
+        $dataPanierRendezVous = [];
         $total = 0;
-
-        foreach ($panier as $id => $quantite) {
-            $article = $articleRepository->find($id);
-            $dataPanier[] = [
-                'article' => $article,
-                'quantite' => $quantite
-            ];
-            $total += $article->getPrixArticle() * $quantite;
-        }
-
-        return $this->render('cart/index.html.twig', compact('dataPanier', 'total'));
-    }
-    /**
-     * @Route("/add/{id}", name="add", requirements={"id"="\d+"})
-     */
-    public function add(Article $article, SessionInterface $session)
-    {
-        // on récupère le panier actuel
-
         $panier = $session->get('panier', []);
-        $id = $article->getId();
-        if (!empty($panier[$id])) {
-            $panier[$id]++;
-        } else {
-            $panier[$id] = 1;
+        // dd($panier);
+
+        $dataPanierArticle = $this->getDataPanierArticle($panier, $articleRepository);
+        $dataPanierPrestation = $this->getDataPanierPrestation($panier, $prestationRepository, $rdvRepository);
+        $dataPanierRendezVous = $this->getDataPanierRendezVous($panier);
+
+        // dd($dataPanierArticle);
+
+        $total = ($this->getTotal($dataPanierArticle, $dataPanierPrestation));
+
+        $itemCount = count($dataPanierArticle) + count($dataPanierPrestation);
+        // Stocker le nombre d'articles dans la session
+        $session->set('cart_item_count', $itemCount);
+
+        return $this->render('cart/index.html.twig', compact('dataPanierArticle', 'dataPanierPrestation', 'dataPanierRendezVous', 'total', 'itemCount'));
+    }
+
+    private function getDataPanierArticle($panier, $articleRepository)
+    {
+        $dataPanierArticle = [];
+        foreach ($panier as $id => $quantite) {
+
+            $article = $articleRepository->find($id);
+            if ($article) {
+                $dataPanierArticle[] = [
+                    'article' => $article,
+                    'quantite' => $quantite
+                ];
+            }
         }
 
-        // On sauvegarde dans la session
+        return $dataPanierArticle;
+    }
 
+
+    private function getDataPanierPrestation($panier, $prestationRepository)
+    {
+        $dataPanierPrestation = [];
+
+        foreach ($panier as $id) {
+
+            $prestation = $prestationRepository->find($id);
+
+            if ($prestation) {
+                $dataPanierPrestation[] = [
+                    'prestation' => $prestation,
+                ];
+            }
+        }
+
+        return $dataPanierPrestation;
+    }
+
+    public function getDataPanierRendezVous($panier)
+    {
+        $dataPanierRendezVous = [];
+        // dd($panier);
+        // Parcours du panier
+        foreach ($panier as $rdvData) {
+            // Récupération des données du rendez-vous
+            if (isset($rdvData['date_rdv'])) {
+
+                $dateRdv = $rdvData['date_rdv'];
+                $statut = $rdvData['statut'];
+                $prestation = $rdvData['prestation'];
+
+                // Création d'un tableau associatif avec les données du rendez-vous
+
+
+                // Ajout du rendez-vous au tableau $dataPanierPrestation
+                $dataPanierRendezVous[] =
+                    [
+                        'date_rdv' => $dateRdv,
+                        'statut' => $statut,
+                        'prestation' => $prestation,
+                    ];
+            }
+        }
+        return $dataPanierRendezVous;
+        // // Envoi des données à la vue
+        // return $this->render('votre_vue.html.twig', [
+        //     'dataPanierPrestation' => $dataPanierPrestation,
+        // ]);
+    }
+
+
+    private function getTotal($dataPanierArticle, $dataPanierPrestation)
+    {
+        $total = 0;
+        foreach ($dataPanierArticle as $item) {
+            // dd($item);
+            $total += $item['article']->getPrixArticle() * floatval($item['quantite']);
+        }
+
+        foreach ($dataPanierPrestation as $item) {
+
+            $total += $item['prestation']->getPrixPrestation() * 1;
+        }
+
+        return $total;
+    }
+
+
+    //Ajouter un article 
+    /**
+     * @Route("/add/{id}", name="add_article", requirements={"id"="\d+"})
+     */
+    public function addArticle(Article $article, SessionInterface $session)
+    {
+        $panier = $session->get('panier', []);
+
+        $id_article = $article->getId();
+        // dd($panier[$id_article]);
+        if (!empty($panier[$id_article])) {
+            $panier[$id_article]++;
+        } else {
+            $panier[$id_article] = 1;
+        }
         $session->set('panier', $panier);
-
         return $this->redirectToRoute('cart_index');
     }
+
     /**
-     * @Route("/remove/{id}", name="remove", requirements={"id"="\d+"})
+     * @Route("/prestation/add/{id}", name="add_prestation", requirements={"id"="\d+"})
      */
-    public function remove(Article $article, SessionInterface $session)
+    public function addPrestation(Prestation $prestation, SessionInterface $session)
+    {
+        $panier = $session->get('panier', []);
+
+        $id_prestation = $prestation->getId();
+
+        $panier[$id_prestation]['quantite'] = 1;
+        // dd($panier);
+
+        $session->set('panier', $panier);
+        return $this->redirectToRoute('cart_index');
+    }
+
+    /**
+     * @Route("/remove_article/{id}", name="remove_article", requirements={"id"="\d+"})
+     */
+    public function removeArticle(Article $article, SessionInterface $session)
     {
         // on récupère le panier actuel
 
         $panier = $session->get('panier', []);
         $id = $article->getId();
+
         if (!empty($panier[$id])) {
             $panier[$id]--;
         } else {
@@ -103,16 +205,35 @@ class CartController extends AbstractController
         return $this->redirectToRoute('cart_index');
     }
     /**
-     * @Route("/delete_one/{id}", name="delete_one", requirements={"id"="\d+"})
+     * @Route("/delete_one_article/{id}", name="delete_one_article", requirements={"id"="\d+"})
      */
-    public function deleteOne(Article $article, SessionInterface $session)
+    public function deleteOneArticle(Article $article, SessionInterface $session)
     {
         // on récupère le panier actuel
 
         $panier = $session->get('panier', []);
-        $id = $article->getId();
-        if (!empty($panier[$id])) {
-            unset($panier[$id]);
+        $id_article = $article->getId();
+        if (!empty($panier[$id_article])) {
+            unset($panier[$id_article]);
+        }
+
+        // On sauvegarde dans la session
+
+        $session->set('panier', $panier);
+
+        return $this->redirectToRoute('cart_index');
+    }
+    /**
+     * @Route("/delete_one_prestation/{id}", name="delete_one_prestation", requirements={"id"="\d+"})
+     */
+    public function deleteOnePrestation(Prestation $prestation, SessionInterface $session)
+    {
+        // on récupère le panier actuel
+
+        $panier = $session->get('panier', []);
+        $id_prestation = $prestation->getId();
+        if (!empty($panier[$id_prestation])) {
+            unset($panier[$id_prestation]);
         }
 
         // On sauvegarde dans la session
@@ -127,14 +248,17 @@ class CartController extends AbstractController
     public function commander(SessionInterface $session, ArticleRepository $articleRepository, EntityManagerInterface $em)
     {
         $panier = $session->get('panier', []);
-        foreach ($panier as $id => $quantite) {
-            $article = $articleRepository->find($id);
-            $article->setStock($article->getStock() - $quantite);
-            $em->flush();
+        // dd($panier);
 
-            // if ($stock < $quantite) {
-            //     return $this->redirectToRoute('cart_index', [], Response::HTTP_BAD_REQUEST);
-            // }
+        foreach ($panier as $id) {
+            if ($id >= 100) {
+                $article = $articleRepository->find($id);
+                // dd($article);
+                if (!$article) {
+                    continue;
+                }
+                $em->flush();
+            }
         }
         return $this->redirectToRoute('commander_index');
     }

@@ -12,6 +12,7 @@
     "doctrine/doctrine-migrations-bundle": "^3.2",
     "doctrine/orm": "^2.14",
     "easycorp/easyadmin-bundle": "^4.5",
+    "moneyphp/money": "^4.1",
     "phpdocumentor/reflection-docblock": "^5.3",
     "phpstan/phpdoc-parser": "^1.15",
     "sensio/framework-extra-bundle": "^6.2",
@@ -45,6 +46,7 @@
     "symfony/yaml": "6.2.*",
     "symfonycasts/verify-email-bundle": "^1.13",
     "tecnickcom/tcpdf": "^6.6",
+    "twbs/bootstrap-icons": "^1.10",
     "twig/extra-bundle": "^2.12|^3.0",
     "twig/twig": "^2.12|^3.0",
     "vich/uploader-bundle": "^2.0"

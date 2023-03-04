@@ -43,10 +43,10 @@ class UtilisateurCrudController extends AbstractCrudController
             TextField::new('password'),
             ArrayField::new('roles'),
             BooleanField::new('is_verified'),
-            DateTimeField::new('createdAt')
-                ->hideOnForm(),
-            AssociationField::new('commande')
-                ->hideOnForm()
+            DateTimeField::new('createdAt'),
+            AssociationField::new('rdvs')
+
+
         ];
     }
 }

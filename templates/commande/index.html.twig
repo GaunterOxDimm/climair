@@ -3,23 +3,14 @@
 {% block title %} {{ title }} {% endblock %}
 
 {% block body %}
+<br>
+<div class="container">
+    <p><b>Email:</b> {{ email_utilisateur }}</p>
+    <p><b>Nom Utilisateur:</b> {{ nom_utilisateur }}</p>
+    <p></p>
+</div>
 
-{{ email_utilisateur }}
-{{ nom_utilisateur }}
-{# {% for element in articles %}
-     <tr>
-                        <td class="col-3"><img class="col-2" src="/assets/img_article_directory/{{ element.article.getImgArticle }}" alt="{{ element.article.getNomArticle }}"></img></td>
-                        <td>{{ element.article.getNomArticle }}</td>
-                        <td>{{ element.article.getPrixArticle }}</td>
-                        {# <td>{{ element.quantite }}</td>
-                        <td>{{ element.article.getPrixArticle * element.quantite }} €</td> #}
-                    </tr>
-{# {{ element.article.getNomArticle }} #}
-{# {{ element.article.getPrixArticle }} #}
-{# {% else %} #}
-    
-{# {% endfor %} #}
-
+<br>
  <table class="table">
             <thead>
                 <tr>
@@ -28,7 +19,6 @@
                     <th>Prix</th>
                     <th>Quantité</th>
                     <th>Total</th>
-                    <th>Action</th>
                 </tr>
             </thead>
         
@@ -37,9 +27,19 @@
                     <tr>
                         <td class="col-3"><img class="col-2" src="/assets/img_article_directory/{{ element.article.getImgArticle }}" alt="{{ element.article.getNomArticle }}"></img></td>
                         <td>{{ element.article.getNomArticle }}</td>
-                        <td>{{ element.article.getPrixArticle }}</td>
+                        <td>{{ element.article.getPrixArticle / 100 }} €</td>
                         <td>{{ element.quantite }}</td>
-                        <td>{{ element.article.getPrixArticle * element.quantite }} €</td>
+                        <td>{{ (element.article.getPrixArticle / 100) * element.quantite }} €</td>
+                    </tr>
+                {% endfor %}
+                {% for element in prestations %}
+                    <tr>
+                        <td class="col-3"><img class="col-2" src="/assets/img_prestation_directory/{{ element.prestation.getImgPrestation }}" alt="{{ element.prestation.getDescriptionPrestation }}"></img></td>
+                        <td>{{ element.prestation.getDescriptionPrestation}}</td>
+                        <td>{{ element.prestation.getPrixPrestation / 100 }} €</td>
+                        <td>{{ element.quantite.quantite }}</td>
+                        <td>{{ element.quantite.date_rdv }}</td>
+                        <td>{{ (element.prestation.getPrixPrestation / 100) * element.quantite.quantite }} €</td>
                     </tr>
                 {% endfor %}
             </tbody>
@@ -47,10 +47,10 @@
                 <tr>
 
                     <td colspan="4" class="text-end">Total</td>
-                    <td colspan="1">{{ total }} €</td>
+                    <td colspan="1">{{ total / 100 }} €</td>
                     
                 </tr>
             </tfoot>
         </table>
-<a href="{{ path('app_pdf') }}">Télécharger en PDF</a>
+<div class="container text-center"><a href="{{ path('app_pdf', {'id': commande.id}) }}" target="_blank">Télécharger en PDF</a></div>
 {% endblock %}
