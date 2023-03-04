@@ -2,7 +2,6 @@
 
 namespace App\Controller\Admin;
 
-use DateTime;
 use App\Entity\Prestation;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
@@ -46,7 +45,6 @@ class PrestationCrudController extends AbstractCrudController
                 ->setRequired(false),
             TextField::new('description_prestation'),
             AssociationField::new('lignedecommande'),
-            AssociationField::new('rdvs')
 
         ];
     }

@@ -24,7 +24,7 @@ class RdvCrudController extends AbstractCrudController
                 ->hideOnForm(),
             TextField::new('statut'),
             DateTimeField::new('date_rdv'),
-            AssociationField::new('utilisateur'),
+            AssociationField::new('commande'),
             AssociationField::new('prestation')
         ];
     }

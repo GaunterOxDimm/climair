@@ -74,7 +74,7 @@ class Article
 
     public function getPrixArticle(): ?float
     {
-        return $this->prix_article;
+        return $this->prix_article / 100;
     }
 
     public function setPrixArticle(float $prix_article): self

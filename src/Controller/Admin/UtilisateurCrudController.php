@@ -39,12 +39,14 @@ class UtilisateurCrudController extends AbstractCrudController
             IdField::new('id')
                 ->hideOnForm(),
             TextField::new('nom_utilisateur'),
+            TextField::new('nom'),
+            TextField::new('prenom'),
+            TextField::new('adresse'),
             TextField::new('email'),
             TextField::new('password'),
             ArrayField::new('roles'),
             BooleanField::new('is_verified'),
             DateTimeField::new('createdAt'),
-            AssociationField::new('rdvs')
 
 
         ];

@@ -2,51 +2,39 @@
 
 namespace App\Controller;
 
-use Doctrine\DBAL\Connection;
+use App\Entity\Article;
+use App\Entity\Prestation;
+use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
-/**
- * @Route("/search", name="search_")
- */
 class SearchResultsController extends AbstractController
 {
     /**
-     * @Route("/", name="index")
+     * @Route("/search", name="search_results")
      */
-    public function index(): Response
+    public function search(Request $request, EntityManagerInterface $entityManager): Response
     {
-        return $this->render('search_results/index.html.twig', [
-            'controller_name' => 'SearchResultsController',
-        ]);
-    }
+        $searchTerm = $request->request->get('search');
 
-    /**
-     * @Route("/results", name="results")
-     */
-    public function searchResults(Request $request, Connection $connection)
-    {
-        $search = $request->request->get('search');
+        $articles = $entityManager->getRepository(Article::class)->createQueryBuilder('a')
+            ->where('a.nom_article LIKE :search')
+            ->setParameter('search', '%' . $searchTerm . '%')
+            ->getQuery()
+            ->getResult();
 
-        $query = "
-        SELECT nom_article FROM article
-        WHERE nom_article LIKE :search
-        UNION
-        SELECT nom FROM prestation
-        WHERE nom LIKE :search
-    ";
-
-        $results = $connection->executeQuery($query, ['search' => '%' . strtolower($search) . '%']);
-
-        $resultsArray = [];
-        while ($row = $results->fetchAssociative()) {
-            $resultsArray[] = $row['nom_article'] ?? $row['nom'];
-        }
+        $prestations = $entityManager->getRepository(Prestation::class)->createQueryBuilder('p')
+            ->where('p.nom LIKE :search')
+            ->setParameter('search', '%' . $searchTerm . '%')
+            ->getQuery()
+            ->getResult();
 
         return $this->render('search_results/index.html.twig', [
-            'results' => $resultsArray,
+            'articles' => $articles,
+            'prestations' => $prestations,
+            'searchTerm' => $searchTerm
         ]);
     }
 }

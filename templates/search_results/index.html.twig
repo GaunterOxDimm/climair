@@ -1,12 +1,27 @@
 {% extends 'base.html.twig' %}
 
-{% block body %}
-    <h1>Résultats de recherche</h1>
+{% block content %}
+    <h1>Résultats de la recherche pour "{{ search }}"</h1>
 
-    <ul>
-        {% for result in results %}
-<li>{{ (result.nom_article is defined and result.nom_article is not null and result.nom_article is same as('string')) ? result.nom_article : (is_string(result.nom) ? result.nom : '') }}</li>
+    <h2>Articles</h2>
+    {% if articles is empty %}
+        <p>Aucun article trouvé.</p>
+    {% else %}
+        <ul>
+        {% for article in articles %}
+            <li>{{ article.nom_article }} - {{ article.prix_article }} €</li>
         {% endfor %}
-    </ul>
-{% endblock %}
+        </ul>
+    {% endif %}
 
+    <h2>Prestations</h2>
+    {% if prestations is empty %}
+        <p>Aucune prestation trouvée.</p>
+    {% else %}
+        <ul>
+        {% for prestation in prestations %}
+            <li>{{ prestation.nom }} - {{ prestation.prix_prestation }} €</li>
+        {% endfor %}
+        </ul>
+    {% endif %}
+{% endblock %}

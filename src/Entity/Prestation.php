@@ -71,7 +71,7 @@ class Prestation
 
     public function getPrixPrestation(): ?float
     {
-        return $this->prix_prestation;
+        return $this->prix_prestation / 100;
     }
 
     public function setPrixPrestation(float $prix_prestation): self

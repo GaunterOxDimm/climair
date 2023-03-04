@@ -10,11 +10,15 @@
         </div>
     </div>
 <br>
-<div class="col-md-6 m-auto text-center bg-primary py-2"><h4> Récapitulatif de votre commande </h4></div>
+<div class="col-md-6 m-auto text-center bg-danger py-2"><h4> Récapitulatif de votre commande </h4></div>
 <br>
 <div class="container">
-    <p><b>Email:</b> {{ email_utilisateur }}</p>
-    <p><b>Nom Utilisateur:</b> {{ nom_utilisateur }}</p>
+    <p><b>Nom Utilisateur :</b> {{ nom_utilisateur }}</p>
+    <p><b>Nom :</b> {{ nom }}</p>
+    <p><b>Prenom : </b> {{ prenom }}</p>
+    <p><b>Adresse : </b> {{ adresse }}</p>
+    <p><b>Email :</b> {{ email_utilisateur }}</p>
+
     <p></p>
 </div>
 
@@ -23,9 +27,9 @@
     
     <form action="CommandeController" method="POST">
           <br><br>
-               <div class="col-md-6 m-auto text-center"><h3 class="w-50 mx-auto border-bottom text-primary">Articles</h3></div> 
 <br>
-                   {% if not articles is empty %} 
+                   {% if articles is not empty %} 
+               <div class="col-md-6 m-auto text-center"><h3 class="w-50 mx-auto border-bottom text-primary">Articles</h3></div> 
             <table class="table">
             <thead>
                 <tr class="align-middle text-center">
@@ -34,7 +38,6 @@
                     <th>Prix</th>
                     <th class="col-1">Quantité</th>
                     <th>Total</th>
-                    <th class="col-3">Action</th>
                 </tr>
             </thead>
         
@@ -43,12 +46,10 @@
                     <tr class="align-middle text-center">
                         <td class="col-2"><img class="col-4" src="/assets/img_article_directory/{{ element.article.getImgArticle }}" alt="{{ element.article.getNomArticle }}"></img></td>
                         <td>{{ element.article.getNomArticle }}</td>
-                        <td>{{ (element.article.getPrixArticle / 100)|number_format(2, '.', ' ')}}</td>
+                        <td>{{ element.article.getPrixArticle|number_format(2, '.', ' ')}}</td>
                         <td>{{ element.quantite }}</td>
-                        <td>{{ (element.article.getPrixArticle / 100) * element.quantite }} €</td>
-                        <td><a href="{{path("cart_add_article", {id: element.article.id})}}" class="btn btn-success"><i class="bi bi-plus-circle"></i></a>
-                        <a href="{{path("cart_remove_article", {id: element.article.id})}}" class="btn btn-warning"><i class="bi bi-dash-circle"></i></a></a>
-                        <a href="{{path("cart_delete_one_article", {id: element.article.id})}}" class="btn btn-danger"><i class="bi bi-trash3"></i></a></td>
+                        <td>{{ element.article.getPrixArticle * element.quantite }} €</td>
+
                     </tr>
             </tbody>
       
@@ -56,24 +57,24 @@
             </table>
             {% endif %}
             <br>
-        <div class="bg-info shadow p-1 mb-2 w-50 mx-auto border-bottom">
+            {% if not articles is empty and not prestations is empty %}
 
-</div>
+                <div class="bg-info shadow p-1 mb-2 w-50 mx-auto border-bottom"></div>
+            {% endif %}
             <br>
             {# ****************************      TABLE PRESTATION        ***************************** #}
+            {% if prestations is not empty %}
                <div class="col-md-6 m-auto text-center"><h3 class="w-50 mx-auto border-bottom text-primary">Prestations</h3></div> 
                <br>
-            {% if not prestations is empty %}
             <table class="table">
             <thead>
                 <tr class="text-center">
                     
-                    <th class="col-3">Article</th>
+                    <th class="col-4">Article</th>
                     <th>Prix</th>
                     <th class="col-1">Quantité</th>
                     <th class="col-3">Rendez-vous</th>
-                    <th class="col-3">Statut</th>
-                    <th class="col-3">Action</th>
+                    <th class="col-2">Statut</th>
                 </tr>
             </thead>
             <tbody>
@@ -85,11 +86,10 @@
                             <tbody>
                                 <tr class="text-center">
                                     <td class="col-3"><img class="col-3" src="/assets/img_prestation_directory/{{ element.prestation.getImgPrestation }}" alt="{{ element.prestation.getImgPrestation }}"></img>{{ element.prestation.getDescriptionPrestation }}</td>
-                                    <td>{{ (element.prestation.getPrixPrestation / 100)|number_format(2, '.', ' ')}}</td>
+                                    <td>{{ element.prestation.getPrixPrestation|number_format(2, '.', ' ') }}</td>
                                     <td>1</td>
                                     <td>Rdv le : {{ element.date_rdv|date('d/m/Y H:i') }}</td>
                                     <td>Statut : {{ element.statut }}</td>
-                                    <td><a href="{{path("cart_delete_one_prestation", {id: element.prestation.id})}}" class="btn btn-danger"><i class="bi bi-trash3"></i></a></td>
                                 </tr>
                             </tbody>
                         {% endif %}
@@ -105,7 +105,7 @@
 
             <table class="table">
                 <tr class="text-end">
-                    <td class="text-end">Total Commande: {{ total / 100 }} €</td>
+                    <td class="text-end">Total Commande: {{ total }} €</td>
                 </tr>
             </table>
     </form>

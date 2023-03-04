@@ -35,9 +35,9 @@
                     <tr class="align-middle text-center">
                         <td class="col-2"><img class="col-4" src="/assets/img_article_directory/{{ element.article.getImgArticle }}" alt="{{ element.article.getNomArticle }}"></img></td>
                         <td>{{ element.article.getNomArticle }}</td>
-                        <td>{{ (element.article.getPrixArticle / 100)|number_format(2, '.', ' ')}}</td>
+                        <td>{{ (element.article.getPrixArticle )|number_format(2, '.', ' ')}}</td>
                         <td>{{ element.quantite }}</td>
-                        <td>{{ (element.article.getPrixArticle / 100) * element.quantite }} €</td>
+                        <td>{{ (element.article.getPrixArticle ) * element.quantite }} €</td>
                         <td><a href="{{path("cart_add_article", {id: element.article.id})}}" class="btn btn-success"><i class="bi bi-plus-circle"></i></a>
                         <a href="{{path("cart_remove_article", {id: element.article.id})}}" class="btn btn-warning"><i class="bi bi-dash-circle"></i></a></a>
                         <a href="{{path("cart_delete_one_article", {id: element.article.id})}}" class="btn btn-danger"><i class="bi bi-trash3"></i></a></td>
@@ -63,11 +63,11 @@
             <thead>
                 <tr class="text-center">
                     
-                    <th class="col-3">Article</th>
+                    <th class="col-4">Article</th>
                     <th>Prix</th>
                     <th class="col-1">Quantité</th>
                     <th class="col-3">Rendez-vous</th>
-                    <th class="col-3">Statut</th>
+                    <th class="col-2">Statut</th>
                     <th class="col-3">Action</th>
                 </tr>
             </thead>
@@ -80,7 +80,7 @@
                             <tbody>
                                 <tr class="text-center">
                                     <td class="col-3"><img class="col-3" src="/assets/img_prestation_directory/{{ element.prestation.getImgPrestation }}" alt="{{ element.prestation.getImgPrestation }}"></img>{{ element.prestation.getDescriptionPrestation }}</td>
-                                    <td>{{ (element.prestation.getPrixPrestation / 100)|number_format(2, '.', ' ')}}</td>
+                                    <td>{{ (element.prestation.getPrixPrestation )|number_format(2, '.', ' ')}}</td>
                                     <td>1</td>
                                     <td>Rdv le : {{ element.date_rdv|date('d/m/Y H:i') }}</td>
                                     <td>Statut : {{ element.statut }}</td>
@@ -105,7 +105,7 @@
             <table class="table">
                 <tr class="text-end">
             {% if total != 0 %}
-                    <td class="text-end">Total Commande: {{ total / 100 }} €</td>
+                    <td class="text-end">Total Commande: {{ total }} €</td>
             {% endif %}
                     <td class="col-4">{% if total %}<a href="{{path("commander_index")}}" class="btn btn-primary col-5" name="commander">Commander</a>
                     <a href="{{path("cart_delete_all")}}" class="btn btn-danger"><i class="bi bi-trash"></i></a>{% endif %}</td>

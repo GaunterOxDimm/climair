@@ -6,3 +6,7 @@ controllers:
 pdf:
   path: /pdf
   controller: App\Controller\PDFController::generatePdf
+search_results:
+  path: /search-results
+  controller: App\Controller\SearchResultsController::search
+  methods: POST
