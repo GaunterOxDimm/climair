@@ -2,7 +2,6 @@
 
 namespace App\Controller;
 
-use App\Entity\Article;
 use App\Entity\CategorieArticle;
 use App\Repository\ArticleRepository;
 use App\Repository\PrestationRepository;

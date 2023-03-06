@@ -2,15 +2,11 @@
 
 namespace App\Controller;
 
-use Money\Money;
 use App\Entity\Article;
 use App\Entity\Prestation;
-use App\Entity\Rdv;
 use App\Repository\ArticleRepository;
 use App\Repository\PrestationRepository;
 use App\Repository\RdvRepository;
-use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
@@ -112,10 +108,6 @@ class CartController extends AbstractController
             }
         }
         return $dataPanierRendezVous;
-        // // Envoi des données à la vue
-        // return $this->render('votre_vue.html.twig', [
-        //     'dataPanierPrestation' => $dataPanierPrestation,
-        // ]);
     }
 
 
@@ -145,7 +137,6 @@ class CartController extends AbstractController
         $panier = $session->get('panier', []);
 
         $id_article = $article->getId();
-        // dd($panier[$id_article]);
         if (!empty($panier[$id_article])) {
             $panier[$id_article]++;
         } else {
@@ -243,24 +234,4 @@ class CartController extends AbstractController
 
         return $this->redirectToRoute('cart_index');
     }
-    // /**
-    //  * @Route("/commander", name="commande")
-    //  */
-    // public function commander(SessionInterface $session, ArticleRepository $articleRepository, EntityManagerInterface $em)
-    // {
-    //     $panier = $session->get('panier', []);
-    //     // dd($panier);
-
-    //     foreach ($panier as $id) {
-    //         if ($id >= 100) {
-    //             $article = $articleRepository->find($id);
-    //             // dd($article);
-    //             if (!$article) {
-    //                 continue;
-    //             }
-    //             $em->flush();
-    //         }
-    //     }
-    //     return $this->redirectToRoute('commander_index');
-    // }
 }

@@ -84,7 +84,7 @@ class CommandeController extends AbstractController
                     ];
                 }
 
-                $total += ($prestation->getPrixPrestation() / 100) * 1; // calcul du prix total de la prestation
+                $total += ($prestation->getPrixPrestation()) * 1; // calcul du prix total de la prestation
             }
         }
         // dd($panier);
@@ -137,7 +137,18 @@ class CommandeController extends AbstractController
 
         $entityManager->persist($ligneDeCommande); // on fait persister les données de clé étrangères en BDD dans la table LigneDeCommande
         $entityManager->flush(); // Synchronisation des changements en BDD
-        $session->set('panier', []);
-        return $this->render('commande/index.html.twig', compact('title', 'email_utilisateur', 'nom_utilisateur', 'nom', 'prenom', 'adresse', 'articles', 'prestations', 'total', 'commande')); // on utilise la méthode Compact() pour éviter de réécrire les clés => valeurs
+        $session->set('panier', []); // remise à zéro du panier
+        return $this->render('commande/index.html.twig', compact(
+            'title',
+            'email_utilisateur',
+            'nom_utilisateur',
+            'nom',
+            'prenom',
+            'adresse',
+            'articles',
+            'prestations',
+            'total',
+            'commande'
+        )); // on utilise la méthode Compact() pour éviter de réécrire les clés => valeurs
     }
 }

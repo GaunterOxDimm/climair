@@ -3,9 +3,9 @@
 {% block title %} {{ title }} {% endblock %}
 
 {% block body %}
-    <div class="bg-success py-2">
+    <div class="bg-primary py-2">
         <div class="col-md-6 m-auto text-center">
-            <h1>Félicitations! Votre commande a été acceptée!<span style="font-size: 24px">&#x2705;</span>
+            <h1>Félicitations! Votre commande est validée! <span style="font-size: 24px"> &#x2705; </span>
             </h1> 
         </div>
     </div>
@@ -103,11 +103,24 @@
            </table>
 
 
-            <table class="table">
-                <tr class="text-end">
-                    <td class="text-end">Total Commande: {{ total }} €</td>
-                </tr>
-            </table>
+           <div class="row my-3">
+  <div class="col-12 col-md-6 offset-md-3">
+    <div class="card shadow-sm">
+      <div class="card-body">
+
+        <div class="row mb-3">
+          <div class="col-6">
+            <h6 class="card-text">Total Commande:</h6>
+          </div>
+          <div class="col-6 text-end">
+            <h6 class="card-text">{{ total }} €</h6>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
     </form>
 </div>
 <div class="container col-md-3 text-center bg-light"><a href="{{ path('app_pdf', {'id': commande.id}) }}" target="_blank" class="text-danger">Télécharger en PDF</a></div>

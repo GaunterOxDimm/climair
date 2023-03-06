@@ -43,7 +43,6 @@ class UtilisateurCrudController extends AbstractCrudController
             TextField::new('prenom'),
             TextField::new('adresse'),
             TextField::new('email'),
-            TextField::new('password'),
             ArrayField::new('roles'),
             BooleanField::new('is_verified'),
             DateTimeField::new('createdAt'),

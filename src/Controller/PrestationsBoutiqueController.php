@@ -16,7 +16,6 @@ class PrestationsBoutiqueController extends AbstractController
     {
         $prestations = $prestationRepository->findAll();
         $panier = $session->get('panier', []);
-        // dd($panier);
         $title = 'Climair - Prestation';
         return $this->render('prestations_boutique/index.html.twig', compact('prestations', 'title', 'panier'));
     }

@@ -1,15 +1,32 @@
-{% block title %}RDV{% endblock %}
+{% extends 'base.html.twig' %}
+
+{% block title %}Prendre rendez-vous{% endblock %}
 
 {% block body %}
-    {# <h1>Prendre rendez-vous pour la prestation "{{ prestation.nom }}"</h1> #}
-
+  <div class="container my-5">
     <div class="row">
-        <div class="col-12 col-lg-6 col-md-8 col-sm-12 mx-auto">
-            {{ form_start(form) }}
-            {{ form_widget(form.date_rdv) }}
-            <button type="submit">commander</button>
-            {{ form_end(form) }}
-        </div>
-    </div>
+      <div class="col-md-8 col-lg-6 mx-auto">
+        <div class="card card-body shadow-sm">
+          <h1 class="h4 mb-3">{{ prestation.nom }}</h1>
+          <p><b>Selectionnez un jour entre Lundi et Vendredi</b></p>
+          <p><b>Selectionnez une heure entre 15h00 et 19h00</b></p>
+          {% if form_errors(form) %}
+            <div class="alert alert-danger">
+              {{ form_errors(form) }}
+            </div>
+          {% endif %}
 
+          {{ form_start(form) }}
+            <div class="form-group">
+              {{ form_widget(form.date_rdv, { 'attr': {'class': 'form-control', 'min': '15:00:00', 'max': '19:00:00'} }) }}
+              {% if form_errors(form.date_rdv) %}
+                <small class="form-text text-danger">{{ form_errors(form.date_rdv) }}</small>
+              {% endif %}
+            </div>
+            <button type="submit" class="btn btn-primary btn-block">Commander</button>
+          {{ form_end(form) }}
+        </div>
+      </div>
+    </div>
+  </div>
 {% endblock %}
