@@ -46,6 +46,14 @@ class ArticleRepository extends ServiceEntityRepository
             ->getQuery()
             ->getResult();
     }
+    public function findNameArticle(string $searchTerm) // requête recherche
+    {
+        return $this->createQueryBuilder('a')
+            ->where('a.nom_article LIKE :search')
+            ->setParameter('search', '%' . $searchTerm . '%')
+            ->getQuery()
+            ->getResult();
+    }
     // /**
     //  * @return Article[] Returns an array of Article objects
     //  */

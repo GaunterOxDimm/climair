@@ -19,20 +19,6 @@
                     <div class="card mb-3">
                         <img class="card-img img-fluid" src="/assets/img_article_directory/{{ articleChoisi.getImgArticle}}" alt="Card image cap" id="product-detail">
                     </div>
-                    {# <div class="row">
-                        <!--Start Carousel Wrapper-->
-                        <div id="multi-item-example" class="col-10 carousel slide carousel-multi-item" data-bs-ride="carousel">
-                            <!--Start Slides-->
-                            <div class="carousel-inner product-links-wap" role="listbox">
-
-                                
-                                <!--/.Third slide-->
-                            </div>
-                            <!--End Slides-->
-                        </div>
-                        <!--End Carousel Wrapper-->
-                        
-                    </div> #}
                 </div>
                 <!-- col end -->
                 <div class="col-lg-7 mt-5">
@@ -86,7 +72,7 @@
                 {% for article in articles %}
                 <div class="p-2 pb-3">
                     <div class="product-wap card rounded-0">
-                        <div class="card rounded-0">
+                        <div class="card h-100 rounded-0">
                             <img class="card-img rounded-0 img-fluid" src="/assets/img_article_directory/{{ article.getImgArticle}}">
                             <div class="card-img-overlay rounded-0 product-overlay d-flex align-items-center justify-content-center">
                                 <ul class="list-unstyled">
@@ -97,8 +83,8 @@
                         </div>
                         <div class="card-body text-center">
 
-                            <a href="/article" class="text-decoration-none"> {{ article.getNomArticle }} </a>
-                            <p class="text-center mb-0"> {{ article.getPrixArticle / 100 }} € </p>
+                            <a href="{{path('article_index', {id: article.id})}}" class="text-decoration-none"> {{ article.getNomArticle }} </a>
+                            <p class="text-center mb-0"> {{ article.getPrixArticle }} € </p>
 
                         </div>
                     </div>
@@ -111,15 +97,16 @@
     <!-- End Article -->
     
 {% block javascripts %}
+
      <!-- Start Slider Script -->
-    <script src="assets/js/slick.min.js"></script>
+    <script src="/assets/js/slick.min.js"></script>
     <script>
         $('#carousel-related-product').slick({
             infinite: true,
             arrows: false,
             slidesToShow: 4,
             slidesToScroll: 3,
-            dots: true,
+            dots: false,
             responsive: [{
                     breakpoint: 1024,
                     settings: {

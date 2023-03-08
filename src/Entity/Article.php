@@ -79,7 +79,7 @@ class Article
 
     public function setPrixArticle(float $prix_article): self
     {
-        $this->prix_article = $prix_article;
+        $this->prix_article = $prix_article * 100;
 
         return $this;
     }

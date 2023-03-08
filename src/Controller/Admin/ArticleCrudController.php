@@ -9,6 +9,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\ImageField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\MoneyField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IntegerField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextareaField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\TextEditorField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 
@@ -36,12 +37,12 @@ class ArticleCrudController extends AbstractCrudController
             TextField::new('nom_article'),
             MoneyField::new('prix_article')
                 ->setCurrency('EUR')
-                ->setHelp('Entrez le prix de l\'article en centimes.'),
+                ->setCustomOption(MoneyField::OPTION_STORED_AS_CENTS, false),
             ImageField::new('img_article')
                 ->setBasePath('assets/img_article_directory/') // chemin dossier local images
                 ->setUploadDir('public/assets/img_article_directory/')
                 ->setRequired(false),
-            TextareaField::new('description_article'),
+            TextEditorField::new('description_article')->setFormTypeOption('format', 'html'),
             AssociationField::new('categorieArticle'),
             AssociationField::new('ligneDeCommande'),
             IntegerField::new('stock')

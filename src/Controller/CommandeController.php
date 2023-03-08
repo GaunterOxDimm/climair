@@ -4,7 +4,6 @@ namespace App\Controller;
 
 use App\Entity\Rdv;
 use App\Entity\Commande;
-use Monolog\DateTimeImmutable;
 use App\Entity\LigneDeCommande;
 use App\Repository\RdvRepository;
 use App\Repository\ArticleRepository;
@@ -12,11 +11,9 @@ use App\Repository\CommandeRepository;
 use App\Repository\PrestationRepository;
 use Doctrine\Persistence\ManagerRegistry;
 use App\Repository\LigneDeCommandeRepository;
-use App\Repository\UtilisateurRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Validator\Constraints\DateTime;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
