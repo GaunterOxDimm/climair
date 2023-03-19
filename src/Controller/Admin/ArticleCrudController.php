@@ -42,7 +42,7 @@ class ArticleCrudController extends AbstractCrudController
                 ->setBasePath('assets/img_article_directory/') // chemin dossier local images
                 ->setUploadDir('public/assets/img_article_directory/')
                 ->setRequired(false),
-            TextEditorField::new('description_article')->setFormTypeOption('format', 'html'),
+            TextareaField::new('description_article'),
             AssociationField::new('categorieArticle'),
             AssociationField::new('ligneDeCommande'),
             IntegerField::new('stock')

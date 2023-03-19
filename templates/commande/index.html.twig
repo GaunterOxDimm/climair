@@ -26,16 +26,15 @@
  <div class="container-fluid">
     
     <form action="CommandeController" method="POST">
-          <br><br>
-<br>
+        
                    {% if articles is not empty %} 
         <div class="col-md-6 m-auto text-center"><h3 class="w-50 mx-auto border-bottom text-primary">Articles</h3></div> 
-            <table class="table">
+            <table class="table text-sm">
             <thead>
                 <tr class="align-middle text-center">
                     <th class="col-3">Image</th>
                     <th class="col-3">Article</th>
-                    <th>Prix</th>
+                    <th>Prix</th><br>
                     <th class="col-1">Quantité</th>
                     <th>Total</th>
                 </tr>
@@ -44,9 +43,9 @@
             <tbody class="align-middle text-center">
              {% for element in articles %}
                     <tr class="align-middle text-center">
-                        <td class="col-2"><img class="col-4" src="/assets/img_article_directory/{{ element.article.getImgArticle }}" alt="{{ element.article.getNomArticle }}"></img></td>
+                        <td class="col-2"><img class="col-12" src="/assets/img_article_directory/{{ element.article.getImgArticle }}" alt="{{ element.article.getNomArticle }}"></img></td>
                         <td>{{ element.article.getNomArticle }}</td>
-                        <td>{{ element.article.getPrixArticle|number_format(2, '.', ' ') }} €</td>
+                        <td>{{ element.article.getPrixArticle|number_format(2, '.', ' ') }} €</td><br>
                         <td>{{ element.quantite }}</td>
                         <td>{{ element.article.getPrixArticle * element.quantite }} €</td>
 
@@ -85,7 +84,7 @@
                         {% if element.statut is defined %}
                             <tbody>
                                 <tr class="align-middle text-center">
-                                    <td class="col-3"><img class="col-3" src="/assets/img_prestation_directory/{{ element.prestation.getImgPrestation }}" alt="{{ element.prestation.getImgPrestation }}"></img>{{ element.prestation.getDescriptionPrestation }}</td>
+                                    <td class="col-3"><img class="col-3" src="/assets/img_prestation_directory/{{ element.prestation.getImgPrestation }}" alt="{{ element.prestation.getNom }}"></img>{{ element.prestation.getDescriptionPrestation }}</td>
                                     <td>{{ element.prestation.getPrixPrestation|number_format(2, '.', ' ') }} €</td>
                                     <td>1</td>
                                     <td>Rdv le : {{ element.date_rdv|date('d/m/Y H:i') }}</td>

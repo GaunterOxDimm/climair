@@ -17,7 +17,7 @@
             <div class="row">
                 <div class="col-lg-5 mt-5">
                     <div class="card mb-3">
-                        <img class="card-img img-fluid" src="/assets/img_article_directory/{{ articleChoisi.getImgArticle}}" alt="Card image cap" id="product-detail">
+                        <img class="card-img img-fluid" src="/assets/img_article_directory/{{ articleChoisi.getImgArticle}}" alt="{{article.getNomArticle}}" id="product-detail">
                     </div>
                 </div>
                 <!-- col end -->
@@ -31,6 +31,9 @@
                                 <li class="list-inline-item">
                                     <p><strong>{{ articleChoisi.getNomArticle }} </strong></p>
                                 </li>
+                                <li class="list-inline-item">
+                                    <p><strong>Prix: {{ articleChoisi.getPrixArticle }}€ </strong></p>
+                                </li>
                             </ul>
 
                             <h6>Description:</h6>
@@ -40,7 +43,7 @@
                                 <input type="hidden" name="product-title" value="Activewear">
                                 <div class="row">
                                     
-                                  
+                                    
                                 </div>
                                 <div class="row pb-3">
                                     
@@ -73,8 +76,8 @@
                 <div class="p-2 pb-3">
                     <div class="product-wap card rounded-0">
                         <div class="card h-100 rounded-0">
-                            <img class="card-img rounded-0 img-fluid" src="/assets/img_article_directory/{{ article.getImgArticle}}">
-                            <div class="card-img-overlay rounded-0 product-overlay d-flex align-items-center justify-content-center">
+                            <img class="card-img rounded-0 img-fluid" src="/assets/img_article_directory/{{ article.getImgArticle }}" alt="{{article.getNomArticle}}>
+                            <div class="card-img-overlay rounded-0 product-overlay d-flex align-items-cente justify-content-center">
                                 <ul class="list-unstyled">
                                     <li><a class="btn btn-success text-white mt-2" href="{{path('article_index', {id: article.id})}}"><i class="far fa-eye"></i></a></li>
                                     <li><a class="btn btn-success text-white mt-2" href="{{path('cart_add_article', {id: article.id})}}"><i class="fas fa-cart-plus"></i></a></li>

@@ -1,117 +1,145 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}Votre panier{% endblock %}
-{% block stylesheets %}
-    <link rel="stylesheet" href="public/assets/css/panier.css">
-{% endblock %}
 
 {% block body %}
 
-<div class="container-fluid">
-    <div class="bg-success py-5">
-        <div class="col-md-6 m-auto text-center">
-            <h1>Votre panier</h1> 
+    <div class="container-fluid">
+        <div class="bg-success py-5">
+            <div class="m-auto text-center">
+                <h1>Votre panier</h1> 
+            </div>
         </div>
-    </div>
-    <form action="CommandeController" method="POST">
-          <br><br>
+        <form action="CommandeController" method="POST" class="table-responsive">
+            <br><br>
             {% if not dataPanierArticle is empty %}            
-               <div class="col-md-6 m-auto text-center"><h3 class="w-50 mx-auto border-bottom text-primary">Articles</h3></div> 
+            <div class="col-md-6 m-auto text-center">
+                <h3 class="w-50 mx-auto border-bottom text-primary">Articles</h3>
+            </div> 
             <br>
-            <table class="table">
-            <thead>
-                <tr class="align-middle text-center">
-                    <th class="col-3">Image</th>
-                    <th class="col-3">Article</th>
-                    <th>Prix</th>
-                    <th class="col-1">Quantité</th>
-                    <th>Total</th>
-                    <th class="col-3">Action</th>
-                </tr>
-            </thead>
-        
-            <tbody>
-             {% for element in dataPanierArticle %}
+            <table class="table-responsive text-sm">
+                <thead>
                     <tr class="align-middle text-center">
-                        <td class="col-2"><img class="col-4" src="/assets/img_article_directory/{{ element.article.getImgArticle }}" alt="{{ element.article.getNomArticle }}"></img></td>
-                        <td>{{ element.article.getNomArticle }}</td>
-                        <td>{{ (element.article.getPrixArticle )|number_format(2, '.', ' ') }} €</td>
-                        <td>{{ element.quantite }}</td>
-                        <td>{{ (element.article.getPrixArticle ) * element.quantite }} €</td>
-                        <td><a href="{{path("cart_add_article", {id: element.article.id})}}" class="btn btn-success"><i class="bi bi-plus-circle"></i></a>
-                        <a href="{{path("cart_remove_article", {id: element.article.id})}}" class="btn btn-warning"><i class="bi bi-dash-circle"></i></a></a>
-                        <a href="{{path("cart_delete_one_article", {id: element.article.id})}}" class="btn btn-danger"><i class="bi bi-trash3"></i></a></td>
+                        <th class="col-sm-3 col-md-3 d-none d-md-table-cell">Image</th>
+                        <th class="col-sm-1 col-md-2">Article</th>
+                        <th class="col-sm-3 col-md-2 d-none d-md-table-cell">Prix</th>
+                        <th class="col-sm-1 col-md-1">
+                            <span class="d-inline d-md-none">Qté</span>
+                            <span class="d-none d-md-inline">Quantité</span>
+                        </th>
+                        <th class="col-sm-3 col-md-1">Total</th>
+                        <th class="col-xs-1 col-sm-3 col-md-1">Action</th>
                     </tr>
-            </tbody>
-      
-            {% endfor %} 
+                </thead>
+                {% for element in dataPanierArticle %}
+                <tbody>
+                    <tr class="align-middle text-center">
+                        <td class="col-sm-3 d-none d-md-table-cell">
+                            <img class="col-sm-12 col-md-6" src="/assets/img_article_directory/{{ element.article.getImgArticle }}" alt="{{ element.article.getNomArticle }}"></img>
+                        </td>
+                        <td>{{ element.article.getNomArticle }}</td>
+                        <td class="col-sm-3 d-none d-md-table-cell">{{ (element.article.getPrixArticle )|number_format(2, '.', ' ') }}€</td>
+                        <td>{{ element.quantite }}</td>
+                        <td>
+                            <span class="d-none d-md-inline">{{ (element.article.getPrixArticle) * element.quantite }}€</span>
+                            <span class="d-inline d-md-none">{{ (element.article.getPrixArticle) * element.quantite }}€</span>
+                        </td>
+                        <td class="col-sm col-md-3">
+                            <a href="{{path("cart_add_article", {id: element.article.id})}}" class="btn btn-success"><i class="bi bi-plus-circle"></i></a>
+                            <a href="{{path("cart_remove_article", {id: element.article.id})}}" class="btn btn-warning"><i class="bi bi-dash-circle"></i></a>
+                            <a href="{{path("cart_delete_one_article", {id: element.article.id})}}" class="btn btn-danger"><i class="bi bi-trash3"></i></a>
+                        </td>
+                    </tr>
+                </tbody>
+                {% endfor %} 
             </table>
             {% endif %}
-
             <br>
             {% if not dataPanierArticle is empty and not dataPanierPrestation is empty %}
-                    
-                <div class="bg-info shadow p-1 mb-2 w-50 mx-auto border-bottom"></div>
+            <div class="bg-info shadow p-1 mb-2 w-50 mx-auto border-bottom"></div>
             {% endif %}
-
             <br>
-            {# ****************************      TABLE PRESTATION        ***************************** #}
+    {# ****************************      TABLE PRESTATION        ***************************** #}
             {% if not dataPanierPrestation is empty %}
-               <div class="col-md-6 m-auto text-center"><h3 class="w-50 mx-auto border-bottom text-primary">Prestations</h3></div> 
-               <br>
-            <table class="table align-middle text-center">
-            <thead>
-                <tr>
-                    <th class="col-4">Article</th>
-                    <th>Prix</th>
-                    <th class="col-1">Quantité</th>
-                    <th class="col-3">Rendez-vous</th>
-                    <th class="col-2">Statut</th>
-                    <th class="col-3">Action</th>
-                </tr>
-            </thead>
-            <tbody>
+            <div class="col-md-6 m-auto text-center">
+                <h3 class="w-50 mx-auto border-bottom text-primary">Prestations</h3>
+            </div> 
+            <br>
+            <table class="table-responsive align-middle text-center text-sm">
+                <thead>
+                    <tr>
+                        <th class="col-sm-4 col-md-3 text-xs small">Prestation</th>
+                        <th class="col-sm-3 col-md-1 text-xs small">Prix</th>
+                        <th class="col-sm-3 col-md-1 d-none d-md-table-cell">Quantité</th>
+                        <th class="col-sm-1 col-md-3 text-xs small">
+                            <span class="d-none d-md-inline">Rendez-vous</span>
+                            <span class="d-inline d-md-none">RDV</span>
+                        </th>
+                        <th class="col-sm-3 col-md-3 d-none d-md-table-cell">Statut</th>
+                        <th class="col-sm-1 col-md-1 text-xs small">Action</th>
+                    </tr>
+                </thead>
                 {# ********************      BOUCLE PRESTATION #}
-               <!-- Affichage de la liste des prestations -->
+            <!-- Affichage de la liste des prestations -->
                 {% for element in dataPanierPrestation|merge(dataPanierRendezVous) %}
                     {% if element.date_rdv is defined %}
                         {% if element.statut is defined %}
-                            <tbody>
-                                <tr class="text-center">
-                                    <td class="col-3"><img class="col-3" src="/assets/img_prestation_directory/{{ element.prestation.getImgPrestation }}" alt="{{ element.prestation.getImgPrestation }}"></img>{{ element.prestation.getDescriptionPrestation }}</td>
-                                    <td class="col-1">{{ (element.prestation.getPrixPrestation )|number_format(2, '.', ' ') }} €</td>
-                                    <td>1</td>
-                                    <td>Rdv le : {{ element.date_rdv|date('d/m/Y H:i') }}</td>
-                                    <td>Statut : {{ element.statut }}</td>
-                                    <td><a href="{{path("cart_delete_one_prestation", {id: element.prestation.id})}}" class="btn btn-danger"><i class="bi bi-trash3"></i></a></td>
-                                </tr>
-                            </tbody>
+                <tbody>
+                    <tr class="text-center">
+                        <td class="col-sm-3 col-md-3 text-xs small"><img class="col-sm-8 col-md-6" src="/assets/img_prestation_directory/{{ element.prestation.getImgPrestation }}" alt="{{ element.prestation.getNom }}"></img>
+                            <br>
+                            {{ element.prestation.getDescriptionPrestation }}
+                        </td>
+                        <td class="col-sm-3 col-md-2 text-xs small">{{ (element.prestation.getPrixPrestation) }}€</td>
+                        <td class="col-sm-3 col-md-2 d-none d-md-table-cell">1</td>
+                        <td class="col-sm-1 col-md-2 text-xs small">
+                            <span class="col-sm-1 d-inline d-md-none">{{ element.date_rdv|date('d/m/Y H:i') }}</span>
+                            <span class="d-none d-md-inline">Rdv le : {{ element.date_rdv|date('d/m/Y H:i') }}</span>
+                        </td>
+                        <td class="col-md-2 d-none d-md-table-cell">Statut : {{ element.statut }}</td>
+                        <td class="col-sm-1 col-md-1">
+                            <a href="{{path("cart_delete_one_prestation", {id: element.prestation.id})}}" class="btn btn-danger"><i class="bi bi-trash3"></i></a>
+                        </td>
+                    </tr>
+                </tbody>
                         {% endif %}
                     {% endif %}
                 {% endfor %}
-
-
-                {% endif %}
-                {% if dataPanierArticle is empty and dataPanierPrestation is empty %}
-                    
-		            <h3 class="empty-cart text-center align-middle">Votre panier est vide. <span style="font-size: 24px">&#x1F972;</span>
-</h3>
-                {% endif %}
-            <tbody>
-           </table>
-
-
-            <table class="table">
-                <tr class="text-end">
-            {% if total != 0 %}
-                    <td class="text-end">Total Commande: {{ total }} €</td>
             {% endif %}
-                    <td class="col-4">{% if total %}<a href="{{path("commander_index")}}" class="btn btn-primary col-5" name="commander">Commander</a>
-                    <a href="{{path("cart_delete_all")}}" class="btn btn-danger"><i class="bi bi-trash"></i></a>{% endif %}</td>
-                </tr>
-            </table>
-    </form>
-</div>
 
-                {% set item_count = itemCount %} 
+            {% if dataPanierArticle is empty and dataPanierPrestation is empty %}
+                <h3 class="empty-cart text-center align-middle">Votre panier est vide <span style="font-size: 24px">&#x1F972;</span> Visitez notre<a href="/boutique" class="boutique"><h3>boutique</h3></a></h3>
+                <br><br><br>
+            {% endif %}
+            </table>
+
+            <div class="d-flex align-items-center border-top justify-content-between"><br>
+            {% if total != 0 %}
+                <div class="mr-2 col-sm-4 col-md-4"><br> 
+                    <span class="d-none d-md-inline">Total Commande: {{ total }}€</span>
+                    <span class="d-inline d-md-none">Total: {{ total }}€</span>
+                </div>
+                <div class="mr-2 col-sm-1 col-md-2"><br>
+                    <a href="{{ path('commander_index') }}" class="btn btn-primary btn-sm" name="commander">
+                        <span class="d-none d-md-inline">Commander</span>
+                        <span class="d-inline d-md-none text-sm small"><i class="bi bi-cart-fill"></i></span>
+                    </a>
+                </div>
+                <div class="mr-2 col-sm-1 col-md-1"><br>
+                    <a href="{{ path('cart_delete_all') }}" class="mr-2 btn btn-danger btn-sm"><i class="bi bi-trash"></i></a>
+                </div>
+            {% endif %}
+            </div>
+        </form>
+        <br>
+    </div>
+
+    {% set item_count = itemCount %} 
+    {% block javascripts %}
+        <script src="assets/js/jquery-1.11.0.min.js"></script>
+        <script src="assets/js/jquery-migrate-1.2.1.min.js"></script>
+        <script src="assets/js/bootstrap.bundle.min.js"></script>
+        <script src="assets/js/templatemo.js"></script>
+        <script src="assets/js/custom.js"></script>
+    {% endblock %}
 {% endblock %}

@@ -1,4 +1,11 @@
 /*
 Custom Css
 */
-/*
+
+.boutique {
+  text-decoration: none;
+  margin-left: 10px;
+}
+.empty-cart span {
+  margin-left: 10px;
+}
