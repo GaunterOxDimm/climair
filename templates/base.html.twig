@@ -9,8 +9,6 @@
     <link rel="apple-touch-icon" href="assets/img/apple-icon.png">
     <link rel="shortcut icon" type="image/x-icon" href="assets/img/favicon.ico">
     <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v1.11.0/mapbox-gl.css' rel='stylesheet' />
-    <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v1.11.0/mapbox-gl.js'></script>
-
     <link rel="stylesheet" href="/assets/css/bootstrap.min.css">
     <link rel="stylesheet" href="/assets/css/custom.css">
     <link rel="stylesheet" href="/assets/css/fontawesome.css">
@@ -20,32 +18,22 @@
     <link rel="stylesheet" href="/assets/css/slick.min.css">
     <link rel="stylesheet" href="/assets/css/templatemo.css">
     <link rel="stylesheet" href="/assets/css/templatemo.min.css">
-     <link rel="stylesheet" href="//code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
-  <link rel="stylesheet" href="/resources/demos/style.css">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
-  <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
-  <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
-  <script>
-  $( function() {
-    $( "#accordion" ).accordion();
-  } );
-  </script>
-
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
+    <link rel="stylesheet" href="/resources/demos/style.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
     <!-- Load fonts style after rendering the layout styles -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;200;300;400;500;700;900&display=swap">
     <link rel="stylesheet" href="assets/css/fontawesome.min.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+    <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
+    <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v1.11.0/mapbox-gl.js'></script>
+    <link rel="stylesheet" href="/assets/css/custom.css">
 
-    
-<!--
-    
-TemplateMo 559 Zay Shop
-
-https://templatemo.com/tm-559-zay-shop
-
--->
-
+    {% block stylesheets %}
+        
+    {% endblock %}
 </head>
-    <body>
+<body>
      <!-- Start Top Nav -->
     <nav class="navbar navbar-expand-lg bg-dark navbar-light d-none d-lg-block" id="templatemo_nav_top">
         <div class="container text-light">
@@ -71,15 +59,12 @@ https://templatemo.com/tm-559-zay-shop
     <!-- Header -->
     <nav class="navbar navbar-expand-lg navbar-light shadow">
         <div class="container d-flex justify-content-between align-items-center">
-
             <a class="navbar-brand text-success logo h1 align-self-center" href="/">
                 Climair
             </a>
-
             <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#templatemo_main_nav" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
-
             <div class="align-self-center collapse navbar-collapse flex-fill d-lg-flex justify-content-lg-between" id="templatemo_main_nav">
                 <div class="flex-fill">
                     <ul class="nav navbar-nav d-flex justify-content-between mx-lg-auto">
@@ -101,19 +86,20 @@ https://templatemo.com/tm-559-zay-shop
                     </ul>
                 </div>
                 <div class="navbar align-self-center d-flex">
-                    <div class="d-lg-none flex-sm-fill mt-3 mb-4 col-7 col-sm-auto pr-3">
+                    <form action="{{ path('app_search_results') }}" method="POST" class="d-lg-none flex-sm-fill mt-3 mb-4 col-7 col-sm-auto pr-3">
                         <div class="input-group">
-                            <input type="text" class="form-control" id="inputMobileSearch" placeholder="Search ...">
+                            <input type="text" class="form-control" id="inputMobileSearch" name="search" placeholder="Search ...">
                             <div class="input-group-text">
                                 <i class="fa fa-fw fa-search"></i>
                             </div>
                         </div>
-                    </div>
+                    </form>
                     <a class="nav-icon d-none d-lg-inline" href="#" data-bs-toggle="modal" data-bs-target="#templatemo_search">
                         <i class="fa fa-fw fa-search text-dark mr-2"></i>
                     </a>
                     <a class="nav-icon position-relative text-decoration-none" href="/cart">
-                        <i class="fa fa-fw fa-cart-arrow-down text-dark mr-1"></i>        
+                        <i class="fa fa-fw fa-cart-arrow-down text-dark mr-1"></i>  
+
                         {% if app.session.get('cart_item_count') %}
                         <span class="position-absolute top-0 left-100 translate-middle badge rounded-pill bg-light text-dark"> 
                             {{ app.session.get('cart_item_count') }}
@@ -121,10 +107,10 @@ https://templatemo.com/tm-559-zay-shop
                         {% else %}
                         <span class="position-absolute top-0 left-100 translate-middle badge rounded-pill bg-light text-dark"></span>
                         {% endif %}  
+
                     </a>
                     
                     {% if not app.user %}
-                        
                     <a class="nav-icon position-relative text-decoration-none" href="/login">
                         <i class="fa fa-fw fa-user text-dark mr-3"></i>
                         <span class="position-absolute top-0 left-100 translate-middle badge rounded-pill bg-light text-dark"></span>
@@ -132,16 +118,14 @@ https://templatemo.com/tm-559-zay-shop
                     {% endif %}
 
                     {% if app.user %}
-                        
                     <a class="nav-icon position-relative text-decoration-none" href="/logout">
                         <i class="fa-solid fa-right-from-bracket" alt="logout"></i>
                         <span class="position-absolute top-0 left-100 translate-middle badge rounded-pill bg-light text-dark"></span>
                     </a>
-
                     {% endif %}
+
                 </div>
             </div>
-
         </div>
     </nav>
     <!-- Close Header -->
@@ -161,18 +145,17 @@ https://templatemo.com/tm-559-zay-shop
             </form>
         </div>
     </div>
-        {% block body %}    {% endblock %}
+    {% block body %}    {% endblock %}
          <!-- Start Footer -->
     <footer class="bg-dark" id="tempaltemo_footer">
         <div class="container">
             <div class="row">
-
                 <div class="col-md-4 pt-5">
                     <h2 class="h2 text-success border-bottom pb-3 border-light logo">Climair</h2>
                     <ul class="list-unstyled text-light footer-link-list">
                         <li>
                             <i class="fas fa-map-marker-alt fa-fw"></i>
-                            12, rue des ruffinières 69150 DECINES CHARPIEU
+                            <a href="https://www.google.com/maps/place/12+Rue+des+Ruffini%C3%A8res,+69150+D%C3%A9cines-Charpieu/@45.7661599,4.9706449,17z/data=!3m1!4b1!4m6!3m5!1s0x47f4c724e7a98479:0xc9152d7a42281765!8m2!3d45.7661562!4d4.9728336!16s%2Fg%2F11c1jqc7h2" class="text-decoration-none" target="blank">12, rue des ruffinières 69150 DECINES CHARPIEU</a>
                         </li>
                         <li>
                             <i class="fa fa-phone fa-fw"></i>
@@ -189,7 +172,7 @@ https://templatemo.com/tm-559-zay-shop
                     <h2 class="h2 text-light border-bottom pb-3 border-light">Produits</h2>
                     <ul class="list-unstyled text-light footer-link-list">
                         <li><a class="text-decoration-none" href="{{path("boutique_select", {id: 1})}}">Mitsubishi</a></li>
-                        <li><a class="text-decoration-none" href="{{path("boutique_select", {id: 6})}}">Atlantic</a></li>
+                        <li><a class="text-decoration-none" href="{{path("boutique_select", {id: 5})}}">Atlantic</a></li>
                         <li><a class="text-decoration-none" href="{{path("boutique_select", {id: 11})}}">Airwell</a></li>
                     </ul>
                 </div>
@@ -258,7 +241,6 @@ https://templatemo.com/tm-559-zay-shop
                 </div>
             </div>
         </div>
-
     </footer>
     <!-- End Footer -->
 
@@ -269,15 +251,11 @@ https://templatemo.com/tm-559-zay-shop
     <script src="https://kit.fontawesome.com/9848dee952.js" crossorigin="anonymous"></script>
     <script src="/assets/js/bootstrap.bundle.min.js"></script>
     <script src="/assets/js/jquery-migrate-1.2.1.min.js"></script>
-    <script src="/assets/js/map.js"></script>
     <script src="/assets/js/slick.min.js"></script>
     <script src="/assets/js/slide.js"></script>
     <script src="/assets/js/templatemo.js"></script>
     <script src="/assets/js/templatemo.min.js"></script>
     <script src="/assets/js/custom.js"></script>
-    
-
         <!-- End Script -->
-
     </body>
 </html>

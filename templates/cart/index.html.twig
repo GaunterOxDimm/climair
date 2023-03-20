@@ -86,14 +86,15 @@
                         {% if element.statut is defined %}
                 <tbody>
                     <tr class="text-center">
-                        <td class="col-sm-3 col-md-3 text-xs small"><img class="col-sm-8 col-md-6" src="/assets/img_prestation_directory/{{ element.prestation.getImgPrestation }}" alt="{{ element.prestation.getNom }}"></img>
+                        <td class="col-sm-3 col-md-3 text-xs small d-none d-md-inline"><img class="col-sm-8 col-md-6" src="/assets/img_prestation_directory/{{ element.prestation.getImgPrestation }}" alt="{{ element.prestation.getNom }}"></img>
                             <br>
                             {{ element.prestation.getDescriptionPrestation }}
                         </td>
+                        <td class="d-inline d-md-none text-sm small align-middle text-center">{{element.prestation.getNom}}</td>
                         <td class="col-sm-3 col-md-2 text-xs small">{{ (element.prestation.getPrixPrestation) }}€</td>
-                        <td class="col-sm-3 col-md-2 d-none d-md-table-cell">1</td>
-                        <td class="col-sm-1 col-md-2 text-xs small">
-                            <span class="col-sm-1 d-inline d-md-none">{{ element.date_rdv|date('d/m/Y H:i') }}</span>
+                        <td class="col-sm-3 col-md-1 d-none d-md-table-cell">1</td>
+                        <td class="col-sm-1 col-md-2">
+                            <span class="col-sm-1 d-inline d-md-none text-xs small">{{ element.date_rdv|date('d/m/Y H:i') }}</span>
                             <span class="d-none d-md-inline">Rdv le : {{ element.date_rdv|date('d/m/Y H:i') }}</span>
                         </td>
                         <td class="col-md-2 d-none d-md-table-cell">Statut : {{ element.statut }}</td>

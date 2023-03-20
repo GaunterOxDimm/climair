@@ -1,6 +1,4 @@
-/*
-Custom Css
-*/
+
 
 .boutique {
   text-decoration: none;
@@ -9,3 +7,9 @@ Custom Css
 .empty-cart span {
   margin-left: 10px;
 }
+@media screen and (max-width: 768px) {
+  #prix{
+    font-size: 2px;
+  }
+}
+

@@ -3,8 +3,7 @@
 // avec un conteneur HTML spécifié, un style de carte, une position de départ et un niveau de zoom.
 // Les contrôles de zoom et de rotation sont ajoutés à la carte.
 // Enfin, une source de données est ajoutée à la carte, qui contient un seul point d'intérêt
-//et une couche est ajoutée pour afficher l'icône correspondante sur la carte. Lorsqu'un utilisateur
-//clique sur le point d'intérêt, une fenêtre contextuelle s'ouvre avec une description HTML de l'emplacement.
+//et une couche est ajoutée pour afficher l'icône correspondante sur la carte.
 
 mapboxgl.accessToken =
   "pk.eyJ1Ijoia2hhbGRvbnV0czY5IiwiYSI6ImNsY2JvNXFjZjE2bjMzb3FycjNnNmZsbXIifQ.HG0N6wONlxBIO_wFAzVmhA";

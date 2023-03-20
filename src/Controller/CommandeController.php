@@ -81,7 +81,7 @@ class CommandeController extends AbstractController
                     ];
                 }
 
-                $total += ($prestation->getPrixPrestation()) * 1; // calcul du prix total de la prestation
+                $total += ($prestation->getPrixPrestation()); // calcul du prix total de la prestation
             }
         }
         // dd($panier);

@@ -5,123 +5,145 @@
 {% block body %}
     <div class="bg-primary py-2">
         <div class="col-md-6 m-auto text-center">
-            <h1>Félicitations! Votre commande est validée! <span style="font-size: 24px"> &#x2705; </span>
-            </h1> 
+            <h1>Félicitations! Votre commande est validée! <span style="font-size: 24px"> &#x2705;</h1> 
         </div>
     </div>
-<br>
-<div class="col-md-6 m-auto text-center bg-danger py-2"><h4> Récapitulatif de votre commande </h4></div>
-<br>
-<div class="container">
-    <p><b>Nom Utilisateur :</b> {{ nom_utilisateur }}</p>
-    <p><b>Nom :</b> {{ nom }}</p>
-    <p><b>Prenom : </b> {{ prenom }}</p>
-    <p><b>Adresse : </b> {{ adresse }}</p>
-    <p><b>Email :</b> {{ email_utilisateur }}</p>
+    <br>
+    <div class="col-md-6 m-auto text-center bg-danger py-2"><h4> Récapitulatif de votre commande </h4></div>
+    <br>
+    <div class="container">
+        <p><b>Nom Utilisateur :</b> {{ nom_utilisateur }}</p>
+        <p><b>Nom :</b> {{ nom }}</p>
+        <p><b>Prenom : </b> {{ prenom }}</p>
+        <p><b>Adresse : </b> {{ adresse }}</p>
+        <p><b>Email :</b> {{ email_utilisateur }}</p>
+    </div>
+    <br>
+    <div class="container-fluid">
+        <form action="CommandeController" method="POST">
+            {% if articles is not empty %} 
+            <div class="col-md-6 m-auto text-center"><h3 class="w-50 mx-auto border-bottom text-primary">Articles</h3></div> 
+                <table class="table text-sm">
+                    <thead>
+                        <tr class="align-middle text-center">
+                            <th class="col-md-3 d-none d-md-inline">Image</th>
+                            <th class="col-sm-3">
+                                <span class="col-md-3 d-none d-md-inline">Article</span>
+                                <span class="col-sm-3 d-inline d-md-none text-sm small">Art.</span>
+                            </th>
+                            <th class="col-sm-3">
+                                <span class="col-md-3 d-none d-md-inline">Prix</span>
+                                <span class="d-inline d-md-none text-sm small">€</span>
+                            </th>
+                            <th class="col-sm-3">
+                                <span class="col-md-1 d-none d-md-inline">Quantité</span>
+                                <span class="col-sm-1 d-inline d-md-none text-sm small">Qté</span>
+                            </th>
+                            <th class="col-sm-3">
+                                <span class="col-md-2 d-none d-md-inline">Total</span>
+                                <span class="col-sm-2 d-inline d-md-none text-sm small">Tot.</span>
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody class="align-middle text-center">
+                    {% for element in articles %}
+                        <tr class="align-middle text-center">
+                            <td class="d-none d-md-inline text-sm small">
+                                <img class="col-md-6 align-middle" src="/assets/img_article_directory/{{ element.article.getImgArticle }}" alt="{{ element.article.getNomArticle }}"></img>
+                            </td>
+                            <td class="col-sm-3 col-md-3">
+                                <span class="d-inline d-md-none">{{ element.article.getNomArticle }}</span>
+                                <span class="d-none d-md-inline text-sm small">{{ element.article.getNomArticle }}</span>
+                            </td>
+                            <td class="col-sm-5 col-md-2">
+                                <span class="col-md-2 d-none d-md-inline">{{ element.article.getPrixArticle|number_format(2, '.', ' ') }}€</span>
+                                <span id="prix" class="d-inline d-md-none fs-6 text-sm small">{{ element.article.getPrixArticle|number_format(2, '.', ' ') }}€</span>
+                            </td>
+                            <td>
+                                <span class="col-md-1 d-none d-md-inline">{{ element.quantite }}</span>
+                                <span class="col-sm-1 d-inline d-md-none text-sm small">{{ element.quantite }}</span>
+                            </td>
+                            <td>
+                                <span class="col-md-1 d-none d-md-inline">{{ element.article.getPrixArticle * element.quantite }}€</span>
+                                <span class="col-sm-1 d-inline d-md-none text-sm small">{{ element.article.getPrixArticle * element.quantite }}€</span>
+                            </td>
 
-    <p></p>
-</div>
-
-<br>
- <div class="container-fluid">
-    
-    <form action="CommandeController" method="POST">
-        
-                   {% if articles is not empty %} 
-        <div class="col-md-6 m-auto text-center"><h3 class="w-50 mx-auto border-bottom text-primary">Articles</h3></div> 
-            <table class="table text-sm">
-            <thead>
-                <tr class="align-middle text-center">
-                    <th class="col-3">Image</th>
-                    <th class="col-3">Article</th>
-                    <th>Prix</th><br>
-                    <th class="col-1">Quantité</th>
-                    <th>Total</th>
-                </tr>
-            </thead>
-        
-            <tbody class="align-middle text-center">
-             {% for element in articles %}
-                    <tr class="align-middle text-center">
-                        <td class="col-2"><img class="col-12" src="/assets/img_article_directory/{{ element.article.getImgArticle }}" alt="{{ element.article.getNomArticle }}"></img></td>
-                        <td>{{ element.article.getNomArticle }}</td>
-                        <td>{{ element.article.getPrixArticle|number_format(2, '.', ' ') }} €</td><br>
-                        <td>{{ element.quantite }}</td>
-                        <td>{{ element.article.getPrixArticle * element.quantite }} €</td>
-
-                    </tr>
-            </tbody>
-      
-            {% endfor %} 
-            </table>
+                        </tr>
+                    </tbody>
+                    {% endfor %} 
+                </table>
             {% endif %}
-            <br>
+                <br>
             {% if not articles is empty and not prestations is empty %}
-
                 <div class="bg-info shadow p-1 mb-2 w-50 mx-auto border-bottom"></div>
             {% endif %}
-            <br>
-            {# ****************************      TABLE PRESTATION        ***************************** #}
+                <br>
+                {# ****************************      TABLE PRESTATION        ***************************** #}
             {% if prestations is not empty %}
-               <div class="col-md-6 m-auto text-center"><h3 class="w-50 mx-auto border-bottom text-primary">Prestations</h3></div> 
-               <br>
-            <table class="table">
-            <thead>
-                <tr class="text-center">
-                    
-                    <th class="col-4">Article</th>
-                    <th>Prix</th>
-                    <th class="col-1">Quantité</th>
-                    <th class="col-3">Rendez-vous</th>
-                    <th class="col-2">Statut</th>
-                </tr>
-            </thead>
-            <tbody>
-                {# ********************      BOUCLE PRESTATION #}
-               <!-- Affichage de la liste des prestations -->
+                <div class="col-md-6 m-auto text-center"><h3 class="w-50 mx-auto border-bottom text-primary">Prestations</h3></div> 
+                <br>
+                <table class="table">
+                    <thead>
+                        <tr class="text-center">
+                            <th>
+                                <span class="col-md-4 d-none d-md-inline">Prestation</span>
+                                <span class="col-sm-3 d-inline d-md-none">Prest.</span>
+                            </th>
+                            <th>
+                                <span class="col-md-1 d-none d-md-inline">Prix</span>
+                                <span class="col-sm-2 d-inline d-md-none">€</span>
+                            </th>
+                            <th class="col-md-1 d-none d-md-inline">Quantité</th>
+                            <th>
+                                <span class="col-md-3 d-none d-md-inline">Rendez-vous</span>
+                                <span class="col-sm-3 d-inline d-md-none">RDV</span>
+                            </th>
+                            <th class="col-md-2 d-none d-md-inline">Statut</th>
+                        </tr>
+                    </thead>
+                    {# ********************      BOUCLE PRESTATION #}
+                <!-- Affichage de la liste des prestations -->
                 {% for element in prestations %}
                     {% if element.date_rdv is defined %}
                         {% if element.statut is defined %}
-                            <tbody>
-                                <tr class="align-middle text-center">
-                                    <td class="col-3"><img class="col-3" src="/assets/img_prestation_directory/{{ element.prestation.getImgPrestation }}" alt="{{ element.prestation.getNom }}"></img>{{ element.prestation.getDescriptionPrestation }}</td>
-                                    <td>{{ element.prestation.getPrixPrestation|number_format(2, '.', ' ') }} €</td>
-                                    <td>1</td>
-                                    <td>Rdv le : {{ element.date_rdv|date('d/m/Y H:i') }}</td>
-                                    <td>Statut : {{ element.statut }}</td>
-                                </tr>
-                            </tbody>
+                    <tbody>
+                        <tr class="align-middle text-center">
+                            <td>
+                                <span class="col-md-4 d-none d-md-inline"><img class="col-3" src="/assets/img_prestation_directory/{{ element.prestation.getImgPrestation }}" alt="{{ element.prestation.getNom }}"></img>{{ element.prestation.getDescriptionPrestation }}</span>
+                                <span class="col-sm-3 d-inline d-md-none text-sm small">{{ element.prestation.getDescriptionPrestation }}</span>
+                            </td>
+                            <td class="col-md-1 text-sm small">{{ element.prestation.getPrixPrestation }}€</td>
+                            <td>
+                                <span class="col-md-3 d-none d-md-inline">Rdv le : {{ element.date_rdv|date('d/m/Y H:i') }}</span>
+                                <span class="col-sm-3 d-inline d-md-none text-xs small">{{ element.date_rdv|date('d/m/Y H:i') }}</span>
+                            </td>
+                            <td class="col-md-2 d-none d-md-inline">Statut : {{ element.statut }}</td>
+                        </tr>
+                    </tbody>
                         {% endif %}
                     {% endif %}
                 {% endfor %}
+            {% endif %}
+                </table>
 
-
-                {% endif %}
-                
-            <tbody>
-           </table>
-
-
-           <div class="row my-3">
-  <div class="col-12 col-md-6 offset-md-3">
-    <div class="card shadow-sm">
-      <div class="card-body">
-
-        <div class="row mb-3">
-          <div class="col-6">
-            <h6 class="card-text">Total Commande:</h6>
-          </div>
-          <div class="col-6 text-end">
-            <h6 class="card-text">{{ total }} €</h6>
-          </div>
-        </div>
-      </div>
+                <div class="row my-3">
+                    <div class="col-12 col-md-6 offset-md-3">
+                        <div class="card shadow-sm">
+                            <div class="card-body">
+                                <div class="row mb-3"> 
+                                    <div class="col-6">
+                                        <h6 class="card-text">Total Commande:</h6>
+                                    </div>
+                                    <div class="col-6 text-end">
+                                        <h6 class="card-text">{{ total }} €</h6>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+        </form>
     </div>
-  </div>
-</div>
-
-    </form>
-</div>
-<div class="container col-md-3 text-center bg-light"><a href="{{ path('app_pdf', {'id': commande.id}) }}" target="_blank" class="text-danger">Télécharger en PDF</a></div>
-<br>
+    <div class="container col-md-3 text-center bg-light"><a href="{{ path('app_pdf', {'id': commande.id}) }}" target="_blank" class="text-danger">Télécharger en PDF</a></div>
+    <br>
 {% endblock %}
