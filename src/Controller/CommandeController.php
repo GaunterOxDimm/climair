@@ -31,7 +31,6 @@ class CommandeController extends AbstractController
         $title = 'Climair - Commande';   // rendu du titre de la page
 
         $user = $this->getUser(); // On récupère l'objet Utilisateur connecté
-
         if ($user) {
             $email_utilisateur = $user->getUserIdentifier(); // L'utilisateur est connecté. On récupère ses identifiants email / username
             $nom_utilisateur = $user->getNomUtilisateur();
@@ -43,68 +42,61 @@ class CommandeController extends AbstractController
         }
 
         $panier = $request->getSession()->get('panier', []); // récuperation du panier
-        // dd($panier);
-        $total = 0; // initialisation du prix total à 0
-        $article = null; // initialisation de la variable $article à null
-        $prestation = null; // initialisation de la variable $article à null
+        // initialisation des variables
+        $total = 0;
+        $article = null;
+        $prestation = null;
+        date_default_timezone_set('Europe/Paris');  // Définition du fuseau horaire
+        $date_commande = new \DateTime();           // instance de la classe \DateTime
         $date_rdv = new \DateTime();
         $statut = '';
-
 
         // Récupérer les articles associés à chaque élément du panier
         $articles = [];
         foreach ($panier as $id => $quantite) {
             if ($id >= 100) {
-                $article = $articleRepository->find($id); // on va chercher dans le tableau $panier 
-                if ($article) { // si le panier n'est pas vide
+                $article = $articleRepository->find($id);                 // on va chercher dans le tableau $panier 
+                if ($article) {                                           // si le panier n'est pas vide
                     $article->setStock($article->getStock() - $quantite); // MàJ du stock
-                    $articles[] = [ // on push dans le tableau $articles
+                    $articles[] = [                                       // on push dans le tableau $articles
                         'article' => $article,
                         'quantite' => $quantite
                     ];
                 }
-                $total += $article->getPrixArticle() * $quantite; // calcul du prix total de la commande
+                $total += $article->getPrixArticle() * $quantite;         // calcul du prix total de la commande
             }
         }
 
-        // dd($articles);
         // Récupérer les prestations associés à chaque élément du panier
         $prestations = [];
         foreach ($panier as $id => $presta) {
             if ($id < 100) {
                 $prestation = $prestationRepository->find($id); // on va chercher dans le tableau $panier 
-                if ($prestation) { // si le panier n'est pas vide
-                    $prestations[] = [ // on push dans le tableau $prestations
+                if ($prestation) {                              // si le panier n'est pas vide
+                    $prestations[] = [                          // on push dans le tableau $prestations
                         'prestation' => $prestation,
                         'date_rdv' => $presta[0]['date_rdv'],
                         'statut' => $presta[0]['statut']
                     ];
                 }
-
                 $total += ($prestation->getPrixPrestation()); // calcul du prix total de la prestation
             }
         }
-        // dd($panier);
 
-        $entityManager = $doctrine->getManager(); // on se connecte à la BDD
+        $entityManager = $doctrine->getManager();   // on se connecte à la BDD
 
-        $commande = new Commande(); // instance de la classe Commande
-        $date_commande = new \DateTime(); // instance de la classe \DateTime
+        $commande = new Commande();                 // instance de la classe Commande
         $commande->setDateCommande($date_commande); // on affecte à la commande la date actuelle
-        $commande->setUtilisateur($user);
-        $commande->setTotalCommande($total);
-        // dd($panier);
-
+        $date_string = $date_commande->format('Y-m-d H:i:s'); // Mettre la date sous forme de string
+        $commande->setUtilisateur($user);           // On attribue l'user connecté à la commande
+        $commande->setTotalCommande($total);        // On attribue le total calculé à la commande
 
         foreach ($panier as $item => $key) {
             if ($item < 100) {
-
                 $date_rdv_string = $key[0]['date_rdv'];
-
                 $statut = $key[0]['statut'];
-
-
                 $rdv = new Rdv();
+                //setters
                 $rdv->setDateRdv($date_rdv);
                 $rdv->setStatut($statut);
                 $rdv->setCommande($commande);
@@ -114,14 +106,12 @@ class CommandeController extends AbstractController
             }
         }
 
+        // on fait persister les nouvelles données 
+        //du panier en BDD dans la table commande
+        $entityManager->persist($commande);
 
-
-
-        $entityManager->persist($commande); // on fait persister les nouvelles données provenant du panier en BDD dans la table commande
-
-        $ligneDeCommande = new LigneDeCommande(); // instance de la classe LigneDeCommande
+        $ligneDeCommande = new LigneDeCommande(); // Instance de la classe LigneDeCommande
         $ligneDeCommande->setCommande($commande); // On insert les clés étrangères dans la table LigneDeCommande
-        // $ligneDeCommande->setQuantite($quantite); //  ""
 
         if ($article) {
             $ligneDeCommande->setArticle($article); // ""
@@ -145,6 +135,7 @@ class CommandeController extends AbstractController
             'articles',
             'prestations',
             'total',
+            'date_string',
             'commande'
         )); // on utilise la méthode Compact() pour éviter de réécrire les clés => valeurs
     }

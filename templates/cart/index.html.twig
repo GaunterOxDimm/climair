@@ -35,7 +35,7 @@
                 <tbody>
                     <tr class="align-middle text-center">
                         <td class="col-sm-3 d-none d-md-table-cell">
-                            <img class="col-sm-12 col-md-6" src="/assets/img_article_directory/{{ element.article.getImgArticle }}" alt="{{ element.article.getNomArticle }}"></img>
+                            <img class="col-sm-12 col-md-4" src="/assets/img_article_directory/{{ element.article.getImgArticle }}" alt="{{ element.article.getNomArticle }}"></img>
                         </td>
                         <td>{{ element.article.getNomArticle }}</td>
                         <td class="col-sm-3 d-none d-md-table-cell">{{ (element.article.getPrixArticle )|number_format(2, '.', ' ') }}€</td>
@@ -59,7 +59,8 @@
             <div class="bg-info shadow p-1 mb-2 w-50 mx-auto border-bottom"></div>
             {% endif %}
             <br>
-    {# ****************************      TABLE PRESTATION        ***************************** #}
+
+        {# ****************************      TABLE PRESTATION        ***************************** #}
             {% if not dataPanierPrestation is empty %}
             <div class="col-md-6 m-auto text-center">
                 <h3 class="w-50 mx-auto border-bottom text-primary">Prestations</h3>
@@ -68,33 +69,37 @@
             <table class="table-responsive align-middle text-center text-sm">
                 <thead>
                     <tr>
-                        <th class="col-sm-4 col-md-3 text-xs small">Prestation</th>
-                        <th class="col-sm-3 col-md-1 text-xs small">Prix</th>
-                        <th class="col-sm-3 col-md-1 d-none d-md-table-cell">Quantité</th>
-                        <th class="col-sm-1 col-md-3 text-xs small">
+                        <th class="col-sm-3 col-md-3">Prestation</th>
+                        <th class="col-sm-3 col-md-1">
+                                <span class="d-none d-md-inline">Prix</span>
+                                <span class="d-inline d-md-none text-sm small">€</span>
+                            </th>
+                        <th class="col-md-1 d-none d-md-table-cell">Quantité</th>
+                        <th class="col-sm-5 col-md-3">
                             <span class="d-none d-md-inline">Rendez-vous</span>
                             <span class="d-inline d-md-none">RDV</span>
                         </th>
-                        <th class="col-sm-3 col-md-3 d-none d-md-table-cell">Statut</th>
-                        <th class="col-sm-1 col-md-1 text-xs small">Action</th>
+                        <th class="col-md-3 d-none d-md-table-cell">Statut</th>
+                        <th class="col-sm-1 col-md-1">Action</th>
                     </tr>
                 </thead>
-                {# ********************      BOUCLE PRESTATION #}
+
+                {# ********************      BOUCLE PRESTATION      *********************** #}
             <!-- Affichage de la liste des prestations -->
                 {% for element in dataPanierPrestation|merge(dataPanierRendezVous) %}
                     {% if element.date_rdv is defined %}
                         {% if element.statut is defined %}
                 <tbody>
                     <tr class="text-center">
-                        <td class="col-sm-3 col-md-3 text-xs small d-none d-md-inline"><img class="col-sm-8 col-md-6" src="/assets/img_prestation_directory/{{ element.prestation.getImgPrestation }}" alt="{{ element.prestation.getNom }}"></img>
+                        <td class="col-md-3 text-xs small d-none d-md-inline"><img class="col-md-4" src="/assets/img_prestation_directory/{{ element.prestation.getImgPrestation }}" alt="{{ element.prestation.getNom }}"></img>
                             <br>
                             {{ element.prestation.getDescriptionPrestation }}
                         </td>
-                        <td class="d-inline d-md-none text-sm small align-middle text-center">{{element.prestation.getNom}}</td>
-                        <td class="col-sm-3 col-md-2 text-xs small">{{ (element.prestation.getPrixPrestation) }}€</td>
-                        <td class="col-sm-3 col-md-1 d-none d-md-table-cell">1</td>
-                        <td class="col-sm-1 col-md-2">
-                            <span class="col-sm-1 d-inline d-md-none text-xs small">{{ element.date_rdv|date('d/m/Y H:i') }}</span>
+                        <td class="col-sm-3 d-inline d-md-none align-middle text-center">{{element.prestation.getNom}}</td>
+                        <td class="col-sm-3 col-md-2">{{ (element.prestation.getPrixPrestation) }}€</td>
+                        <td class="col-md-1 d-none d-md-table-cell">1</td>
+                        <td class="col-sm-5 col-md-2">
+                            <span class="d-inline d-md-none text-xs small">{{ element.date_rdv|date('d/m/Y H:i') }}</span>
                             <span class="d-none d-md-inline">Rdv le : {{ element.date_rdv|date('d/m/Y H:i') }}</span>
                         </td>
                         <td class="col-md-2 d-none d-md-table-cell">Statut : {{ element.statut }}</td>

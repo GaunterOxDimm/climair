@@ -11,19 +11,18 @@
           <p><b>Selectionnez un jour entre Lundi et Vendredi</b></p>
           <p><b>Selectionnez une heure entre 15h00 et 19h00</b></p>
           {% if form_errors(form) %}
-            <div class="alert alert-danger">
-              {{ form_errors(form) }}
-            </div>
+          <div class="alert alert-danger">
+            {{ form_errors(form) }}
+          </div>
           {% endif %}
-
           {{ form_start(form) }}
-            <div class="form-group">
-              {{ form_widget(form.date_rdv, { 'attr': {'class': 'form-control', 'min': '15:00:00', 'max': '19:00:00'} }) }}
-              {% if form_errors(form.date_rdv) %}
-                <small class="form-text text-danger">{{ form_errors(form.date_rdv) }}</small>
-              {% endif %}
-            </div>
-            <button type="submit" class="btn btn-primary btn-block">Commander</button>
+          <div class="form-group">
+            {{ form_widget(form.date_rdv, { 'attr': {'class': 'form-control', 'min': '15:00:00', 'max': '19:00:00'} }) }}
+            {% if form_errors(form.date_rdv) %}
+            <small class="form-text text-danger">{{ form_errors(form.date_rdv) }}</small>
+            {% endif %}
+          </div>
+          <button type="submit" class="btn btn-primary btn-block">Commander</button>
           {{ form_end(form) }}
         </div>
       </div>

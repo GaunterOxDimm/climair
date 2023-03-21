@@ -46,6 +46,13 @@ class ArticleRepository extends ServiceEntityRepository
             ->getQuery()
             ->getResult();
     }
+    public function findHeart(Article $article): array
+    {
+        return $this->createQueryBuilder('a')
+            ->setParameter('article_id', $article->isHeart())
+            ->getQuery()
+            ->getResult();
+    }
     public function findNameArticle(string $searchTerm) // requête recherche
     {
         return $this->createQueryBuilder('a')

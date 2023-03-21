@@ -26,14 +26,31 @@ class BoutiqueController extends AbstractController
 
         $categories = $categorieArticleRepository->findAll();
         $articles = $articleRepository->findAll();
+        $is_heart = $articleRepository->isHeart();
 
         $title = 'Climair - Boutique';
-        return $this->render('boutique/index.html.twig', compact('title', 'articles', 'categories'));
+        return $this->render('boutique/index.html.twig', compact('title', 'articles', 'categories', 'is_heart'));
     }
     /**
      * @Route("/select/{id}", name="select", requirements={"id"="\d+"})
      */
     public function categorie(CategorieArticle $categorieArticle)
+    {
+        $articles = $categorieArticle->getArticle();
+        return $this->render('boutique/index.html.twig', compact('articles'));
+    }
+    /**
+     * @Route("/heart-add/{id}", name="heart_add", requirements={"id"="\d+"})
+     */
+    public function heartAdd(ArticleRepository $articleRepository)
+    {
+        $articles = $articleRepository->ishe();
+        return $this->render('boutique/index.html.twig', compact('articles'));
+    }
+    /**
+     * @Route("/heart-delete/{id}", name="heart_delete", requirements={"id"="\d+"})
+     */
+    public function heartDelete(CategorieArticle $categorieArticle)
     {
         $articles = $categorieArticle->getArticle();
         return $this->render('boutique/index.html.twig', compact('articles'));

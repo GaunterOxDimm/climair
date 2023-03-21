@@ -83,7 +83,11 @@
                                 <img class="card-img rounded-0 img-fluid" src="/assets/img_article_directory/{{ article.getImgArticle }}" alt="{{article.getNomArticle}}">
                                 <div class="card-img-overlay rounded-0 product-overlay d-flex align-items-center justify-content-center">
                                     <ul class="list-unstyled">
-                                        <li><a class="btn btn-success text-white" href="#"><i class="far fa-heart"></i></a></li>
+                                        {% if is_heart == true %}
+                                        <li><a class="btn btn-success text-white" href="{{path('boutique_heart_delete', {id:article.id})}}"><i class="fa-solid fa-heart"></i></a></li>
+                                        {% else %}
+                                        <li><a class="btn btn-success text-white" href="{{path('boutique_heart_add', {id:article.id})}}"><i class="far fa-heart"></i></a></li>
+                                        {% endif %}
                                         <li><a class="btn btn-success text-white mt-2" href="{{path('article_index', {id: article.id})}}"><i class="far fa-eye"></i></a></li>
                                        {% if article.getStock > 0 %}
                                         <li><a class="btn btn-success text-white mt-2" href="{{path('cart_add_article', {id: article.id})}}"><i class="fas fa-cart-plus"></i></a></li>

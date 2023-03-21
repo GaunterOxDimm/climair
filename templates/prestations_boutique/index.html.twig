@@ -10,16 +10,15 @@
                 <div><h1>Nos prestations</h1></div>
                 <br><br>
                 <div class="row d-flex justify-content-center">
-            {% for prestation in prestations %}
-                {% set estDansPanier = false %}
-                
-                    {% for item in panier %}
-                        {% if item.prestation is defined %}
-                            {% if item.prestation.getId == prestation.getId %}
-                                {% set estDansPanier = true %}
+                {% for prestation in prestations %}
+                    {% set estDansPanier = false %}
+                        {% for item in panier %}
+                            {% if item.prestation is defined %}
+                                {% if item.prestation.getId == prestation.getId %}
+                                    {% set estDansPanier = true %}
+                                {% endif %}
                             {% endif %}
-                        {% endif %}
-                    {% endfor %}
+                        {% endfor %}
                     <div class="col-md-4">
                         <div class="card mb-4 product-wap rounded-0">
                             <div class="card rounded-0">
@@ -34,7 +33,6 @@
                                         {% else %}
                                             <li><a href="{{path("cart_delete_one_prestation", {id: prestation.id})}}" class="btn btn-danger"><i class="bi bi-trash3"></i></a></li>
                                         {% endif %}
-
                                     </ul>
                                 </div>
                             </div>
@@ -54,8 +52,8 @@
                              </div>
                         </div>                   
                     </div>
-            {% endfor %}
-            </div>
+                {% endfor %}
+                </div>
             </div>
         </div>
     </div>

@@ -11,63 +11,60 @@
     <br>
     <div class="col-md-6 m-auto text-center bg-danger py-2"><h4> Récapitulatif de votre commande </h4></div>
     <br>
-    <div class="container">
-        <p><b>Nom Utilisateur :</b> {{ nom_utilisateur }}</p>
-        <p><b>Nom :</b> {{ nom }}</p>
-        <p><b>Prenom : </b> {{ prenom }}</p>
-        <p><b>Adresse : </b> {{ adresse }}</p>
-        <p><b>Email :</b> {{ email_utilisateur }}</p>
-    </div>
+    <ul class="container list-unstyled">
+        <li><b>Nom Utilisateur :</b> {{ nom_utilisateur }}</li>
+        <li><b>Nom :</b> {{ nom }}</li>
+        <li><b>Prenom : </b>{{ prenom }}</li>
+        <li><b>Adresse : </b>{{ adresse }}</li>
+        <li><b>Email :</b>{{ email_utilisateur }}</li>
+        <li><b>Date de la commande : </b>{{ date_string }}</li>
+    </ul>
     <br>
     <div class="container-fluid">
         <form action="CommandeController" method="POST">
             {% if articles is not empty %} 
             <div class="col-md-6 m-auto text-center"><h3 class="w-50 mx-auto border-bottom text-primary">Articles</h3></div> 
-                <table class="table text-sm">
+                {# ****************************      TABLE ARTICLE        ***************************** #}
+                <table class="container-fluid table-responsive">
                     <thead>
                         <tr class="align-middle text-center">
                             <th class="col-md-3 d-none d-md-inline">Image</th>
-                            <th class="col-sm-3">
-                                <span class="col-md-3 d-none d-md-inline">Article</span>
-                                <span class="col-sm-3 d-inline d-md-none text-sm small">Art.</span>
+                            <th class="col-sm-3 col-md-3">
+                                <span class="d-none d-md-inline">Article</span>
+                                <span class="d-inline d-md-none">Art.</span>
                             </th>
-                            <th class="col-sm-3">
-                                <span class="col-md-3 d-none d-md-inline">Prix</span>
-                                <span class="d-inline d-md-none text-sm small">€</span>
+                            <th class="col-sm-6 col-md-3">
+                                <span class="d-none d-md-inline">Prix</span>
+                                <span class="d-inline d-md-none">€</span>
                             </th>
-                            <th class="col-sm-3">
-                                <span class="col-md-1 d-none d-md-inline">Quantité</span>
-                                <span class="col-sm-1 d-inline d-md-none text-sm small">Qté</span>
+                            <th class="col-sm-1 col-md-1">
+                                <span class="d-none d-md-inline">Quantité</span>
+                                <span class="d-inline d-md-none">Qté</span>
                             </th>
-                            <th class="col-sm-3">
-                                <span class="col-md-2 d-none d-md-inline">Total</span>
-                                <span class="col-sm-2 d-inline d-md-none text-sm small">Tot.</span>
+                            <th class="col-sm-2 col-md-2">
+                                <span class="d-none d-md-inline">Total</span>
+                                <span class="d-inline d-md-none">Tot.</span>
                             </th>
                         </tr>
                     </thead>
                     <tbody class="align-middle text-center">
                     {% for element in articles %}
-                        <tr class="align-middle text-center">
-                            <td class="d-none d-md-inline text-sm small">
-                                <img class="col-md-6 align-middle" src="/assets/img_article_directory/{{ element.article.getImgArticle }}" alt="{{ element.article.getNomArticle }}"></img>
+                        <tr>
+                            <td class="col-md-3 d-none d-md-inline">
+                                <img class="col-md-4 align-middle" src="/assets/img_article_directory/{{ element.article.getImgArticle }}" alt="{{ element.article.getNomArticle }}"></img>
                             </td>
-                            <td class="col-sm-3 col-md-3">
-                                <span class="d-inline d-md-none">{{ element.article.getNomArticle }}</span>
-                                <span class="d-none d-md-inline text-sm small">{{ element.article.getNomArticle }}</span>
+                            <td class="col-sm-3 col-md-3 text-sm small">
+                                {{ element.article.getNomArticle }}
                             </td>
-                            <td class="col-sm-5 col-md-2">
-                                <span class="col-md-2 d-none d-md-inline">{{ element.article.getPrixArticle|number_format(2, '.', ' ') }}€</span>
-                                <span id="prix" class="d-inline d-md-none fs-6 text-sm small">{{ element.article.getPrixArticle|number_format(2, '.', ' ') }}€</span>
+                            <td class="col-sm-6 col-md-3">
+                                {{ element.article.getPrixArticle|number_format(2, '.', ' ') }}€
                             </td>
-                            <td>
-                                <span class="col-md-1 d-none d-md-inline">{{ element.quantite }}</span>
-                                <span class="col-sm-1 d-inline d-md-none text-sm small">{{ element.quantite }}</span>
+                            <td class="col-sm-1 col-md-1">
+                                {{ element.quantite }}
                             </td>
-                            <td>
-                                <span class="col-md-1 d-none d-md-inline">{{ element.article.getPrixArticle * element.quantite }}€</span>
-                                <span class="col-sm-1 d-inline d-md-none text-sm small">{{ element.article.getPrixArticle * element.quantite }}€</span>
+                            <td class="col-sm-2 col-md-2">
+                                {{ element.article.getPrixArticle * element.quantite }}€
                             </td>
-
                         </tr>
                     </tbody>
                     {% endfor %} 
@@ -82,9 +79,9 @@
             {% if prestations is not empty %}
                 <div class="col-md-6 m-auto text-center"><h3 class="w-50 mx-auto border-bottom text-primary">Prestations</h3></div> 
                 <br>
-                <table class="table">
+                <table class="container-fluid table-responsive">
                     <thead>
-                        <tr class="text-center">
+                        <tr class="text-center align-middle">
                             <th>
                                 <span class="col-md-4 d-none d-md-inline">Prestation</span>
                                 <span class="col-sm-3 d-inline d-md-none">Prest.</span>
@@ -93,7 +90,6 @@
                                 <span class="col-md-1 d-none d-md-inline">Prix</span>
                                 <span class="col-sm-2 d-inline d-md-none">€</span>
                             </th>
-                            <th class="col-md-1 d-none d-md-inline">Quantité</th>
                             <th>
                                 <span class="col-md-3 d-none d-md-inline">Rendez-vous</span>
                                 <span class="col-sm-3 d-inline d-md-none">RDV</span>
@@ -108,11 +104,11 @@
                         {% if element.statut is defined %}
                     <tbody>
                         <tr class="align-middle text-center">
-                            <td>
-                                <span class="col-md-4 d-none d-md-inline"><img class="col-3" src="/assets/img_prestation_directory/{{ element.prestation.getImgPrestation }}" alt="{{ element.prestation.getNom }}"></img>{{ element.prestation.getDescriptionPrestation }}</span>
-                                <span class="col-sm-3 d-inline d-md-none text-sm small">{{ element.prestation.getDescriptionPrestation }}</span>
+                            <td class="col-sm-3 col-md-2">
+                                <span class="col-md-2 d-none d-md-inline"><img class="col-3" src="/assets/img_prestation_directory/{{ element.prestation.getImgPrestation }}" alt="{{ element.prestation.getNom }}"></img><br>{{ element.prestation.getDescriptionPrestation }}</span>
+                                <span class="col-sm-3 d-inline d-md-none">{{ element.prestation.getDescriptionPrestation }}</span>
                             </td>
-                            <td class="col-md-1 text-sm small">{{ element.prestation.getPrixPrestation }}€</td>
+                            <td class="col-md-1">{{ element.prestation.getPrixPrestation }}€</td>
                             <td>
                                 <span class="col-md-3 d-none d-md-inline">Rdv le : {{ element.date_rdv|date('d/m/Y H:i') }}</span>
                                 <span class="col-sm-3 d-inline d-md-none text-xs small">{{ element.date_rdv|date('d/m/Y H:i') }}</span>

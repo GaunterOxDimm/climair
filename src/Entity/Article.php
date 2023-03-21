@@ -39,6 +39,9 @@ class Article
     #[ORM\Column(nullable: true)]
     private ?int $stock = null;
 
+    #[ORM\Column(nullable: true)]
+    private ?bool $heart = null;
+
     public function __construct()
     {
         $this->ligneDeCommande = new ArrayCollection();
@@ -158,6 +161,18 @@ class Article
     public function setStock(?int $stock): self
     {
         $this->stock = $stock;
+
+        return $this;
+    }
+
+    public function isHeart(): ?bool
+    {
+        return $this->heart;
+    }
+
+    public function setHeart(?bool $heart): self
+    {
+        $this->heart = $heart;
 
         return $this;
     }

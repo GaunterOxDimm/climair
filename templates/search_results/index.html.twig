@@ -5,20 +5,17 @@
     <section class="text-center">
         <h1>Résultats de la recherche pour "{{ searchTerm }}"</h1>
     </section>
-
-
-
-
+    
     <!-- Start Content -->
     {% if articleTrouver is not empty %}
     <div class="container py-5 d-flex">
         <div class="row justify-content-center">     
-            <div class="col-lg-9">
+            <div class="col-lg-12">
                 <div class="row">
                     {% for article in articleTrouver %}
-                    <div class="col-md-4">
-                        <div class="card mb-4 product-wap rounded-0">
-                            <div class="card rounded-0">
+                    <div class="col-md-4 {% if articleTrouver|length == 1 %} col-md-8 {% endif %}">
+                        <div class="card mb-4 product-wap rounded-4">
+                            <div class="card rounded-4">
                                 <img class="card-img rounded-0 img-fluid" src="/assets/img_article_directory/{{ article.getImgArticle }}" alt="{{article.getNomArticle}}">
                                 <div class="card-img-overlay rounded-0 product-overlay d-flex align-items-center justify-content-center">
                                     <ul class="list-unstyled">
@@ -41,12 +38,12 @@
                                         <span class="product-color-dot color-dot-green float-left rounded-circle ml-1"></span>
                                     </li>
                                 </ul>                              
-                                    <p class="text-center mb-0"> {{ article.getPrixArticle }} €</p>
-                                    {% if article.getStock > 0 %}
-                                    <p class="text-center mb-0"> Il reste {{ article.getStock }} articles en stock.</p>
-                                    {% else %}
-                                    <p class="text-center mb-0"> Article indisponible.</p>
-                                    {% endif %}
+                                <p class="text-center mb-0"> {{ article.getPrixArticle }}€</p>
+                                {% if article.getStock > 0 %}
+                                <p class="text-center mb-0"> Il reste {{ article.getStock }} articles en stock.</p>
+                                {% else %}
+                                <p class="text-center mb-0"> Article indisponible.</p>
+                                {% endif %}
                             </div>
                         </div>      
                     </div> 
@@ -57,11 +54,11 @@
     </div>
     {% else %}
     <br>
-        <div class="container">
-            <div class="h-100 d-flex justify-content-center align-items-center">
-                <h3 class="text-center">&#x1F575; Aucun article trouvé. Veuillez reformuler votre recherche.</h3>
-            </div>
-        </div>       
+    <div class="container">
+        <div class="h-100 d-flex justify-content-center align-items-center">
+            <h3 class="text-center">&#x1F575; Aucun article trouvé. Veuillez reformuler votre recherche.</h3>
+        </div>
+    </div>       
     <br>
     {% endif %}
 
@@ -71,16 +68,8 @@
     {% else %}
         <ul>
         {% for prestation in prestations %}
-            <li>{{ prestation.nom }} - {{ prestation.prix_prestation }} €</li>
+
         {% endfor %}
         </ul>
     {% endif %} #}
-
-    {% block javascripts %}
-        <script src="assets/js/jquery-1.11.0.min.js"></script>
-        <script src="assets/js/jquery-migrate-1.2.1.min.js"></script>
-        <script src="assets/js/bootstrap.bundle.min.js"></script>
-        <script src="assets/js/templatemo.js"></script>
-        <script src="assets/js/custom.js"></script>
-    {% endblock %}
 {% endblock %}

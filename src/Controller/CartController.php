@@ -23,36 +23,35 @@ class CartController extends AbstractController
      */
     public function index(SessionInterface $session, ArticleRepository $articleRepository, PrestationRepository $prestationRepository, RdvRepository $rdvRepository): Response
     {
+        // Initialisation des tableaux qui contiendront les données du panier
         $dataPanierArticle = [];
         $dataPanierPrestation = [];
         $dataPanierRendezVous = [];
-        $total = 0;
-        $panier = $session->get('panier', []);
-        // dd($panier);
+        $total = 0;                            // initialisation du prix total du panier à 0
+        $panier = $session->get('panier', []); // Récupérer le contenu du panier d'achat à partir d'une session PHP
 
+        // Stockage des différents éléments du panier dans leur tableaux attitrés
         $dataPanierArticle = $this->getDataPanierArticle($panier, $articleRepository);
         $dataPanierPrestation = $this->getDataPanierPrestation($panier, $prestationRepository, $rdvRepository);
         $dataPanierRendezVous = $this->getDataPanierRendezVous($panier);
 
-        // dd($dataPanierArticle);
-
         $total = ($this->getTotal($dataPanierArticle, $dataPanierPrestation));
+        $itemCount = count($dataPanierArticle) + count($dataPanierPrestation); // Dénombrer les éléments totaux du panier
 
-        $itemCount = count($dataPanierArticle) + count($dataPanierPrestation);
-        // Stocker le nombre d'articles dans la session
-        $session->set('cart_item_count', $itemCount);
+        $session->set('cart_item_count', $itemCount); // Stocker le nombre d'articles dans la session
 
         return $this->render('cart/index.html.twig', compact('dataPanierArticle', 'dataPanierPrestation', 'dataPanierRendezVous', 'total', 'itemCount'));
     }
 
+    // Méthode de tri des paramètres "Article" contenus dans le panier
     private function getDataPanierArticle($panier, $articleRepository)
     {
-        $dataPanierArticle = [];
-        foreach ($panier as $id => $quantite) {
+        $dataPanierArticle = []; // Initialisation d'un tableau vide
+        foreach ($panier as $id => $quantite) { // on boucle sur l'id de l'article et sa quantité dans le panier 
 
-            $article = $articleRepository->find($id);
+            $article = $articleRepository->find($id); // Récuperation de l'article en fonction de son id dans la BDD
             if ($article) {
-                $dataPanierArticle[] = [
+                $dataPanierArticle[] = [  // si l'article est définit, on stock ses id et quantité dans un tableau clé/valeur
                     'article' => $article,
                     'quantite' => $quantite
                 ];
@@ -134,16 +133,16 @@ class CartController extends AbstractController
      */
     public function addArticle(Article $article, SessionInterface $session)
     {
+        // Récupérer le contenu du panier d'achat à partir d'une session PHP dans la variable $panier
         $panier = $session->get('panier', []);
-
-        $id_article = $article->getId();
+        $id_article = $article->getId();        // Récupération de l'identifiant de l'article choisi
         if (!empty($panier[$id_article])) {
-            $panier[$id_article]++;
+            $panier[$id_article]++;             // Si le panier n'est pas vide, on incrémente la quantité de 1
         } else {
-            $panier[$id_article] = 1;
+            $panier[$id_article] = 1;           // Sinon on définit la quantité à 1
         }
-        $session->set('panier', $panier);
-        return $this->redirectToRoute('cart_index');
+        $session->set('panier', $panier);       // Stocker le nombre d'articles dans la session
+        return $this->redirectToRoute('cart_index'); // Redirection vers la méthode index()
     }
 
     /**
